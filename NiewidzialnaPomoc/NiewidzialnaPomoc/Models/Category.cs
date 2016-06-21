@@ -10,17 +10,15 @@ namespace NiewidzialnaPomoc.Models
     {
         public Category()
         {
-            this.Advertisement_Category = new HashSet<Advertisement_Category>();
+            this.Advertisements = new HashSet<Advertisement>();
         }
 
-        [Key]
         [Display(Name = "ID kategorii:")]
         public int Id { get; set; }
 
         [Display(Name = "Nazwa kategorii:")]
-        [Required]
         public string Name { get; set; }
 
-        public ICollection<Advertisement_Category> Advertisement_Category { get; set; }
+        public ICollection<Advertisement> Advertisements { get; private set; }
     }
 }

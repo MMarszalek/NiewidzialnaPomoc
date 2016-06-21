@@ -8,7 +8,6 @@ namespace NiewidzialnaPomoc.Models
 {
     public class Reward
     {
-        [Key]
         [Display(Name = "ID nagrody:")]
         public int Id { get; set; }
 
