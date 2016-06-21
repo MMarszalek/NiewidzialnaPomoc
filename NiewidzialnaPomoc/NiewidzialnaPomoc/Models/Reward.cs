@@ -8,6 +8,11 @@ namespace NiewidzialnaPomoc.Models
 {
     public class Reward
     {
+        public Reward()
+        {
+            this.RewardCodes = new HashSet<RewardCode>();
+        }
+
         [Display(Name = "ID nagrody:")]
         public int Id { get; set; }
 
@@ -17,5 +22,7 @@ namespace NiewidzialnaPomoc.Models
 
         [Display(Name = "Cena:")]
         public int Price { get; set; }
+
+        public virtual ICollection<RewardCode> RewardCodes { get; private set; }
     }
 }
