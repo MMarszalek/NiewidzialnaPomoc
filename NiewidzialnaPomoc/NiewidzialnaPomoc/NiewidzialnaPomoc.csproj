@@ -212,15 +212,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Views\AccountViewModels.cs" />
-    <Compile Include="Models\Advertisement.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\ApplicationDbContext.cs" />
-    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Views\ManageViewModels.cs" />
-    <Compile Include="Models\Reward.cs" />
-    <Compile Include="Models\RewardCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace NiewidzialnaPomoc.Models
+namespace Repository.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

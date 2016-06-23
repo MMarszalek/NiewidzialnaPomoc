@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace NiewidzialnaPomoc.Models
+namespace Repository.Models
 {
     public class ApplicationDbContext : IdentityDbContext
     {

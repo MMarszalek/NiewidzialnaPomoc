@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace NiewidzialnaPomoc.Models
+namespace Repository.Models
 {
-    public class Location
+    public class Category
     {
-        public Location()
+        public Category()
         {
             this.Advertisements = new HashSet<Advertisement>();
         }
 
         public int Id { get; set; }
 
-        [Display(Name = "Nazwa miejscowości:")]
+        [Display(Name = "Nazwa kategorii:")]
         public string Name { get; set; }
 
-        public virtual ICollection<Advertisement> Advertisements { get; private set; }
+        public ICollection<Advertisement> Advertisements { get; private set; }
     }
 }
