@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -29,9 +30,9 @@ namespace NiewidzialnaPomoc.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime AddDate { get; set; }
 
-        public string AuthorId { get; set; }
+        public int AuthorId { get; set; }
 
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
 
         public bool IsFinished { get; set; }
 

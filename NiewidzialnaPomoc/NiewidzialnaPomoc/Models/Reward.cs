@@ -13,11 +13,9 @@ namespace NiewidzialnaPomoc.Models
             this.RewardCodes = new HashSet<RewardCode>();
         }
 
-        [Display(Name = "ID nagrody:")]
         public int Id { get; set; }
 
         [Display(Name = "Nazwa nagrody:")]
-        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Cena:")]

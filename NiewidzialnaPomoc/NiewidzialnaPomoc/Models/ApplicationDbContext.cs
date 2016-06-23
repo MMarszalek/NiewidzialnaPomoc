@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace NiewidzialnaPomoc.Models
 {
@@ -17,5 +18,12 @@ namespace NiewidzialnaPomoc.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Reward> Rewards { get; set; }
+        public DbSet<RewardCode> RewardCodes { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

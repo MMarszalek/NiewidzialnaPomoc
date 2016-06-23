@@ -13,7 +13,6 @@ namespace NiewidzialnaPomoc.Models
             this.Advertisements = new HashSet<Advertisement>();
         }
 
-        [Display(Name = "ID kategorii:")]
         public int Id { get; set; }
 
         [Display(Name = "Nazwa kategorii:")]

@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -28,9 +29,11 @@ namespace NiewidzialnaPomoc.Models
         public int Points { get; set; }
 
         //ogloszenia, ktorych uzytkownik jest autorem
+        [InverseProperty("Author")]
         public virtual ICollection<Advertisement> MyAdvertisements { get; private set; }
 
         //ogloszenia, przy ktorych uzytkownik pomagal
+        [InverseProperty("Helpers")]
         public virtual ICollection<Advertisement> HelpAdvertisements { get; private set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
