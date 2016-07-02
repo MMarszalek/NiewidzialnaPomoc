@@ -15,8 +15,8 @@ namespace Repository.Models
     {
         public ApplicationUser()
         {
-            this.MyAdvertisements = new HashSet<Advertisement>();
-            this.HelpAdvertisements = new HashSet<Advertisement>();
+            this.PersonalAdvertisements = new HashSet<Advertisement>();
+            this.RewardedAdvertisements = new HashSet<Advertisement>();
         }
 
         [Display(Name = "Imię:")]
@@ -30,11 +30,11 @@ namespace Repository.Models
 
         //ogloszenia, ktorych uzytkownik jest autorem
         [InverseProperty("Author")]
-        public virtual ICollection<Advertisement> MyAdvertisements { get; private set; }
+        public virtual ICollection<Advertisement> PersonalAdvertisements { get; set; }
 
         //ogloszenia, przy ktorych uzytkownik pomagal
         [InverseProperty("Helpers")]
-        public virtual ICollection<Advertisement> HelpAdvertisements { get; private set; }
+        public virtual ICollection<Advertisement> RewardedAdvertisements { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
