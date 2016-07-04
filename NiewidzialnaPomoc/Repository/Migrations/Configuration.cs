@@ -19,10 +19,13 @@ namespace Repository.Migrations
 
         protected override void Seed(Repository.Models.ApplicationDbContext context)
         {
+            // Do debugowania metody seed
+            // if (System.Diagnostics.Debugger.IsAttached == false)
+            //    System.Diagnostics.Debugger.Launch();
             SeedRoles(context);
             SeedUsers(context);
-            SeedAdvertisements(context);
             SeedCategories(context);
+            SeedAdvertisements(context);
             SeedLocations(context);
             SeedRewards(context);
             SeedRewardCodes(context);
@@ -87,46 +90,96 @@ namespace Repository.Migrations
             }
         }
 
-        private void SeedAdvertisements(ApplicationDbContext context)
+        private void SeedCategories(ApplicationDbContext context)
         {
-            //Categories, Helpers
-            var adverisements = new List<Advertisement>
+            var categories = new List<Category>
             {
-                new Advertisement { Id = 1, Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = DateTime.Now,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false },
-                new Advertisement { Id = 2, Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = DateTime.Now,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false },
-                new Advertisement { Id = 3, Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = DateTime.Now,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 2, IsFinished = false },
-                new Advertisement { Id = 4, Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = DateTime.Now,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false },
-                new Advertisement { Id = 5, Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = DateTime.Now,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    LocationId = 2, IsFinished = false },
+                new Category { Name = "Inne" },
+                new Category { Name = "Ogród" },
+                new Category { Name = "Transport" }
             };
 
-            adverisements.ForEach(s => context.Advertisements.AddOrUpdate(p => p.Id, s));
+            categories.ForEach(s => context.Categories.AddOrUpdate(p => p.Name, s));
             context.SaveChanges();
         }
 
-        private void SeedCategories(ApplicationDbContext context)
+        private void SeedAdvertisements(ApplicationDbContext context)
         {
+            var adverisements = new List<Advertisement>
+            {
+                new Advertisement { Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = DateTime.Now,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+                new Advertisement { Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = DateTime.Now,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+                new Advertisement { Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = DateTime.Now,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    LocationId = 2, IsFinished = false, Categories = new List<Category>() },
+                new Advertisement { Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = DateTime.Now,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                    LocationId = 1, IsFinished = false },
+                new Advertisement { Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = DateTime.Now,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                    LocationId = 2, IsFinished = false }
+            };
+
+            adverisements.ForEach(s => context.Advertisements.AddOrUpdate(p => p.Title, s));
+            context.SaveChanges();
+
+            AddOrUpdateCategories(context, "Pomoc w ogrodzie", "Inne");
+            AddOrUpdateCategories(context, "Pomoc w ogrodzie", "Ogród");
+            AddOrUpdateCategories(context, "Pomoc w gra¿u", "Inne");
+            AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Inne");
+            AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Transport");
         }
 
         private void SeedLocations(ApplicationDbContext context)
         {
+            var locations = new List<Location>
+            {
+                new Location { Name = "Poznañ" },
+                new Location { Name = "Kraków" },
+                new Location { Name = "Warszawa" }
+            };
+
+            locations.ForEach(s => context.Locations.AddOrUpdate(p => p.Name, s));
+            context.SaveChanges();
         }
 
         private void SeedRewards(ApplicationDbContext context)
         {
+            var rewards = new List<Reward>
+            {
+                new Reward { Name = "Empik 50 z³", Price = 500 },
+                new Reward { Name = "Empik 100 z³", Price = 1000 },
+                new Reward { Name = "Sodexo 100 z³", Price = 1200 }
+            };
+
+            rewards.ForEach(s => context.Rewards.AddOrUpdate(p => p.Name, s));
+            context.SaveChanges();
         }
 
         private void SeedRewardCodes(ApplicationDbContext context)
         {
+            var codes = new List<RewardCode>
+            {
+                new RewardCode { Code = "1234", IsUsed = false, RewardId = 1 },
+                new RewardCode { Code = "5678", IsUsed = false, RewardId = 1 },
+                new RewardCode { Code = "asdf", IsUsed = false, RewardId = 2 },
+                new RewardCode { Code = "zxcv", IsUsed = false, RewardId = 2 }
+            };
+
+            codes.ForEach(s => context.RewardCodes.AddOrUpdate(p => p.Code, s));
+            context.SaveChanges();
         }
+
+        void AddOrUpdateCategories(ApplicationDbContext context, string advertisementTitle, string categorieName)
+        {
+            var adv = context.Advertisements.SingleOrDefault(a => a.Title == advertisementTitle);
+            var inst = adv.Categories.SingleOrDefault(i => i.Name == categorieName);
+            if (inst == null)
+                adv.Categories.Add(context.Categories.Single(i => i.Name == categorieName));
+        } 
     }
 }

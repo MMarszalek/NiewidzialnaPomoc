@@ -17,6 +17,7 @@ namespace Repository.Models
         {
             this.PersonalAdvertisements = new HashSet<Advertisement>();
             this.RewardedAdvertisements = new HashSet<Advertisement>();
+            this.RewardCodes = new HashSet<RewardCode>();
         }
 
         [Display(Name = "Imię:")]
@@ -35,6 +36,8 @@ namespace Repository.Models
         //ogloszenia, przy ktorych uzytkownik pomagal
         [InverseProperty("Helpers")]
         public virtual ICollection<Advertisement> RewardedAdvertisements { get; set; }
+
+        public virtual ICollection<RewardCode> RewardCodes { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

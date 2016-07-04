@@ -21,6 +21,6 @@ namespace Repository.Models
         [Display(Name = "Cena:")]
         public int Price { get; set; }
 
-        public virtual ICollection<RewardCode> RewardCodes { get; private set; }
+        public virtual ICollection<RewardCode> RewardCodes { get; set; }
     }
 }

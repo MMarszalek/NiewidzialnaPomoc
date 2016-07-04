@@ -38,6 +38,7 @@ namespace Repository.Models
 
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<ApplicationUser> Helpers { get; set; }
+        [ForeignKey("AuthorId")]
         public virtual ApplicationUser Author { get; set; }
         public virtual Location Location { get; set; }
     }

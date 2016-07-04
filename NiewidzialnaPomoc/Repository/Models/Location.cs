@@ -18,6 +18,6 @@ namespace Repository.Models
         [Display(Name = "Nazwa miejscowości:")]
         public string Name { get; set; }
 
-        public virtual ICollection<Advertisement> Advertisements { get; private set; }
+        public virtual ICollection<Advertisement> Advertisements { get; set; }
     }
 }

@@ -13,8 +13,15 @@ namespace Repository.Models
         [Display(Name = "Kod:")]
         public string Code { get; set; }
 
+        public bool IsUsed { get; set; }
+
         public int RewardId { get; set; }
 
-        public Reward Reward { get; set; }
+        public string RewardOwnerId { get; set; }
+
+        public virtual Reward Reward { get; set; }
+
+        [ForeignKey("RewardOwnerId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
