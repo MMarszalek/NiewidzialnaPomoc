@@ -3,7 +3,7 @@ namespace Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial_migration : DbMigration
+    public partial class init_migration : DbMigration
     {
         public override void Up()
         {
@@ -75,6 +75,32 @@ namespace Repository.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "dbo.RewardCodes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(),
+                        IsUsed = c.Boolean(nullable: false),
+                        RewardId = c.Int(nullable: false),
+                        RewardOwnerId = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.RewardOwnerId)
+                .ForeignKey("dbo.Rewards", t => t.RewardId, cascadeDelete: true)
+                .Index(t => t.RewardId)
+                .Index(t => t.RewardOwnerId);
+            
+            CreateTable(
+                "dbo.Rewards",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Price = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -102,28 +128,6 @@ namespace Repository.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.RewardCodes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(),
-                        RewardId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Rewards", t => t.RewardId, cascadeDelete: true)
-                .Index(t => t.RewardId);
-            
-            CreateTable(
-                "dbo.Rewards",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Price = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -171,21 +175,23 @@ namespace Repository.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.RewardCodes", "RewardId", "dbo.Rewards");
             DropForeignKey("dbo.Advertisements", "LocationId", "dbo.Locations");
             DropForeignKey("dbo.CategoryAdvertisements", "Advertisement_Id", "dbo.Advertisements");
             DropForeignKey("dbo.CategoryAdvertisements", "Category_Id", "dbo.Categories");
-            DropForeignKey("dbo.Advertisements", "AuthorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.ApplicationUserAdvertisements", "Advertisement_Id", "dbo.Advertisements");
             DropForeignKey("dbo.ApplicationUserAdvertisements", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.RewardCodes", "RewardId", "dbo.Rewards");
+            DropForeignKey("dbo.RewardCodes", "RewardOwnerId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Advertisements", "AuthorId", "dbo.AspNetUsers");
             DropIndex("dbo.CategoryAdvertisements", new[] { "Advertisement_Id" });
             DropIndex("dbo.CategoryAdvertisements", new[] { "Category_Id" });
             DropIndex("dbo.ApplicationUserAdvertisements", new[] { "Advertisement_Id" });
             DropIndex("dbo.ApplicationUserAdvertisements", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.RewardCodes", new[] { "RewardId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.RewardCodes", new[] { "RewardOwnerId" });
+            DropIndex("dbo.RewardCodes", new[] { "RewardId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
@@ -194,11 +200,11 @@ namespace Repository.Migrations
             DropTable("dbo.CategoryAdvertisements");
             DropTable("dbo.ApplicationUserAdvertisements");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Rewards");
-            DropTable("dbo.RewardCodes");
             DropTable("dbo.Locations");
             DropTable("dbo.Categories");
             DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.Rewards");
+            DropTable("dbo.RewardCodes");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

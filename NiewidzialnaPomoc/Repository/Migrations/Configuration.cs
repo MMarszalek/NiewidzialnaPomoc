@@ -20,15 +20,15 @@ namespace Repository.Migrations
         protected override void Seed(Repository.Models.ApplicationDbContext context)
         {
             // Do debugowania metody seed
-            // if (System.Diagnostics.Debugger.IsAttached == false)
+            //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
             SeedRoles(context);
             SeedUsers(context);
             SeedCategories(context);
-            SeedAdvertisements(context);
             SeedLocations(context);
             SeedRewards(context);
             SeedRewardCodes(context);
+            SeedAdvertisements(context);
         }
 
         private void SeedRoles(ApplicationDbContext context)
@@ -51,6 +51,7 @@ namespace Repository.Migrations
             }
         }
 
+        //ZMIEN
         private void SeedUsers(ApplicationDbContext context)
         {
             var store = new UserStore<ApplicationUser>(context);
@@ -58,8 +59,8 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "Admin"))
             {
 
-                var user = new ApplicationUser { UserName = "admin" };
-                var result = manager.Create(user, "12345"); //password: 12345
+                var user = new ApplicationUser { UserName = "Admin" };
+                var result = manager.Create(user, "12345678"); //password: 12345678
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "Admin");
             }
@@ -68,7 +69,7 @@ namespace Repository.Migrations
             {
 
                 var user = new ApplicationUser { UserName = "tomasz@gmail.com", FirstName = "Tomasz", LastName = "Nowak", Points = 0 };
-                var result = manager.Create(user, "12345");
+                var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
             }
@@ -76,7 +77,7 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "marek@gmail.com"))
             {
                 var user = new ApplicationUser { UserName = "marek@gmail.com", FirstName = "Marek", LastName = "Kowalski", Points = 0 };
-                var result = manager.Create(user, "12345");
+                var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
             }
@@ -84,7 +85,7 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "robert@gmail.com"))
             {
                 var user = new ApplicationUser { UserName = "robert@gmail.com", FirstName = "Robert", LastName = "Lewandowski", Points = 0 };
-                var result = manager.Create(user, "12345");
+                var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
             }
