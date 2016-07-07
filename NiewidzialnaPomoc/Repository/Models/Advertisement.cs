@@ -17,11 +17,11 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Tytuł ogłoszenia:")]
+        [Display(Name = "Tytuł:")]
         [MaxLength(72)]
         public string Title { get; set; }
 
-        [Display(Name = "Treść ogłoszenia:")]
+        [Display(Name = "Treść:")]
         [MaxLength(500)]
         public string Content { get; set; }
 

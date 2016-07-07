@@ -15,7 +15,7 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Nazwa kategorii:")]
+        [Display(Name = "Kategoria:")]
         public string Name { get; set; }
 
         public ICollection<Advertisement> Advertisements { get; private set; }

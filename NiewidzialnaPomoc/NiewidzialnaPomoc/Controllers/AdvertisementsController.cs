@@ -75,7 +75,7 @@ namespace NiewidzialnaPomoc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }
@@ -87,16 +87,34 @@ namespace NiewidzialnaPomoc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
         {
+            var adv = db.Advertisements.Find(advertisement.Id);
             if (ModelState.IsValid)
             {
-                db.Entry(advertisement).State = EntityState.Modified;
+                adv.Title = advertisement.Title;
+                adv.Content = advertisement.Content;
+                adv.LocationId = advertisement.LocationId;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(advertisement).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+        //    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+        //    return View(advertisement);
+        //}
 
         // GET: Advertisements/Delete/5
         public ActionResult Delete(int? id)

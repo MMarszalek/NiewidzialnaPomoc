@@ -15,7 +15,7 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Nazwa nagrody:")]
+        [Display(Name = "Nagroda:")]
         public string Name { get; set; }
 
         [Display(Name = "Cena:")]
