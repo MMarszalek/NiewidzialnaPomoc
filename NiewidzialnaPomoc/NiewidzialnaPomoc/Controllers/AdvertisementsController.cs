@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
+using Microsoft.AspNet.Identity;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -39,7 +40,7 @@ namespace NiewidzialnaPomoc.Controllers
         // GET: Advertisements/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email");
+            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email");
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
             return View();
         }
@@ -53,15 +54,34 @@ namespace NiewidzialnaPomoc.Controllers
         {
             if (ModelState.IsValid)
             {
+                advertisement.AddDate = DateTime.Now;
+                advertisement.AuthorId = User.Identity.GetUserId();
+                advertisement.IsFinished = false;
                 db.Advertisements.Add(advertisement);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Advertisements.Add(advertisement);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+        //    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+        //    return View(advertisement);
+        //}
 
         // GET: Advertisements/Edit/5
         public ActionResult Edit(int? id)
@@ -85,7 +105,7 @@ namespace NiewidzialnaPomoc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
         {
             var adv = db.Advertisements.Find(advertisement.Id);
             if (ModelState.IsValid)

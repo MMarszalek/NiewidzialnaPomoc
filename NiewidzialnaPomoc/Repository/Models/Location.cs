@@ -15,7 +15,7 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Miejscowość:")]
+        [Display(Name = "Miejscowość")]
         public string Name { get; set; }
 
         public virtual ICollection<Advertisement> Advertisements { get; set; }

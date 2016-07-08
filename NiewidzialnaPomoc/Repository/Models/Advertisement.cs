@@ -17,21 +17,22 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Tytuł:")]
+        [Display(Name = "Tytuł")]
         [MaxLength(72)]
         public string Title { get; set; }
 
-        [Display(Name = "Treść:")]
+        [Display(Name = "Treść")]
         [MaxLength(500)]
         public string Content { get; set; }
 
-        [Display(Name = "Data dodania:")]
+        [Display(Name = "Data dodania")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime AddDate { get; set; }
 
         public string AuthorId { get; set; }
 
+        [Display(Name = "Miejscowość")]
         public int LocationId { get; set; }
 
         public bool IsFinished { get; set; }

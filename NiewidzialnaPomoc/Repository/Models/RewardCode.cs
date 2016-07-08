@@ -10,7 +10,7 @@ namespace Repository.Models
     public class RewardCode
     {
         public int Id { get; set; }
-        [Display(Name = "Kod:")]
+        [Display(Name = "Kod")]
         public string Code { get; set; }
 
         public bool IsUsed { get; set; }

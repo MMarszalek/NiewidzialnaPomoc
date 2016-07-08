@@ -20,20 +20,20 @@ namespace Repository.Models
             this.RewardCodes = new HashSet<RewardCode>();
         }
 
-        [Display(Name = "Użytkownik:")]
+        [Display(Name = "Użytkownik")]
         override public string UserName { get; set; }
 
-        [Display(Name = "Imię:")]
+        [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
-        [Display(Name = "Nazwisko:")]
+        [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
         [NotMapped]
-        [Display(Name = "Pan/Pani:")]
+        [Display(Name = "Pan/Pani")]
         public string FullName { get { return FirstName + " " + LastName; } }
 
-        [Display(Name = "Liczba zdobytych punktów:")]
+        [Display(Name = "Liczba zdobytych punktów")]
         public int Points { get; set; }
 
         //ogloszenia, ktorych uzytkownik jest autorem

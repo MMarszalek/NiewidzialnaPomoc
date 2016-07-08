@@ -15,10 +15,10 @@ namespace Repository.Models
 
         public int Id { get; set; }
 
-        [Display(Name = "Nagroda:")]
+        [Display(Name = "Nagroda")]
         public string Name { get; set; }
 
-        [Display(Name = "Cena:")]
+        [Display(Name = "Cena")]
         public int Price { get; set; }
 
         public virtual ICollection<RewardCode> RewardCodes { get; set; }

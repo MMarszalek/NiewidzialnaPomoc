@@ -51,15 +51,14 @@ namespace Repository.Migrations
             }
         }
 
-        //ZMIEN
         private void SeedUsers(ApplicationDbContext context)
         {
             var store = new UserStore<ApplicationUser>(context);
             var manager = new UserManager<ApplicationUser>(store);
-            if (!context.Users.Any(u => u.UserName == "Admin"))
+            if (!context.Users.Any(u => u.UserName == "admin"))
             {
 
-                var user = new ApplicationUser { UserName = "Admin" };
+                var user = new ApplicationUser { UserName = "admin" };
                 var result = manager.Create(user, "12345678"); //password: 12345678
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "Admin");
