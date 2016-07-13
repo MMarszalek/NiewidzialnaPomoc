@@ -16,9 +16,36 @@ namespace NiewidzialnaPomoc.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Advertisements
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
+            ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
+
             var advertisements = db.Advertisements.Include(a => a.Author).Include(a => a.Location);
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    advertisements = advertisements.OrderByDescending(a => a.Title);
+                    break;
+                case "AddDate":
+                    advertisements = advertisements.OrderBy(a => a.AddDate);
+                    break;
+                case "addDate_desc":
+                    advertisements = advertisements.OrderByDescending(a => a.AddDate);
+                    break;
+                case "Difficulty":
+                    advertisements = advertisements.OrderBy(a => a.Difficulty);
+                    break;
+                case "difficulty_desc":
+                    advertisements = advertisements.OrderByDescending(a => a.Difficulty);
+                    break;
+                default:
+                    advertisements = advertisements.OrderBy(a => a.Title);
+                    break;
+            }
+
             return View(advertisements.ToList());
         }
 
