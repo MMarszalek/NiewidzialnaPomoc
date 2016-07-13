@@ -40,7 +40,6 @@ namespace NiewidzialnaPomoc.Controllers
         // GET: Advertisements/Create
         public ActionResult Create()
         {
-            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email");
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
             return View();
         }
@@ -50,19 +49,18 @@ namespace NiewidzialnaPomoc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        public ActionResult Create([Bind(Include = "Id,Title,Content,AddDate,Difficulty,Performance,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
         {
             if (ModelState.IsValid)
             {
                 advertisement.AddDate = DateTime.Now;
+                advertisement.Performance = Advertisement.PerformenceLevels.Low;
                 advertisement.AuthorId = User.Identity.GetUserId();
                 advertisement.IsFinished = false;
                 db.Advertisements.Add(advertisement);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }
@@ -78,7 +76,7 @@ namespace NiewidzialnaPomoc.Controllers
         //        return RedirectToAction("Index");
         //    }
 
-        //    //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
+        //    ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
         //    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
         //    return View(advertisement);
         //}
@@ -95,7 +93,6 @@ namespace NiewidzialnaPomoc.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }
@@ -105,18 +102,18 @@ namespace NiewidzialnaPomoc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
+        public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,Difficulty,Performance,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
         {
             var adv = db.Advertisements.Find(advertisement.Id);
             if (ModelState.IsValid)
             {
                 adv.Title = advertisement.Title;
                 adv.Content = advertisement.Content;
+                adv.Difficulty = advertisement.Difficulty;
                 adv.LocationId = advertisement.LocationId;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.AuthorId = new SelectList(db.Users, "Id", "Email", advertisement.AuthorId);
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
             return View(advertisement);
         }

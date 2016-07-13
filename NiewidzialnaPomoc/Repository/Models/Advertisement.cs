@@ -11,11 +11,11 @@ namespace Repository.Models
     {
         public enum Difficulties
         {
-            [Display(Name = "Łatwe")]
+            [Display(Name = "Niska")]
             Easy = 50,
-            [Display(Name = "Średnie")]
+            [Display(Name = "Średnia")]
             Medium = 100,
-            [Display(Name = "Trudne")]
+            [Display(Name = "Wysoka")]
             Difficult = 200
         };
 
