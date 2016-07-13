@@ -109,18 +109,23 @@ namespace Repository.Migrations
             {
                 new Advertisement { Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = DateTime.Now,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = DateTime.Now,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    Difficulty = Advertisement.Difficulties.Medium, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = DateTime.Now,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 2, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = DateTime.Now,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false },
                 new Advertisement { Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = DateTime.Now,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 2, IsFinished = false }
             };
 
