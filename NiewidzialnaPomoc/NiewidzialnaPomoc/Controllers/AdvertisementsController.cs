@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -16,13 +17,31 @@ namespace NiewidzialnaPomoc.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Advertisements
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
             ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var advertisements = db.Advertisements.Include(a => a.Author).Include(a => a.Location);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                advertisements = advertisements.Where(a => a.Title.Contains(searchString)
+                                       || a.Content.Contains(searchString));
+            }
 
             switch (sortOrder)
             {
@@ -46,7 +65,9 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            return View(advertisements.ToList());
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(advertisements.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Advertisements/Details/5
