@@ -122,24 +122,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201607041953147_init_migration.cs" />
-    <Compile Include="Migrations\201607041953147_init_migration.Designer.cs">
-      <DependentUpon>201607041953147_init_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201607191501086_initial_migration.cs" />
+    <Compile Include="Migrations\201607191501086_initial_migration.Designer.cs">
+      <DependentUpon>201607191501086_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Performance.cs" />
     <Compile Include="Models\Reward.cs" />
     <Compile Include="Models\RewardCode.cs" />
     <Compile Include="Models\Views\AccountViewModels.cs" />
+    <Compile Include="Models\Views\AdvertisementsListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607041953147_init_migration.resx">
-      <DependentUpon>201607041953147_init_migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607191501086_initial_migration.resx">
+      <DependentUpon>201607191501086_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

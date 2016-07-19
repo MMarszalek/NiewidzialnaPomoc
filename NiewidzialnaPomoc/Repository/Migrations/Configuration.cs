@@ -25,6 +25,8 @@ namespace Repository.Migrations
             SeedRoles(context);
             SeedUsers(context);
             SeedCategories(context);
+            SeedDifficulties(context);
+            SeedPerformances(context);
             SeedLocations(context);
             SeedRewards(context);
             SeedRewardCodes(context);
@@ -107,25 +109,46 @@ namespace Repository.Migrations
         {
             var adverisements = new List<Advertisement>
             {
+                //new Advertisement { Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = new DateTime(2016, 6, 18),
+                //    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                //    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
+                //    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+                //new Advertisement { Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = new DateTime(2016, 6, 20),
+                //    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                //    Difficulty = Advertisement.Difficulties.Medium, Performance = Advertisement.PerformenceLevels.Low,
+                //    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+                //new Advertisement { Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = new DateTime(2016, 6, 10),
+                //    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
+                //    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
+                //    LocationId = 2, IsFinished = false, Categories = new List<Category>() },
+                //new Advertisement { Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = new DateTime(2016, 6, 5),
+                //    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                //    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
+                //    LocationId = 1, IsFinished = false },
+                //new Advertisement { Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = new DateTime(2016, 6, 24),
+                //    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
+                //    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
+                //    LocationId = 2, IsFinished = false }
+
                 new Advertisement { Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = new DateTime(2016, 6, 18),
+                    DifficultyId = 1, PerformanceId = 1,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = new DateTime(2016, 6, 20),
+                    DifficultyId = 2, PerformanceId = 1,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    Difficulty = Advertisement.Difficulties.Medium, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = new DateTime(2016, 6, 10),
+                    DifficultyId = 1, PerformanceId = 1,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 2, IsFinished = false, Categories = new List<Category>() },
                 new Advertisement { Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = new DateTime(2016, 6, 5),
+                    DifficultyId = 3, PerformanceId = 1,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    Difficulty = Advertisement.Difficulties.Difficult, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 1, IsFinished = false },
                 new Advertisement { Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = new DateTime(2016, 6, 24),
+                    DifficultyId = 1, PerformanceId = 1,
                     AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    Difficulty = Advertisement.Difficulties.Easy, Performance = Advertisement.PerformenceLevels.Low,
                     LocationId = 2, IsFinished = false }
             };
 
@@ -137,6 +160,34 @@ namespace Repository.Migrations
             AddOrUpdateCategories(context, "Pomoc w gra¿u", "Inne");
             AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Inne");
             AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Transport");
+        }
+
+        private void SeedDifficulties(ApplicationDbContext context)
+        {
+            var difficulties = new List<Difficulty>
+            {
+                new Difficulty { Name = "Niska", Points = 50 },
+                new Difficulty { Name = "Œrednia", Points = 100 },
+                new Difficulty { Name = "Wysoka", Points = 200 }
+            };
+
+            difficulties.ForEach(s => context.Difficulties.AddOrUpdate(p => p.Name, s));
+            context.SaveChanges();
+        }
+
+        private void SeedPerformances(ApplicationDbContext context)
+        {
+            var performances = new List<Performance>
+            {
+                new Performance { Name = "S³abe", Points = 0 },
+                new Performance { Name = "Œrednie", Points = 20 },
+                new Performance { Name = "Dobre", Points = 40 },
+                new Performance { Name = "Bardzo dobre", Points = 60 },
+                new Performance { Name = "Znakomite", Points = 80 },
+            };
+
+            performances.ForEach(s => context.Performances.AddOrUpdate(p => p.Name, s));
+            context.SaveChanges();
         }
 
         private void SeedLocations(ApplicationDbContext context)

@@ -3,7 +3,7 @@ namespace Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init_migration : DbMigration
+    public partial class initial_migration : DbMigration
     {
         public override void Up()
         {
@@ -15,13 +15,19 @@ namespace Repository.Migrations
                         Title = c.String(maxLength: 72),
                         Content = c.String(maxLength: 500),
                         AddDate = c.DateTime(nullable: false),
+                        DifficultyId = c.Int(nullable: false),
+                        PerformanceId = c.Int(nullable: false),
                         AuthorId = c.String(maxLength: 128),
                         LocationId = c.Int(nullable: false),
                         IsFinished = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.AuthorId)
+                .ForeignKey("dbo.Difficulties", t => t.DifficultyId, cascadeDelete: true)
                 .ForeignKey("dbo.Locations", t => t.LocationId, cascadeDelete: true)
+                .ForeignKey("dbo.Performances", t => t.PerformanceId, cascadeDelete: true)
+                .Index(t => t.DifficultyId)
+                .Index(t => t.PerformanceId)
                 .Index(t => t.AuthorId)
                 .Index(t => t.LocationId);
             
@@ -123,11 +129,31 @@ namespace Repository.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Difficulties",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Points = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Locations",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Performances",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Points = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -175,7 +201,9 @@ namespace Repository.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Advertisements", "PerformanceId", "dbo.Performances");
             DropForeignKey("dbo.Advertisements", "LocationId", "dbo.Locations");
+            DropForeignKey("dbo.Advertisements", "DifficultyId", "dbo.Difficulties");
             DropForeignKey("dbo.CategoryAdvertisements", "Advertisement_Id", "dbo.Advertisements");
             DropForeignKey("dbo.CategoryAdvertisements", "Category_Id", "dbo.Categories");
             DropForeignKey("dbo.ApplicationUserAdvertisements", "Advertisement_Id", "dbo.Advertisements");
@@ -197,10 +225,14 @@ namespace Repository.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Advertisements", new[] { "LocationId" });
             DropIndex("dbo.Advertisements", new[] { "AuthorId" });
+            DropIndex("dbo.Advertisements", new[] { "PerformanceId" });
+            DropIndex("dbo.Advertisements", new[] { "DifficultyId" });
             DropTable("dbo.CategoryAdvertisements");
             DropTable("dbo.ApplicationUserAdvertisements");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Performances");
             DropTable("dbo.Locations");
+            DropTable("dbo.Difficulties");
             DropTable("dbo.Categories");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.Rewards");
