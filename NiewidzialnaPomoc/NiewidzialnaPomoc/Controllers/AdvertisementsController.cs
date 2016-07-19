@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using Repository.Models.Views;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -17,10 +18,9 @@ namespace NiewidzialnaPomoc.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Advertisements
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string selectedLocation ,int? page)
-        {
-            //ViewBag.Locations = new SelectList(db.Locations, "Id", "Name");
 
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, string selectedLocation, int? page)
+        {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
@@ -57,20 +57,78 @@ namespace NiewidzialnaPomoc.Controllers
                     advertisements = advertisements.OrderByDescending(a => a.AddDate);
                     break;
                 case "Difficulty":
-                    advertisements = advertisements.OrderBy(a => a.Difficulty);
+                    advertisements = advertisements.OrderBy(a => a.Difficulty.Name);
                     break;
                 case "difficulty_desc":
-                    advertisements = advertisements.OrderByDescending(a => a.Difficulty);
+                    advertisements = advertisements.OrderByDescending(a => a.Difficulty.Name);
                     break;
                 default:
                     advertisements = advertisements.OrderBy(a => a.Title);
                     break;
             }
 
-            int pageSize = 3;
+            AdvertisementsListViewModel viewModel = new AdvertisementsListViewModel();
+            int pageSize = 2;
             int pageNumber = (page ?? 1);
-            return View(advertisements.ToPagedList(pageNumber, pageSize));
+            viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
+
+            return View(viewModel);
         }
+
+        //public ActionResult Index(string sortOrder, string currentFilter, string searchString, string selectedLocation, int? page)
+        //{
+        //    //ViewBag.Locations = new SelectList(db.Locations, "Id", "Name");
+
+        //    ViewBag.CurrentSort = sortOrder;
+        //    ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+        //    ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
+        //    ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
+
+        //    if (searchString != null)
+        //    {
+        //        page = 1;
+        //    }
+        //    else
+        //    {
+        //        searchString = currentFilter;
+        //    }
+
+        //    ViewBag.CurrentFilter = searchString;
+
+        //    var advertisements = db.Advertisements.Include(a => a.Author).Include(a => a.Location);
+
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        advertisements = advertisements.Where(a => a.Title.Contains(searchString)
+        //                               || a.Content.Contains(searchString));
+        //    }
+
+        //    switch (sortOrder)
+        //    {
+        //        case "title_desc":
+        //            advertisements = advertisements.OrderByDescending(a => a.Title);
+        //            break;
+        //        case "AddDate":
+        //            advertisements = advertisements.OrderBy(a => a.AddDate);
+        //            break;
+        //        case "addDate_desc":
+        //            advertisements = advertisements.OrderByDescending(a => a.AddDate);
+        //            break;
+        //        case "Difficulty":
+        //            advertisements = advertisements.OrderBy(a => a.Difficulty.Name);
+        //            break;
+        //        case "difficulty_desc":
+        //            advertisements = advertisements.OrderByDescending(a => a.Difficulty.Name);
+        //            break;
+        //        default:
+        //            advertisements = advertisements.OrderBy(a => a.Title);
+        //            break;
+        //    }
+
+        //    int pageSize = 3;
+        //    int pageNumber = (page ?? 1);
+        //    return View(advertisements.ToPagedList(pageNumber, pageSize));
+        //}
 
         // GET: Advertisements/Details/5
         public ActionResult Details(int? id)
