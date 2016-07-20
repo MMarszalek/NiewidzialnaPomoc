@@ -14,10 +14,25 @@
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    <p>
         @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SelectedLocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
         <button type="submit" class="btn btn-primary">Submit</button>
-    </p>
+    <div>
+        <h3>@Html.DisplayNameFor(model => model.Categories.FirstOrDefault().Name)</h3>
+        @foreach (var item in Model.Categories)
+        {
+            @Html.CheckBoxFor(modelItem => item.isSelected)
+            @Html.DisplayFor(modelItem => item.Name)
+        }
+    </div>
+    <div>
+        <h3>@Html.DisplayNameFor(model => model.Difficulties.FirstOrDefault().Name)</h3>
+        @foreach (var item in Model.Difficulties)
+        {
+            @Html.CheckBoxFor(modelItem => item.isSelected)
+            @Html.DisplayFor(modelItem => item.Name)
+        }
+    </div>
 }
 
 <table class="table">
@@ -93,7 +108,7 @@ Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Mo
         @Html.DropDownList("Locations", null, htmlAttributes: new { @class = "form-control" })
         <button type="submit" class="btn btn-primary">Submit</button>
     </p>
-    @*<div>
+    <div>
         <h3>@Html.DisplayNameFor()</h3>
         @foreach (var item in ViewBag.Locations)
         {

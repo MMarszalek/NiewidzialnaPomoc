@@ -68,9 +68,39 @@ namespace NiewidzialnaPomoc.Controllers
             }
 
             AdvertisementsListViewModel viewModel = new AdvertisementsListViewModel();
-            int pageSize = 2;
+
+            int pageSize = 3;
             int pageNumber = (page ?? 1);
             viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
+
+            viewModel.Locations = new List<Location>();
+            var locations = db.Locations;
+            foreach(Location l in locations)
+            {
+                viewModel.Locations.Add(l);
+            }
+
+            viewModel.Categories = new List<CategoryViewModel>();
+            var categories = db.Categories;
+            foreach(Category c in categories)
+            {
+                var cvm = new CategoryViewModel();
+                cvm.Id = c.Id;
+                cvm.Name = c.Name;
+                cvm.isSelected = false;
+                viewModel.Categories.Add(cvm);
+            }
+
+            viewModel.Difficulties = new List<DifficultyViewModel>();
+            var difficulties = db.Difficulties;
+            foreach(Difficulty d in difficulties)
+            {
+                var dvm = new DifficultyViewModel();
+                dvm.Id = d.Id;
+                dvm.Name = d.Name;
+                dvm.isSelected = false;
+                viewModel.Difficulties.Add(dvm);
+            }
 
             return View(viewModel);
         }
