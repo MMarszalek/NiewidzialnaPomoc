@@ -14,6 +14,81 @@
 
 @using (Html.BeginForm(FormMethod.Get))
 {
+    @Html.TextBoxFor(model => model.SearchModel.TitleContent)
+    @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
+    <div>
+        <h3>@Html.DisplayNameFor(model => model.Categories.FirstOrDefault().Name)</h3>
+        @foreach (var item in Model.Categories)
+        {
+            @Html.CheckBoxFor(modelItem => item.isSelected)
+            @Html.DisplayFor(modelItem => item.Name)
+        }
+    </div>
+    <div>
+        <h3>@Html.DisplayNameFor(model => model.Difficulties.FirstOrDefault().Name)</h3>
+        @foreach (var item in Model.Difficulties)
+        {
+            @Html.CheckBoxFor(modelItem => item.isSelected)
+            @Html.DisplayFor(modelItem => item.Name)
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Author.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name)
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Advertisements)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difficulty.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
+
+@Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort }))
+
+@*@using (Html.BeginForm(FormMethod.Get))
+{
         @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control" })
         @Html.DropDownListFor(model => model.SelectedLocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -85,7 +160,7 @@
 Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
 
 @Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
 
 @*@using PagedList;
 @using PagedList.Mvc;
