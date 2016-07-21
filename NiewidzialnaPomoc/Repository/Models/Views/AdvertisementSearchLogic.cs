@@ -24,10 +24,20 @@ namespace Repository.Models.Views
                     result = result.Where(a => a.Title.Contains(searchModel.TitleContent)
                                        || a.Content.Contains(searchModel.TitleContent));
                 }
+
                 if(searchModel.LocationId.HasValue)
                 {
                     result = result.Where(a => a.LocationId == searchModel.LocationId);
                 }
+
+                if (searchModel.PostedCategories.CategoriesIds != null)
+                {
+                    foreach (var c in searchModel.PostedCategories.CategoriesIds)
+                    {
+                        result = result.Where(a => a.Categories.Any(x => x.Id.ToString().Equals(c)));
+                    }
+                }
+
             }
 
             return result;
