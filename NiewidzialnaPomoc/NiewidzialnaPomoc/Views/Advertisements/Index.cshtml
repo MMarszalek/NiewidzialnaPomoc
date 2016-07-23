@@ -46,13 +46,13 @@
             @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name)
         </th>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm })
         </th>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm })
         </th>
         <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })
         </th>
     </tr>
 

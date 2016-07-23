@@ -21,26 +21,22 @@ namespace NiewidzialnaPomoc.Controllers
 
         public ActionResult Index(AdvertisementsListViewModel viewModel, string sortOrder, int? page)
         {
-            //TODO: zapamiętanie filtrowania po zmianie strony
-            //zmiana w @Html.PagedListPager w Index
-
-            //Locations
-            viewModel.Locations = new List<Location>();
-            var locations = db.Locations;
-            foreach (Location l in locations)
+            if (viewModel.SearchModel == null)
             {
-                viewModel.Locations.Add(l);
+                viewModel.SearchModel = new AdvertisementSearchModel();
+                if(Session["SearchViewModel"] != null)
+                {
+                    viewModel.SearchModel = (AdvertisementSearchModel)Session["SearchViewModel"];
+                }
+            }
+            else
+            {
+                Session["SearchViewModel"] = viewModel.SearchModel;
             }
 
             //Categories
             var selectedCategories = new List<Category>();
             var postedCategoryIds = new string[0];
-
-            if (viewModel.SearchModel == null)
-            {
-                viewModel.SearchModel = new AdvertisementSearchModel();
-
-            }
 
             if (viewModel.SearchModel.PostedCategories == null)
             {
@@ -116,6 +112,10 @@ namespace NiewidzialnaPomoc.Controllers
                 viewModel.SelectedDifficulties.Add(dvm);
             }
 
+            //Locations
+            viewModel.Locations = new List<Location>();
+            viewModel.Locations = db.Locations.ToList();
+
             //Advertisements
             var searchLogic = new AdvertisementSearchLogic();
             var advertisements = searchLogic.GetAdvertisements(viewModel.SearchModel);
@@ -123,21 +123,21 @@ namespace NiewidzialnaPomoc.Controllers
             //Sorting
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
-            ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
-            ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
+            ViewBag.AddDateSortParm = sortOrder == "addDate_asc" ? "addDate_desc" : "addDate_asc";
+            ViewBag.DifficultySortParm = sortOrder == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
 
             switch (sortOrder)
             {
                 case "title_desc":
                     advertisements = advertisements.OrderByDescending(a => a.Title);
                     break;
-                case "AddDate":
+                case "addDate_asc":
                     advertisements = advertisements.OrderBy(a => a.AddDate);
                     break;
                 case "addDate_desc":
                     advertisements = advertisements.OrderByDescending(a => a.AddDate);
                     break;
-                case "Difficulty":
+                case "difficulty_asc":
                     advertisements = advertisements.OrderBy(a => a.Difficulty.Name);
                     break;
                 case "difficulty_desc":
@@ -148,7 +148,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSize = 10;
+            int pageSize = 2;
             int pageNumber = (page ?? 1);
             viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
 
