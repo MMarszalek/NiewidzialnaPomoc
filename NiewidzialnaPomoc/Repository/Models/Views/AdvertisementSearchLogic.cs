@@ -38,6 +38,14 @@ namespace Repository.Models.Views
                     }
                 }
 
+                if (searchModel.PostedDifficulties.DifficultiesIds != null)
+                {
+                    foreach (var d in searchModel.PostedDifficulties.DifficultiesIds)
+                    {
+                        result = result.Where(a => a.DifficultyId.ToString().Equals(d));
+                    }
+                }
+
             }
 
             return result;

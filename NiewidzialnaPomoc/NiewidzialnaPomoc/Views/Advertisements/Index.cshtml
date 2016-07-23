@@ -14,30 +14,27 @@
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    @Html.TextBoxFor(model => model.SearchModel.TitleContent)
-    @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
-    @Html.CheckBoxListFor(model => model.SearchModel.PostedCategories.CategoriesIds,
+    <p>
+        @Html.TextBoxFor(model => model.SearchModel.TitleContent, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </p>
+    <div>
+        <h3>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h3>
+        @Html.CheckBoxListFor(model => model.SearchModel.PostedCategories.CategoriesIds,
         model => model.AvaibleCategories,
         category => category.Id,
         category => category.Name,
         model => model.SelectedCategories)
-    @*<div>
-        <h3>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h3>
-        @foreach (var item in Model.AvaibleCategories)
-        {
-            @Html.CheckBoxFor(modelItem => item.isSelected)
-            @Html.DisplayFor(modelItem => item.Name)
-        }
     </div>
     <div>
-        <h3>@Html.DisplayNameFor(model => model.Difficulties.FirstOrDefault().Name)</h3>
-        @foreach (var item in Model.Difficulties)
-        {
-            @Html.CheckBoxFor(modelItem => item.isSelected)
-            @Html.DisplayFor(modelItem => item.Name)
-        }
-    </div>*@
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <h3>@Html.DisplayNameFor(model => model.AvaibleDifficulties.FirstOrDefault().Name)</h3>
+        @Html.CheckBoxListFor(model => model.SearchModel.PostedDifficulties.DifficultiesIds,
+        model => model.AvaibleDifficulties,
+        difficulty => difficulty.Id,
+        difficulty => difficulty.Name,
+        model => model.SelectedDifficulties)
+    </div>
 }
 
 <table class="table">
@@ -92,179 +89,7 @@ Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Mo
 @Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort }))
 
-@*@using (Html.BeginForm(FormMethod.Get))
-{
-        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control" })
-        @Html.DropDownListFor(model => model.SelectedLocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
-        <button type="submit" class="btn btn-primary">Submit</button>
-    <div>
-        <h3>@Html.DisplayNameFor(model => model.Categories.FirstOrDefault().Name)</h3>
-        @foreach (var item in Model.Categories)
-        {
-            @Html.CheckBoxFor(modelItem => item.isSelected)
-            @Html.DisplayFor(modelItem => item.Name)
-        }
-    </div>
-    <div>
-        <h3>@Html.DisplayNameFor(model => model.Difficulties.FirstOrDefault().Name)</h3>
-        @foreach (var item in Model.Difficulties)
-        {
-            @Html.CheckBoxFor(modelItem => item.isSelected)
-            @Html.DisplayFor(modelItem => item.Name)
-        }
-    </div>
-}
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Author.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name)
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-    </tr>
-
-    @foreach (var item in Model.Advertisements)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Difficulty.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>
-<br />
-Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
+@*Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
 
 @Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
-
-@*@using PagedList;
-@using PagedList.Mvc;
-@model IPagedList < Repository.Models.Advertisement >
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-@using (Html.BeginForm(FormMethod.Get))
-{
-    <p>
-        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new { @class = "form-control" })
-        @Html.DropDownList("Locations", null, htmlAttributes: new { @class = "form-control" })
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </p>
-    <div>
-        <h3>@Html.DisplayNameFor()</h3>
-        @foreach (var item in ViewBag.Locations)
-        {
-            @Html.CheckBoxFor()
-        }
-    </div>
-    <div>
-        <h3>Trudność</h3>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" />
-                Niska
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" />
-                Średnia
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" />
-                Wysoka
-            </label>
-        </div>
-    </div>
-}
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Author.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Location.Name)
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Difficulty.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@

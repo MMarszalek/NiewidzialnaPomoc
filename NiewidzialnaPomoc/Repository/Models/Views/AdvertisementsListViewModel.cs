@@ -28,11 +28,17 @@ namespace Repository.Models.Views
         public bool isSelected { get; set; }
     }
 
+    public class PostedDifficulties
+    {
+        public string[] DifficultiesIds { get; set; }
+    }
+
     public class AdvertisementSearchModel
     {
         public string TitleContent { get; set; }
         public int? LocationId { get; set; }
         public PostedCategories PostedCategories { get; set; }
+        public PostedDifficulties PostedDifficulties { get; set; }
     }
 
     public class AdvertisementsListViewModel
@@ -43,7 +49,9 @@ namespace Repository.Models.Views
         public IList<CategoryViewModel> AvaibleCategories { get; set; }
         public IList<CategoryViewModel> SelectedCategories { get; set; }
 
-        public IList<DifficultyViewModel> Difficulties { get; set; }
+        public IList<DifficultyViewModel> AvaibleDifficulties { get; set; }
+        public IList<DifficultyViewModel> SelectedDifficulties { get; set; }
+
         public AdvertisementSearchModel SearchModel { get; set; }
     }
 }

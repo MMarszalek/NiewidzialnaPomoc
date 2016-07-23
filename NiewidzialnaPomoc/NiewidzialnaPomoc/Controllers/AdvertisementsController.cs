@@ -24,16 +24,31 @@ namespace NiewidzialnaPomoc.Controllers
             //TODO: zapamiętanie filtrowania po zmianie strony
             //zmiana w @Html.PagedListPager w Index
 
+            //Locations
+            viewModel.Locations = new List<Location>();
+            var locations = db.Locations;
+            foreach (Location l in locations)
+            {
+                viewModel.Locations.Add(l);
+            }
+
+            //Categories
             var selectedCategories = new List<Category>();
             var postedCategoryIds = new string[0];
+
             if (viewModel.SearchModel == null)
             {
                 viewModel.SearchModel = new AdvertisementSearchModel();
+
+            }
+
+            if (viewModel.SearchModel.PostedCategories == null)
+            {
                 viewModel.SearchModel.PostedCategories = new PostedCategories();
 
             }
 
-            if (viewModel.SearchModel.PostedCategories.CategoriesIds != null && viewModel.SearchModel.PostedCategories.CategoriesIds.Any())
+            if (viewModel.SearchModel.PostedCategories.CategoriesIds != null)
             {
                 postedCategoryIds = viewModel.SearchModel.PostedCategories.CategoriesIds;
             }
@@ -62,9 +77,50 @@ namespace NiewidzialnaPomoc.Controllers
                 viewModel.SelectedCategories.Add(cvm);
             }
 
+            //Difficulties
+
+            var selectedDifficulties = new List<Difficulty>();
+            var postedDifficultyIds = new string[0];
+            if (viewModel.SearchModel.PostedDifficulties == null)
+            {
+                viewModel.SearchModel.PostedDifficulties = new PostedDifficulties();
+
+            }
+
+            if (viewModel.SearchModel.PostedDifficulties.DifficultiesIds != null)
+            {
+                postedDifficultyIds = viewModel.SearchModel.PostedDifficulties.DifficultiesIds;
+            }
+
+            if (postedDifficultyIds.Any())
+            {
+                selectedDifficulties = db.Difficulties.Where(x => postedDifficultyIds.Any(s => x.Id.ToString().Equals(s))).ToList();
+            }
+
+            viewModel.AvaibleDifficulties = new List<DifficultyViewModel>();
+            var difficulties = db.Difficulties;
+            foreach (Difficulty d in difficulties)
+            {
+                var dvm = new DifficultyViewModel();
+                dvm.Id = d.Id;
+                dvm.Name = d.Name;
+                viewModel.AvaibleDifficulties.Add(dvm);
+            }
+
+            viewModel.SelectedDifficulties = new List<DifficultyViewModel>();
+            foreach (Difficulty d in selectedDifficulties)
+            {
+                var dvm = new DifficultyViewModel();
+                dvm.Id = d.Id;
+                dvm.Name = d.Name;
+                viewModel.SelectedDifficulties.Add(dvm);
+            }
+
+            //Advertisements
             var searchLogic = new AdvertisementSearchLogic();
             var advertisements = searchLogic.GetAdvertisements(viewModel.SearchModel);
 
+            //Sorting
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
@@ -92,187 +148,12 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
 
-            viewModel.Locations = new List<Location>();
-            var locations = db.Locations;
-            foreach (Location l in locations)
-            {
-                viewModel.Locations.Add(l);
-            }
-
-            viewModel.Difficulties = new List<DifficultyViewModel>();
-            var difficulties = db.Difficulties;
-            foreach (Difficulty d in difficulties)
-            {
-                var dvm = new DifficultyViewModel();
-                dvm.Id = d.Id;
-                dvm.Name = d.Name;
-                dvm.isSelected = false;
-                viewModel.Difficulties.Add(dvm);
-            }
-
             return View(viewModel);
         }
-
-        //public ActionResult Index(AdvertisementsListViewModel viewModel, string sortOrder, int? page)
-        //{
-        //    //TODO: zapamiętanie filtrowania po zmianie strony
-        //    //zmiana w @Html.PagedListPager w Index
-
-        //    var searchLogic = new AdvertisementSearchLogic();
-        //    var advertisements = searchLogic.GetAdvertisements(viewModel.SearchModel);
-
-        //    ViewBag.CurrentSort = sortOrder;
-        //    ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
-        //    ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
-        //    ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
-
-        //    switch (sortOrder)
-        //    {
-        //        case "title_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.Title);
-        //            break;
-        //        case "AddDate":
-        //            advertisements = advertisements.OrderBy(a => a.AddDate);
-        //            break;
-        //        case "addDate_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.AddDate);
-        //            break;
-        //        case "Difficulty":
-        //            advertisements = advertisements.OrderBy(a => a.Difficulty.Name);
-        //            break;
-        //        case "difficulty_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.Difficulty.Name);
-        //            break;
-        //        default:
-        //            advertisements = advertisements.OrderBy(a => a.Title);
-        //            break;
-        //    }
-
-        //    int pageSize = 1;
-        //    int pageNumber = (page ?? 1);
-        //    viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
-
-        //    viewModel.Locations = new List<Location>();
-        //    var locations = db.Locations;
-        //    foreach (Location l in locations)
-        //    {
-        //        viewModel.Locations.Add(l);
-        //    }
-
-        //    viewModel.AvaibleCategories = new List<CategoryViewModel>();
-        //    var categories = db.Categories;
-        //    foreach (Category c in categories)
-        //    {
-        //        var cvm = new CategoryViewModel();
-        //        cvm.Id = c.Id;
-        //        cvm.Name = c.Name;
-        //        cvm.isSelected = false;
-        //        viewModel.AvaibleCategories.Add(cvm);
-        //    }
-
-        //    viewModel.Difficulties = new List<DifficultyViewModel>();
-        //    var difficulties = db.Difficulties;
-        //    foreach (Difficulty d in difficulties)
-        //    {
-        //        var dvm = new DifficultyViewModel();
-        //        dvm.Id = d.Id;
-        //        dvm.Name = d.Name;
-        //        dvm.isSelected = false;
-        //        viewModel.Difficulties.Add(dvm);
-        //    }
-
-        //    return View(viewModel);
-        //}
-
-        //public ActionResult Index(string sortOrder, string currentFilter, string searchString, string selectedLocation, int? page)
-        //{
-        //    ViewBag.CurrentSort = sortOrder;
-        //    ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
-        //    ViewBag.AddDateSortParm = sortOrder == "AddDate" ? "addDate_desc" : "AddDate";
-        //    ViewBag.DifficultySortParm = sortOrder == "Difficulty" ? "difficulty_desc" : "Difficulty";
-
-        //    if (searchString != null)
-        //    {
-        //        page = 1;
-        //    }
-        //    else
-        //    {
-        //        searchString = currentFilter;
-        //    }
-
-        //    ViewBag.CurrentFilter = searchString;
-
-        //    var advertisements = db.Advertisements.Include(a => a.Author).Include(a => a.Location);
-
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        advertisements = advertisements.Where(a => a.Title.Contains(searchString)
-        //                               || a.Content.Contains(searchString));
-        //    }
-
-        //    switch (sortOrder)
-        //    {
-        //        case "title_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.Title);
-        //            break;
-        //        case "AddDate":
-        //            advertisements = advertisements.OrderBy(a => a.AddDate);
-        //            break;
-        //        case "addDate_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.AddDate);
-        //            break;
-        //        case "Difficulty":
-        //            advertisements = advertisements.OrderBy(a => a.Difficulty.Name);
-        //            break;
-        //        case "difficulty_desc":
-        //            advertisements = advertisements.OrderByDescending(a => a.Difficulty.Name);
-        //            break;
-        //        default:
-        //            advertisements = advertisements.OrderBy(a => a.Title);
-        //            break;
-        //    }
-
-        //    AdvertisementsListViewModel viewModel = new AdvertisementsListViewModel();
-
-        //    int pageSize = 3;
-        //    int pageNumber = (page ?? 1);
-        //    viewModel.Advertisements = advertisements.ToPagedList(pageNumber, pageSize);
-
-        //    viewModel.Locations = new List<Location>();
-        //    var locations = db.Locations;
-        //    foreach (Location l in locations)
-        //    {
-        //        viewModel.Locations.Add(l);
-        //    }
-
-        //    viewModel.Categories = new List<CategoryViewModel>();
-        //    var categories = db.Categories;
-        //    foreach (Category c in categories)
-        //    {
-        //        var cvm = new CategoryViewModel();
-        //        cvm.Id = c.Id;
-        //        cvm.Name = c.Name;
-        //        cvm.isSelected = false;
-        //        viewModel.Categories.Add(cvm);
-        //    }
-
-        //    viewModel.Difficulties = new List<DifficultyViewModel>();
-        //    var difficulties = db.Difficulties;
-        //    foreach (Difficulty d in difficulties)
-        //    {
-        //        var dvm = new DifficultyViewModel();
-        //        dvm.Id = d.Id;
-        //        dvm.Name = d.Name;
-        //        dvm.isSelected = false;
-        //        viewModel.Difficulties.Add(dvm);
-        //    }
-
-        //    return View(viewModel);
-        //}
 
         // GET: Advertisements/Details/5
         public ActionResult Details(int? id)
