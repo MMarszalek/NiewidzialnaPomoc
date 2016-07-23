@@ -32,18 +32,22 @@ namespace Repository.Models.Views
 
                 if (searchModel.PostedCategories.CategoriesIds != null)
                 {
-                    foreach (var c in searchModel.PostedCategories.CategoriesIds)
-                    {
-                        result = result.Where(a => a.Categories.Any(x => x.Id.ToString().Equals(c)));
-                    }
+                    //foreach (var c in searchModel.PostedCategories.CategoriesIds)
+                    //{
+                    //    result = result.Where(a => a.Categories.Any(x => x.Id.ToString().Equals(c)));
+                    //}
+
+                    result = result.Where(a => a.Categories.Select(f => f.Id.ToString()).Intersect(searchModel.PostedCategories.CategoriesIds).Any());
                 }
 
                 if (searchModel.PostedDifficulties.DifficultiesIds != null)
                 {
-                    foreach (var d in searchModel.PostedDifficulties.DifficultiesIds)
-                    {
-                        result = result.Where(a => a.DifficultyId.ToString().Equals(d));
-                    }
+                    //foreach (var d in searchModel.PostedDifficulties.DifficultiesIds)
+                    //{
+                    //    result = result.Where(a => a.DifficultyId.ToString().Equals(d));
+                    //}
+
+                    result = result.Where(a => searchModel.PostedDifficulties.DifficultiesIds.Contains(a.DifficultyId.ToString()));
                 }
 
             }

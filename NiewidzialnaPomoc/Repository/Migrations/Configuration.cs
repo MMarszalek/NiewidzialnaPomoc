@@ -134,7 +134,6 @@ namespace Repository.Migrations
             adverisements.ForEach(s => context.Advertisements.AddOrUpdate(p => p.Title, s));
             context.SaveChanges();
 
-            AddOrUpdateCategories(context, "Pomoc w ogrodzie", "Inne");
             AddOrUpdateCategories(context, "Pomoc w ogrodzie", "Ogród");
             AddOrUpdateCategories(context, "Pomoc w gra¿u", "Inne");
             AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Inne");
