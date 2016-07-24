@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Repository.Models;
+using Repository.Models.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,22 @@ namespace NiewidzialnaPomoc.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            var viewModel = new AdvertisementsListViewModel();
+            viewModel.Locations = new List<Location>();
+            viewModel.Locations = db.Locations.ToList();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Index(AdvertisementsListViewModel viewModel)
+        {
+            Session["SearchViewModel"] = viewModel.SearchModel;
+            return RedirectToAction("Index", "Advertisements");
         }
 
         public ActionResult About()

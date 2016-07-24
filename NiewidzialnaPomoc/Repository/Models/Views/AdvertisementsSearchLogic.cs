@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Repository.Models.Views
 {
-    public class AdvertisementSearchLogic
+    public class AdvertisementsSearchLogic
     {
         private ApplicationDbContext Context;
-        public AdvertisementSearchLogic()
+        public AdvertisementsSearchLogic()
         {
             Context = new ApplicationDbContext();
         }

@@ -117,7 +117,7 @@ namespace NiewidzialnaPomoc.Controllers
             viewModel.Locations = db.Locations.ToList();
 
             //Advertisements
-            var searchLogic = new AdvertisementSearchLogic();
+            var searchLogic = new AdvertisementsSearchLogic();
             var advertisements = searchLogic.GetAdvertisements(viewModel.SearchModel);
 
             //Sorting

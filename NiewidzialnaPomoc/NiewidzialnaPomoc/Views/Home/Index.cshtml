@@ -1,5 +1,16 @@
-﻿@{
+﻿@model  Repository.Models.Views.AdvertisementsListViewModel
+
+@{
     ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <p>
+        @Html.TextBoxFor(model => model.SearchModel.TitleContent, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </p>
 }
 
 @*<div class="jumbotron">
