@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Repository.Models.Reward>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Nagrody</h2>
+
+@if (TempData["alert"] != null)
+{
+    <p>@TempData["alert"]</p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Wybieram", "RewardCode", new { id=item.Id }, new { onclick = "return confirm('Czy na pewno chcesz otrzymać tę nagrodę?')" })
+        </td>
+    </tr>
+}
+
+</table>

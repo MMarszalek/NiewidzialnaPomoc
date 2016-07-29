@@ -9,30 +9,6 @@ namespace Repository.Models
 {
     public class Advertisement
     {
-        //public enum Difficulties
-        //{
-        //    [Display(Name = "Niska")]
-        //    Easy = 50,
-        //    [Display(Name = "Średnia")]
-        //    Medium = 100,
-        //    [Display(Name = "Wysoka")]
-        //    Difficult = 200
-        //};
-
-        //public enum PerformenceLevels
-        //{
-        //    [Display(Name = "Słabe")]
-        //    Low = 0,
-        //    [Display(Name = "Średnie")]
-        //    Medium = 20,
-        //    [Display(Name = "Dobre")]
-        //    Good = 40,
-        //    [Display(Name = "Bardzo dobre")]
-        //    VeryGood = 60,
-        //    [Display(Name = "Znakomite")]
-        //    Perfect = 80
-        //};
-
         public Advertisement()
         {
             this.Categories = new HashSet<Category>();
@@ -54,16 +30,6 @@ namespace Repository.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime AddDate { get; set; }
 
-        //[Display(Name = "Trudność")]
-        //public Difficulties Difficulty { get; set; }
-
-        //[Display(Name = "Wykonanie")]
-        //public PerformenceLevels Performance { get; set; }
-
-        //[NotMapped]
-        //[Display(Name = "Punkty")]
-        //public int Points { get { return (int)Performance + (int)Difficulty; } }
-
         [Display(Name = "Trudność")]
         public int DifficultyId { get; set; }
 
@@ -72,7 +38,7 @@ namespace Repository.Models
 
         [NotMapped]
         [Display(Name = "Punkty")]
-        public int Points { get; set; }
+        public int Points { get { return Performance.Points + Difficulty.Points; } }
 
         [Display(Name = "Autor")]
         public string AuthorId { get; set; }

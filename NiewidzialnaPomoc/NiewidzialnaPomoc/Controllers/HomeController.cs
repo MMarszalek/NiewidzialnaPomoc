@@ -41,5 +41,10 @@ namespace NiewidzialnaPomoc.Controllers
 
             return View();
         }
+
+        public ActionResult Rewards()
+        {
+            return RedirectToAction("Index", "Rewards");
+        }
     }
 }
