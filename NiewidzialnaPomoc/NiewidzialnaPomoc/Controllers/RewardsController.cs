@@ -44,6 +44,7 @@ namespace NiewidzialnaPomoc.Controllers
             var rc = db.RewardCodes.Find(rewardCode.Id);
             rc.IsUsed = true;
             rc.RewardOwnerId = user.Id;
+            rc.ReceivedDate = DateTime.Now;
 
             user.Points -= rc.Reward.Price;
 

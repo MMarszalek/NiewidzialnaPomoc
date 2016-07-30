@@ -15,10 +15,10 @@ namespace Repository.Models
 
         public bool IsUsed { get; set; }
 
-        //[Display(Name = "Data otrzymania")]
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //public System.DateTime ReceivedDate { get; set; }
+        [Display(Name = "Data otrzymania")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public System.DateTime? ReceivedDate { get; set; }
 
         public int RewardId { get; set; }
 

@@ -87,6 +87,7 @@ namespace Repository.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Code = c.String(),
                         IsUsed = c.Boolean(nullable: false),
+                        ReceivedDate = c.DateTime(nullable: false),
                         RewardId = c.Int(nullable: false),
                         RewardOwnerId = c.String(maxLength: 128),
                     })

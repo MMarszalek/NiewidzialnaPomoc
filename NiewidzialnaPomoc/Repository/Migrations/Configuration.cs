@@ -22,15 +22,15 @@ namespace Repository.Migrations
             // Do debugowania metody seed
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
-            SeedRoles(context);
-            SeedUsers(context);
-            SeedCategories(context);
-            SeedDifficulties(context);
-            SeedPerformances(context);
-            SeedLocations(context);
-            SeedRewards(context);
+            //SeedRoles(context);
+            //SeedUsers(context);
+            //SeedCategories(context);
+            //SeedDifficulties(context);
+            //SeedPerformances(context);
+            //SeedLocations(context);
+            //SeedRewards(context);
             SeedRewardCodes(context);
-            SeedAdvertisements(context);
+            //SeedAdvertisements(context);
         }
 
         private void SeedRoles(ApplicationDbContext context)
@@ -66,18 +66,34 @@ namespace Repository.Migrations
                     manager.AddToRole(user.Id, "Admin");
             }
 
-            if (!context.Users.Any(u => u.UserName == "tomasz@gmail.com"))
+            if (!context.Users.Any(u => u.UserName == "arkadiusz@gmail.com"))
             {
 
-                var user = new ApplicationUser { UserName = "tomasz@gmail.com", FirstName = "Tomasz", LastName = "Nowak", Points = 0 };
+                var user = new ApplicationUser { UserName = "arkadiusz@gmail.com", FirstName = "Arkadiusz", LastName = "Nowak", Points = 0 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
             }
 
-            if (!context.Users.Any(u => u.UserName == "marek@gmail.com"))
+            if (!context.Users.Any(u => u.UserName == "sebastian@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "marek@gmail.com", FirstName = "Marek", LastName = "Kowalski", Points = 0 };
+                var user = new ApplicationUser { UserName = "sebastian@gmail.com", FirstName = "Sebastian", LastName = "Kowalski", Points = 2000 };
+                var result = manager.Create(user, "12345678");
+                if (result.Succeeded)
+                    manager.AddToRole(user.Id, "User");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "kamil@gmail.com"))
+            {
+                var user = new ApplicationUser { UserName = "kamil@gmail.com", FirstName = "Kamil", LastName = "Winiarczyk", Points = 2500 };
+                var result = manager.Create(user, "12345678");
+                if (result.Succeeded)
+                    manager.AddToRole(user.Id, "User");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "michal@gmail.com"))
+            {
+                var user = new ApplicationUser { UserName = "michal@gmail.com", FirstName = "Micha³", LastName = "G³owacki", Points = 1000 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -85,7 +101,7 @@ namespace Repository.Migrations
 
             if (!context.Users.Any(u => u.UserName == "robert@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "robert@gmail.com", FirstName = "Robert", LastName = "Lewandowski", Points = 0 };
+                var user = new ApplicationUser { UserName = "robert@gmail.com", FirstName = "Robert", LastName = "Mazurek", Points = 500 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -97,49 +113,14 @@ namespace Repository.Migrations
             var categories = new List<Category>
             {
                 new Category { Name = "Inne" },
-                new Category { Name = "Ogród" },
-                new Category { Name = "Transport" }
+                new Category { Name = "Ogrodnictwo" },
+                new Category { Name = "Transport" },
+                new Category { Name = "Remont" },
+                new Category { Name = "Wolontariat" }
             };
 
             categories.ForEach(s => context.Categories.AddOrUpdate(p => p.Name, s));
             context.SaveChanges();
-        }
-
-        private void SeedAdvertisements(ApplicationDbContext context)
-        {
-            var adverisements = new List<Advertisement>
-            {
-                new Advertisement { Title = "Pomoc w ogrodzie", Content = "Szukam pomocy przy œciêciu drzewa", AddDate = new DateTime(2016, 6, 18),
-                    DifficultyId = 1, PerformanceId = 1,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
-                new Advertisement { Title = "Pomoc w gra¿u", Content = "Szukam pomocy przy naprawie samochodu", AddDate = new DateTime(2016, 6, 20),
-                    DifficultyId = 2, PerformanceId = 1,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
-                new Advertisement { Title = "Pomoc przy przeprowadzce", Content = "Szukam pomocy przy przenoszeniu mebli", AddDate = new DateTime(2016, 6, 10),
-                    DifficultyId = 1, PerformanceId = 1,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "tomasz@gmail.com").FirstOrDefault().Id,
-                    LocationId = 2, IsFinished = false, Categories = new List<Category>() },
-                new Advertisement { Title = "Pomoc przy remoncie", Content = "Szukam pomocy przy malowaniu œcian", AddDate = new DateTime(2016, 6, 5),
-                    DifficultyId = 3, PerformanceId = 1,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    LocationId = 1, IsFinished = false },
-                new Advertisement { Title = "Pomoc w dotraciu na koncert", Content = "Szukam pomocy przy dotraciu na koncert", AddDate = new DateTime(2016, 6, 24),
-                    DifficultyId = 1, PerformanceId = 1,
-                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "marek@gmail.com").FirstOrDefault().Id,
-                    LocationId = 2, IsFinished = false }
-            };
-
-            adverisements.ForEach(s => context.Advertisements.AddOrUpdate(p => p.Title, s));
-            context.SaveChanges();
-
-            AddOrUpdateCategories(context, "Pomoc w ogrodzie", "Ogród");
-            AddOrUpdateCategories(context, "Pomoc w gra¿u", "Inne");
-            AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Inne");
-            AddOrUpdateCategories(context, "Pomoc przy przeprowadzce", "Transport");
-            AddOrUpdateCategories(context, "Pomoc przy remoncie", "Inne");
-            AddOrUpdateCategories(context, "Pomoc w dotraciu na koncert", "Transport");
         }
 
         private void SeedDifficulties(ApplicationDbContext context)
@@ -176,6 +157,8 @@ namespace Repository.Migrations
             {
                 new Location { Name = "Poznañ" },
                 new Location { Name = "Kraków" },
+                new Location { Name = "Wroc³aw" },
+                new Location { Name = "Katowice" },
                 new Location { Name = "Warszawa" }
             };
 
@@ -187,9 +170,15 @@ namespace Repository.Migrations
         {
             var rewards = new List<Reward>
             {
-                new Reward { Name = "Empik 50 z³", Price = 500 },
-                new Reward { Name = "Empik 100 z³", Price = 1000 },
-                new Reward { Name = "Sodexo 100 z³", Price = 1200 }
+                new Reward { Name = "Karta prezentowa Empik 50 z³", Price = 500 },
+                new Reward { Name = "Karta prezentowa Empik 100 z³", Price = 1000 },
+                new Reward { Name = "Karta prezentowa Empik 150 z³", Price = 1500 },
+                new Reward { Name = "Karta podarunkowa C&A 50 z³", Price = 500 },
+                new Reward { Name = "Karta podarunkowa C&A 100 z³", Price = 1000 },
+                new Reward { Name = "Karta podarunkowa C&A 150 z³", Price = 1500 },
+                new Reward { Name = "Karta podarunkowa Sodexo 50 z³", Price = 600 },
+                new Reward { Name = "Karta podarunkowa Sodexo 100 z³", Price = 1200 },
+                new Reward { Name = "Karta podarunkowa Sodexo 150 z³", Price = 1800 }
             };
 
             rewards.ForEach(s => context.Rewards.AddOrUpdate(p => p.Name, s));
@@ -200,14 +189,120 @@ namespace Repository.Migrations
         {
             var codes = new List<RewardCode>
             {
-                new RewardCode { Code = "1234", IsUsed = false, RewardId = 1 },
-                new RewardCode { Code = "5678", IsUsed = false, RewardId = 1 },
-                new RewardCode { Code = "asdf", IsUsed = false, RewardId = 2 },
-                new RewardCode { Code = "zxcv", IsUsed = false, RewardId = 2 }
+                new RewardCode { Code = "3452345", IsUsed = false, RewardId = 1 },
+                new RewardCode { Code = "4567456", IsUsed = false, RewardId = 1 },
+                new RewardCode { Code = "7856788", IsUsed = false, RewardId = 1 },
+
+                new RewardCode { Code = "rtetets", IsUsed = false, RewardId = 2 },
+                new RewardCode { Code = "vzxcvfz", IsUsed = false, RewardId = 2 },
+                new RewardCode { Code = "bxcvbcv", IsUsed = false, RewardId = 2 },
+
+                new RewardCode { Code = "4689678", IsUsed = false, RewardId = 3 },
+                new RewardCode { Code = "8657546", IsUsed = false, RewardId = 3 },
+                new RewardCode { Code = "3123243", IsUsed = false, RewardId = 3 },
+
+                new RewardCode { Code = "cvzxcvx", IsUsed = false, RewardId = 4 },
+                new RewardCode { Code = "gfhfghg", IsUsed = false, RewardId = 4 },
+                new RewardCode { Code = "mbnmbnm", IsUsed = false, RewardId = 4 },
+
+                new RewardCode { Code = "4357876", IsUsed = false, RewardId = 5 },
+                new RewardCode { Code = "6574345", IsUsed = false, RewardId = 5 },
+                new RewardCode { Code = "1128678", IsUsed = false, RewardId = 5 },
+
+                new RewardCode { Code = "lkjlljk", IsUsed = false, RewardId = 6 },
+                new RewardCode { Code = "xczxvcs", IsUsed = false, RewardId = 6 },
+                new RewardCode { Code = "vbnbvgt", IsUsed = false, RewardId = 6 },
+
+                new RewardCode { Code = "4324289", IsUsed = false, RewardId = 7 },
+                new RewardCode { Code = "7567901", IsUsed = false, RewardId = 7 },
+                new RewardCode { Code = "3427689", IsUsed = false, RewardId = 7 },
+
+                new RewardCode { Code = "rtehbvh", IsUsed = false, RewardId = 8 },
+                new RewardCode { Code = "jkghqwe", IsUsed = false, RewardId = 8 },
+                new RewardCode { Code = "cbcvbuy", IsUsed = false, RewardId = 8 },
+
+                new RewardCode { Code = "6547892", IsUsed = false, RewardId = 9 },
+                new RewardCode { Code = "3343679", IsUsed = false, RewardId = 9 },
+                new RewardCode { Code = "7878345", IsUsed = false, RewardId = 9 }
             };
 
             codes.ForEach(s => context.RewardCodes.AddOrUpdate(p => p.Code, s));
             context.SaveChanges();
+        }
+
+        private void SeedAdvertisements(ApplicationDbContext context)
+        {
+            var adverisements = new List<Advertisement>
+            {
+                new Advertisement { Title = "Kwiaty pod blokiem", Content = "Szukam osób chêtnych do pomocy przy sadzeniu kwiatów pod moim blokiem.", AddDate = new DateTime(2016, 6, 15),
+                    DifficultyId = 1, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "arkadiusz@gmail.com").FirstOrDefault().Id,
+                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+
+                new Advertisement { Title = "Naprawa samochodu", Content = "Potrzebujê pomocy przy naprawie samochodu.", AddDate = new DateTime(2016, 6, 20),
+                    DifficultyId = 3, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "sebastian@gmail.com").FirstOrDefault().Id,
+                    LocationId = 1, IsFinished = false, Categories = new List<Category>() },
+
+                new Advertisement { Title = "K³opotliwa przeprowadzka", Content = "Szukam pomocy przy przewo¿eniu mebli.", AddDate = new DateTime(2016, 6, 10),
+                    DifficultyId = 3, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "kamil@gmail.com").FirstOrDefault().Id,
+                    LocationId = 2, IsFinished = false, Categories = new List<Category>() },
+
+                new Advertisement { Title = "Remont ³awek", Content = "Chcia³bym odmalowaæ ³aweczki pod blokiem, ka¿da pomoc mile widziana.", AddDate = new DateTime(2016, 6, 5),
+                    DifficultyId = 2, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "michal@gmail.com").FirstOrDefault().Id,
+                    LocationId = 2, IsFinished = false },
+
+                new Advertisement { Title = "Wyjœcie do lekarza", Content = "Chcia³bym prosiæ o pomoc w dotarciu do lekarza.", AddDate = new DateTime(2016, 6, 12),
+                    DifficultyId = 1, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "robert@gmail.com").FirstOrDefault().Id,
+                    LocationId = 3, IsFinished = false },
+
+                new Advertisement { Title = "Pomoc przy zakupach", Content = "Nie jestem ju¿ w stanie sam robiæ zakupów. Doceniê ka¿da pomoc.", AddDate = new DateTime(2016, 6, 4),
+                    DifficultyId = 1, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "arkadiusz@gmail.com").FirstOrDefault().Id,
+                    LocationId = 3, IsFinished = false },
+
+                new Advertisement { Title = "Wyprzeda¿ gara¿owa", Content = "Organizujê wyprzeda¿ gara¿ow¹. Zapraszam wszystkich chêtnych do wziêcia udzia³u.", AddDate = new DateTime(2016, 6, 8),
+                    DifficultyId = 1, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "sebastian@gmail.com").FirstOrDefault().Id,
+                    LocationId = 4, IsFinished = false },
+
+                new Advertisement { Title = "Warsztaty w domu dziecka", Content = "Szukam osób chêtnych do zorganizowania warsztatów w domu dziecka.", AddDate = new DateTime(2016, 6, 10),
+                    DifficultyId = 2, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "kamil@gmail.com").FirstOrDefault().Id,
+                    LocationId = 4, IsFinished = false },
+
+                new Advertisement { Title = "Wolontariat w schronisku", Content = "Szukam osób, które by³yby zainteresowane pomoc¹ w schronisku.", AddDate = new DateTime(2016, 6, 14),
+                    DifficultyId = 3, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "michal@gmail.com").FirstOrDefault().Id,
+                    LocationId = 5, IsFinished = false },
+
+                new Advertisement { Title = "Dojazd na koncert", Content = "Szukam osoby, która pomog³aby mi dojechaæ na koncert.", AddDate = new DateTime(2016, 6, 2),
+                    DifficultyId = 2, PerformanceId = 1,
+                    AuthorId = context.Set<ApplicationUser>().Where(u => u.UserName == "robert@gmail.com").FirstOrDefault().Id,
+                    LocationId = 5, IsFinished = false }
+            };
+
+            adverisements.ForEach(s => context.Advertisements.AddOrUpdate(p => p.Title, s));
+            context.SaveChanges();
+
+            AddOrUpdateCategories(context, "Kwiaty pod blokiem", "Ogrodnictwo");
+            AddOrUpdateCategories(context, "Naprawa samochodu", "Inne");
+            AddOrUpdateCategories(context, "K³opotliwa przeprowadzka", "Inne");
+            AddOrUpdateCategories(context, "K³opotliwa przeprowadzka", "Transport");
+            AddOrUpdateCategories(context, "Remont ³awek", "Remont");
+            AddOrUpdateCategories(context, "Wyjœcie do lekarza", "Transport");
+            AddOrUpdateCategories(context, "Pomoc przy zakupach", "Inne");
+            AddOrUpdateCategories(context, "Pomoc przy zakupach", "Wolontariat");
+            AddOrUpdateCategories(context, "Wyprzeda¿ gara¿owa", "Inne");
+            AddOrUpdateCategories(context, "Warsztaty w domu dziecka", "Inne");
+            AddOrUpdateCategories(context, "Warsztaty w domu dziecka", "Wolontariat");
+            AddOrUpdateCategories(context, "Wolontariat w schronisku", "Wolontariat");
+            AddOrUpdateCategories(context, "Dojazd na koncert", "Inne");
+            AddOrUpdateCategories(context, "Dojazd na koncert", "Transport");
+            AddOrUpdateCategories(context, "Dojazd na koncert", "Wolontariat");
         }
 
         void AddOrUpdateCategories(ApplicationDbContext context, string advertisementTitle, string categorieName)
