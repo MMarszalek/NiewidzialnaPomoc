@@ -148,6 +148,7 @@
     <Compile Include="Models\Views\AccountViewModels.cs" />
     <Compile Include="Models\Views\AdvertisementsListViewModel.cs" />
     <Compile Include="Models\Views\AdvertisementsSearchLogic.cs" />
+    <Compile Include="Models\Views\ManageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

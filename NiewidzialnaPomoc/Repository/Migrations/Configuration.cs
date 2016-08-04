@@ -69,7 +69,7 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "arkadiusz@gmail.com"))
             {
 
-                var user = new ApplicationUser { UserName = "arkadiusz@gmail.com", FirstName = "Arkadiusz", LastName = "Nowak", Points = 0 };
+                var user = new ApplicationUser { UserName = "arkadiusz@gmail.com", FirstName = "Arkadiusz", LastName = "Nowak", Points = 3000 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
