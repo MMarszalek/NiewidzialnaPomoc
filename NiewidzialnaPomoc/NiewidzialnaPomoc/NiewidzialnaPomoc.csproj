@@ -360,7 +360,6 @@
     <Content Include="Views\Rewards\Edit.cshtml" />
     <Content Include="Views\Rewards\Index.cshtml" />
     <Content Include="Views\Rewards\RewardCode.cshtml" />
-    <Content Include="Views\Manage\_MyProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,22 +15,23 @@
         <li><a href="#Rewards">Moje nagrody</a></li>
     </ul>
     <div id="Profile">
-        @Html.Partial("_MyProfile")
+        <h2>Mój profil</h2>
+        <p>Zawartość profilu</p>
     </div>
     <div id="PersonalAdvertisements">
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name)
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.LocationSortParmPA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.TitleSortParmPA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.AddDateSortParmPA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.DifficultySortParmPA })
                 </th>
             </tr>
 
@@ -66,16 +67,16 @@
                     @Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Author.UserName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name)
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.TitleSortParmRA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.AddDateSortParmRA })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.DifficultySortParmRA })
                 </th>
             </tr>
 
@@ -109,13 +110,15 @@
         <table class="table">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name)
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
+                    @*@Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate)*@
+                </th>
+                <th>
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
+                    @*@Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name)*@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate)
                 </th>
             </tr>
 
@@ -123,13 +126,13 @@
             {
                 <tr>
                     <td>
+                        @Html.DisplayFor(modelItem => item.ReceivedDate)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Reward.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReceivedDate)
                     </td>
                 </tr>
             }

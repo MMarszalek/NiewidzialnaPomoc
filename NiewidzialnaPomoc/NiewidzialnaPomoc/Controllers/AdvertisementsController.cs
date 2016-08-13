@@ -123,6 +123,7 @@ namespace NiewidzialnaPomoc.Controllers
             //Sorting
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.LocationSortParm = sortOrder == "location_asc" ? "location_desc" : "location_asc";
             ViewBag.AddDateSortParm = sortOrder == "addDate_asc" ? "addDate_desc" : "addDate_asc";
             ViewBag.DifficultySortParm = sortOrder == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
 
@@ -130,6 +131,12 @@ namespace NiewidzialnaPomoc.Controllers
             {
                 case "title_desc":
                     advertisements = advertisements.OrderByDescending(a => a.Title);
+                    break;
+                case "location_asc":
+                    advertisements = advertisements.OrderBy(a => a.Location.Name);
+                    break;
+                case "location_desc":
+                    advertisements = advertisements.OrderByDescending(a => a.Location.Name);
                     break;
                 case "addDate_asc":
                     advertisements = advertisements.OrderBy(a => a.AddDate);

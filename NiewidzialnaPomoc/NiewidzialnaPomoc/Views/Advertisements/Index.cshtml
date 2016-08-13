@@ -43,7 +43,7 @@
             @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Author.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name)
+            @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm })
         </th>
         <th>
             @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm })
@@ -88,8 +88,3 @@ Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Mo
 
 @Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort }))
-
-@*Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
-
-@Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@

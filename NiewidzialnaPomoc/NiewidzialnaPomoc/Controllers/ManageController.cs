@@ -56,19 +56,116 @@ namespace NiewidzialnaPomoc.Controllers
         //
         // GET: /Manage/Index
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrderPA, string sortOrderRA, string sortOrderRC)
         {
             var viewModel = new ManageViewModel();
 
             var userId = User.Identity.GetUserId();
 
+            //Personal Advertisements
             var perAds = db.Advertisements.Where(a => a.AuthorId.ToString().Equals(userId));
+
+            //Sorting
+            ViewBag.CurrentSortPA = sortOrderPA;
+            ViewBag.TitleSortParmPA = String.IsNullOrEmpty(sortOrderPA) ? "title_desc" : "";
+            ViewBag.LocationSortParmPA = sortOrderPA == "location_asc" ? "location_desc" : "location_asc";
+            ViewBag.AddDateSortParmPA = sortOrderPA == "addDate_asc" ? "addDate_desc" : "addDate_asc";
+            ViewBag.DifficultySortParmPA = sortOrderPA == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
+
+            switch (sortOrderPA)
+            {
+                case "title_desc":
+                    perAds = perAds.OrderByDescending(a => a.Title);
+                    break;
+                case "location_asc":
+                    perAds = perAds.OrderBy(a => a.Location.Name);
+                    break;
+                case "location_desc":
+                    perAds = perAds.OrderByDescending(a => a.Location.Name);
+                    break;
+                case "addDate_asc":
+                    perAds = perAds.OrderBy(a => a.AddDate);
+                    break;
+                case "addDate_desc":
+                    perAds = perAds.OrderByDescending(a => a.AddDate);
+                    break;
+                case "difficulty_asc":
+                    perAds = perAds.OrderBy(a => a.Difficulty.Name);
+                    break;
+                case "difficulty_desc":
+                    perAds = perAds.OrderByDescending(a => a.Difficulty.Name);
+                    break;
+                default:
+                    perAds = perAds.OrderBy(a => a.Title);
+                    break;
+            }
+
             viewModel.PersonalAdvertisements = perAds.ToList();
 
+            //Rewarded Advertisements
             var rewAds = db.Advertisements.Where(a => a.Helpers.Select(u => u.Id.ToString()).Contains(userId));
+
+            //Sorting
+            ViewBag.CurrentSortRA = sortOrderRA;
+            ViewBag.TitleSortParmRA = String.IsNullOrEmpty(sortOrderRA) ? "title_desc" : "";
+            ViewBag.LocationSortParmRA = sortOrderRA == "location_asc" ? "location_desc" : "location_asc";
+            ViewBag.AddDateSortParmRA = sortOrderRA == "addDate_asc" ? "addDate_desc" : "addDate_asc";
+            ViewBag.DifficultySortParmRA = sortOrderRA == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
+
+            switch (sortOrderRA)
+            {
+                case "title_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Title);
+                    break;
+                case "location_asc":
+                    rewAds = rewAds.OrderBy(a => a.Location.Name);
+                    break;
+                case "location_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Location.Name);
+                    break;
+                case "addDate_asc":
+                    rewAds = rewAds.OrderBy(a => a.AddDate);
+                    break;
+                case "addDate_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.AddDate);
+                    break;
+                case "difficulty_asc":
+                    rewAds = rewAds.OrderBy(a => a.Difficulty.Name);
+                    break;
+                case "difficulty_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Difficulty.Name);
+                    break;
+                default:
+                    rewAds = rewAds.OrderBy(a => a.Title);
+                    break;
+            }
+
             viewModel.RewardedAdvertisements = rewAds.ToList();
 
+            //Rewards
             var rew = db.RewardCodes.Where(rc => rc.RewardOwnerId.ToString().Equals(userId));
+
+            //Sorting
+            ViewBag.CurrentSort = sortOrderRC;
+            ViewBag.RewardNameSortParmRC = String.IsNullOrEmpty(sortOrderRC) ? "rewardName_desc" : "";
+            ViewBag.ReceivedDateSortParmRC = sortOrderRC == "receivedDate_asc" ? "receivedDate_desc" : "receivedDate_asc";
+
+            switch (sortOrderRC)
+            {
+                case "rewardName_desc":
+                    rew = rew.OrderByDescending(r => r.Reward.Name);
+                    break;
+                case "receivedDate_asc":
+                    rew = rew.OrderBy(r => r.ReceivedDate);
+                    break;
+                case "receivedDate_desc":
+                    rew = rew.OrderByDescending(r => r.ReceivedDate);
+                    break;
+                default:
+                    rew = rew.OrderBy(r => r.Reward.Name);
+                    break;
+            }
+
             viewModel.Rewards = rew.ToList();
 
             return View(viewModel);
