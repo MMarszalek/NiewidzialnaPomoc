@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Repository.Models;
 using Repository.Models.Views;
+using PagedList;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -56,7 +57,7 @@ namespace NiewidzialnaPomoc.Controllers
         //
         // GET: /Manage/Index
 
-        public ActionResult Index(string sortOrderPA, string sortOrderRA, string sortOrderRC)
+        public ActionResult Index(string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC)
         {
             var viewModel = new ManageViewModel();
 
@@ -100,7 +101,11 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            viewModel.PersonalAdvertisements = perAds.ToList();
+            int pageSizePA = 1;
+            int pageNumberPA = (pagePA ?? 1);
+
+            //viewModel.PersonalAdvertisements = perAds.ToList();
+            viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
 
             //Rewarded Advertisements
             var rewAds = db.Advertisements.Where(a => a.Helpers.Select(u => u.Id.ToString()).Contains(userId));
@@ -140,7 +145,11 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            viewModel.RewardedAdvertisements = rewAds.ToList();
+            int pageSizeRA = 1;
+            int pageNumberRA = (pageRA ?? 1);
+
+            viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
+            //viewModel.RewardedAdvertisements = rewAds.ToList();
 
             //Rewards
             var rew = db.RewardCodes.Where(rc => rc.RewardOwnerId.ToString().Equals(userId));
@@ -166,7 +175,11 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            viewModel.Rewards = rew.ToList();
+            int pageSizeRC = 1;
+            int pageNumberRC = (pageRC ?? 1);
+
+            viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
+            //viewModel.Rewards = rew.ToList();
 
             return View(viewModel);
         }
