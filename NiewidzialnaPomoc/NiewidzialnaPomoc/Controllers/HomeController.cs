@@ -1,4 +1,5 @@
-﻿using Repository.Models;
+﻿using Microsoft.AspNet.Identity;
+using Repository.Models;
 using Repository.Models.Views;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,32 @@ namespace NiewidzialnaPomoc.Controllers
         public ActionResult Rewards()
         {
             return RedirectToAction("Index", "Rewards");
+        }
+
+        public ActionResult CreateAdvertisement()
+        {
+            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name");
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAdvertisement([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        {
+            if (ModelState.IsValid)
+            {
+                advertisement.AddDate = DateTime.Now;
+                advertisement.PerformanceId = 1;
+                advertisement.AuthorId = User.Identity.GetUserId();
+                advertisement.IsFinished = false;
+                db.Advertisements.Add(advertisement);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+            return View(advertisement);
         }
     }
 }

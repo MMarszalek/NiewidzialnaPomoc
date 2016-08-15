@@ -53,9 +53,9 @@
                         @Html.DisplayFor(modelItem => item.Difficulty.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "EditPA", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "DetailsPA", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "DeletePA", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -104,7 +104,7 @@
                         @Html.DisplayFor(modelItem => item.Difficulty.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.Id })
+                        @Html.ActionLink("Details", "DetailsRA", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -119,11 +119,9 @@
             <tr>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
-                    @*@Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate)*@
                 </th>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
-                    @*@Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name)*@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Code)
@@ -154,7 +152,23 @@
 
 <script>
     $(function () {
-        $("#tabs").tabs();
+        //$("#tabs").tabs();
+        var index = 'qpsstats-active-tab';
+        var dataStore = window.sessionStorage;
+        var oldIndex = 0;
+        try {
+            oldIndex = dataStore.getItem(index);
+        } catch (e) { }
+
+        $("#tabs").tabs({
+            active: oldIndex,
+            activate: function (event, ui) {
+                var newIndex = ui.newTab.parent().children().index(ui.newTab);
+                try {
+                    dataStore.setItem(index, newIndex);
+                } catch (e) { }
+            }
+        });
     });
 </script>
 

@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using Repository.Models;
 using Repository.Models.Views;
 using PagedList;
+using System.Net;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -206,6 +207,101 @@ namespace NiewidzialnaPomoc.Controllers
         //    };
         //    return View(model);
         //}
+
+        // GET: Advertisements/Details/5
+        public ActionResult DetailsPA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(advertisement);
+        }
+
+        // GET: Advertisements/Details/5
+        public ActionResult DetailsRA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(advertisement);
+        }
+
+        // GET: Advertisements/Edit/5
+        public ActionResult EditPA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+            return View(advertisement);
+        }
+
+        // POST: Advertisements/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
+        {
+            var adv = db.Advertisements.Find(advertisement.Id);
+            if (ModelState.IsValid)
+            {
+                adv.Title = advertisement.Title;
+                adv.Content = advertisement.Content;
+                adv.DifficultyId = advertisement.DifficultyId;
+                adv.LocationId = advertisement.LocationId;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+            return View(advertisement);
+        }
+
+        // GET: Advertisements/Delete/5
+        public ActionResult DeletePA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(advertisement);
+        }
+
+        // POST: Advertisements/Delete/5
+        [HttpPost, ActionName("DeletePA")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmedPA(int id)
+        {
+            Advertisement advertisement = db.Advertisements.Find(id);
+            db.Advertisements.Remove(advertisement);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         //
         // POST: /Manage/RemoveLogin
