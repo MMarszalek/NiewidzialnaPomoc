@@ -22,15 +22,15 @@ namespace Repository.Migrations
             // Do debugowania metody seed
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
-            //SeedRoles(context);
-            //SeedUsers(context);
-            //SeedCategories(context);
-            //SeedDifficulties(context);
-            //SeedPerformances(context);
-            //SeedLocations(context);
-            //SeedRewards(context);
+            SeedRoles(context);
+            SeedUsers(context);
+            SeedCategories(context);
+            SeedDifficulties(context);
+            SeedPerformances(context);
+            SeedLocations(context);
+            SeedRewards(context);
             SeedRewardCodes(context);
-            //SeedAdvertisements(context);
+            SeedAdvertisements(context);
         }
 
         private void SeedRoles(ApplicationDbContext context)

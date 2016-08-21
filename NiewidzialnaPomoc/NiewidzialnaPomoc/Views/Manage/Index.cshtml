@@ -17,8 +17,63 @@
         <li><a href="#Rewards">Moje nagrody</a></li>
     </ul>
     <div id="Profile">
-        <h2>Mój profil</h2>
-        <p>Zawartość profilu</p>
+        @if (TempData["alert"] != null)
+        {
+            <p>@TempData["alert"]</p>
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ApplicationUser.Id)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApplicationUser.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApplicationUser.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ApplicationUser.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApplicationUser.PhoneNumber, "Numer telefonu", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApplicationUser.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ApplicationUser.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApplicationUser.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApplicationUser.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ApplicationUser.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApplicationUser.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApplicationUser.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ApplicationUser.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Zmień hasło", "ChangePassword")
+        </div>
     </div>
     <div id="PersonalAdvertisements">
         <table class="table">
@@ -55,7 +110,8 @@
                     <td>
                         @Html.ActionLink("Edit", "EditPA", new { id = item.Id }) |
                         @Html.ActionLink("Details", "DetailsPA", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "DeletePA", new { id = item.Id })
+                        @Html.ActionLink("Delete", "DeletePA", new { id = item.Id }) |
+                        @Html.ActionLink("Accept", "AcceptPA", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -68,9 +124,9 @@
     <div id="RewardedAdvertisements">
         <table class="table">
             <tr>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Author.UserName)
-                </th>
+                </th>*@
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA })
                 </th>
@@ -88,9 +144,9 @@
             @foreach (var item in Model.RewardedAdvertisements)
             {
                 <tr>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Author.UserName)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Location.Name)
                     </td>

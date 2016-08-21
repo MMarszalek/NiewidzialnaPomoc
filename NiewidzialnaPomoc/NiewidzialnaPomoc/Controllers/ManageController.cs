@@ -55,17 +55,158 @@ namespace NiewidzialnaPomoc.Controllers
             }
         }
 
-        //
-        // GET: /Manage/Index
-
         public ActionResult Index(string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC)
         {
             var viewModel = new ManageViewModel();
 
             var userId = User.Identity.GetUserId();
 
+            //Account
+            var user = db.ApplicationUsers.Where(u => u.Id.ToString().Equals(userId)).First();
+            viewModel.ApplicationUser = user;
+
             //Personal Advertisements
-            var perAds = db.Advertisements.Where(a => a.AuthorId.ToString().Equals(userId));
+            var perAds = db.Advertisements.Where(a => a.AuthorId.ToString().Equals(userId) && a.IsFinished == false);
+
+            //Sorting
+            ViewBag.CurrentSortPA = sortOrderPA;
+            ViewBag.TitleSortParmPA = String.IsNullOrEmpty(sortOrderPA) ? "title_desc" : "";
+            ViewBag.LocationSortParmPA = sortOrderPA == "location_asc" ? "location_desc" : "location_asc";
+            ViewBag.AddDateSortParmPA = sortOrderPA == "addDate_asc" ? "addDate_desc" : "addDate_asc";
+            ViewBag.DifficultySortParmPA = sortOrderPA == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
+
+            switch (sortOrderPA)
+            {
+                case "title_desc":
+                    perAds = perAds.OrderByDescending(a => a.Title);
+                    break;
+                case "location_asc":
+                    perAds = perAds.OrderBy(a => a.Location.Name);
+                    break;
+                case "location_desc":
+                    perAds = perAds.OrderByDescending(a => a.Location.Name);
+                    break;
+                case "addDate_asc":
+                    perAds = perAds.OrderBy(a => a.AddDate);
+                    break;
+                case "addDate_desc":
+                    perAds = perAds.OrderByDescending(a => a.AddDate);
+                    break;
+                case "difficulty_asc":
+                    perAds = perAds.OrderBy(a => a.Difficulty.Name);
+                    break;
+                case "difficulty_desc":
+                    perAds = perAds.OrderByDescending(a => a.Difficulty.Name);
+                    break;
+                default:
+                    perAds = perAds.OrderBy(a => a.Title);
+                    break;
+            }
+
+            int pageSizePA = 1;
+            int pageNumberPA = (pagePA ?? 1);
+
+            //viewModel.PersonalAdvertisements = perAds.ToList();
+            viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
+
+            //Rewarded Advertisements
+            var rewAds = db.Advertisements.Where(a => a.Helpers.Select(u => u.Id.ToString()).Contains(userId));
+
+            //Sorting
+            ViewBag.CurrentSortRA = sortOrderRA;
+            ViewBag.TitleSortParmRA = String.IsNullOrEmpty(sortOrderRA) ? "title_desc" : "";
+            ViewBag.LocationSortParmRA = sortOrderRA == "location_asc" ? "location_desc" : "location_asc";
+            ViewBag.AddDateSortParmRA = sortOrderRA == "addDate_asc" ? "addDate_desc" : "addDate_asc";
+            ViewBag.DifficultySortParmRA = sortOrderRA == "difficulty_asc" ? "difficulty_desc" : "difficulty_asc";
+
+            switch (sortOrderRA)
+            {
+                case "title_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Title);
+                    break;
+                case "location_asc":
+                    rewAds = rewAds.OrderBy(a => a.Location.Name);
+                    break;
+                case "location_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Location.Name);
+                    break;
+                case "addDate_asc":
+                    rewAds = rewAds.OrderBy(a => a.AddDate);
+                    break;
+                case "addDate_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.AddDate);
+                    break;
+                case "difficulty_asc":
+                    rewAds = rewAds.OrderBy(a => a.Difficulty.Name);
+                    break;
+                case "difficulty_desc":
+                    rewAds = rewAds.OrderByDescending(a => a.Difficulty.Name);
+                    break;
+                default:
+                    rewAds = rewAds.OrderBy(a => a.Title);
+                    break;
+            }
+
+            int pageSizeRA = 1;
+            int pageNumberRA = (pageRA ?? 1);
+
+            viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
+            //viewModel.RewardedAdvertisements = rewAds.ToList();
+
+            //Rewards
+            var rew = db.RewardCodes.Where(rc => rc.RewardOwnerId.ToString().Equals(userId));
+
+            //Sorting
+            ViewBag.CurrentSort = sortOrderRC;
+            ViewBag.RewardNameSortParmRC = String.IsNullOrEmpty(sortOrderRC) ? "rewardName_desc" : "";
+            ViewBag.ReceivedDateSortParmRC = sortOrderRC == "receivedDate_asc" ? "receivedDate_desc" : "receivedDate_asc";
+
+            switch (sortOrderRC)
+            {
+                case "rewardName_desc":
+                    rew = rew.OrderByDescending(r => r.Reward.Name);
+                    break;
+                case "receivedDate_asc":
+                    rew = rew.OrderBy(r => r.ReceivedDate);
+                    break;
+                case "receivedDate_desc":
+                    rew = rew.OrderByDescending(r => r.ReceivedDate);
+                    break;
+                default:
+                    rew = rew.OrderBy(r => r.Reward.Name);
+                    break;
+            }
+
+            int pageSizeRC = 1;
+            int pageNumberRC = (pageRC ?? 1);
+
+            viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
+            //viewModel.Rewards = rew.ToList();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Index(ManageViewModel viewModel, string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC)
+        {
+            var userId = User.Identity.GetUserId();
+
+            //Account
+            var user = db.ApplicationUsers.Where(u => u.Id.ToString().Equals(userId)).First();
+            if (ModelState.IsValid)
+            {
+                user.Email = viewModel.ApplicationUser.Email;
+                user.PhoneNumber = viewModel.ApplicationUser.PhoneNumber;
+                user.FirstName = viewModel.ApplicationUser.FirstName;
+                user.LastName = viewModel.ApplicationUser.LastName;
+                db.SaveChanges();
+            }
+            viewModel.ApplicationUser = user;
+
+            TempData["alert"] = "Dane użytkownika zostały zmienione";
+
+            //Personal Advertisements
+            var perAds = db.Advertisements.Where(a => a.AuthorId.ToString().Equals(userId) && a.IsFinished == false);
 
             //Sorting
             ViewBag.CurrentSortPA = sortOrderPA;
@@ -208,7 +349,6 @@ namespace NiewidzialnaPomoc.Controllers
         //    return View(model);
         //}
 
-        // GET: Advertisements/Details/5
         public ActionResult DetailsPA(int? id)
         {
             if (id == null)
@@ -223,22 +363,6 @@ namespace NiewidzialnaPomoc.Controllers
             return View(advertisement);
         }
 
-        // GET: Advertisements/Details/5
-        public ActionResult DetailsRA(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Advertisement advertisement = db.Advertisements.Find(id);
-            if (advertisement == null)
-            {
-                return HttpNotFound();
-            }
-            return View(advertisement);
-        }
-
-        // GET: Advertisements/Edit/5
         public ActionResult EditPA(int? id)
         {
             if (id == null)
@@ -255,9 +379,6 @@ namespace NiewidzialnaPomoc.Controllers
             return View(advertisement);
         }
 
-        // POST: Advertisements/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
@@ -277,7 +398,6 @@ namespace NiewidzialnaPomoc.Controllers
             return View(advertisement);
         }
 
-        // GET: Advertisements/Delete/5
         public ActionResult DeletePA(int? id)
         {
             if (id == null)
@@ -292,7 +412,6 @@ namespace NiewidzialnaPomoc.Controllers
             return View(advertisement);
         }
 
-        // POST: Advertisements/Delete/5
         [HttpPost, ActionName("DeletePA")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedPA(int id)
@@ -303,7 +422,51 @@ namespace NiewidzialnaPomoc.Controllers
             return RedirectToAction("Index");
         }
 
-        //
+        public ActionResult AcceptPA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PerformanceId = new SelectList(db.Performances, "Id", "Name", advertisement.PerformanceId);
+            return View(advertisement);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AcceptPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
+        {
+            var adv = db.Advertisements.Find(advertisement.Id);
+            if (ModelState.IsValid)
+            {
+                adv.PerformanceId = advertisement.PerformanceId;
+                adv.IsFinished = true;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.PerformanceId = new SelectList(db.Performances, "Id", "Name", advertisement.PerformanceId);
+            return View(advertisement);
+        }
+
+        public ActionResult DetailsRA(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Advertisement advertisement = db.Advertisements.Find(id);
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+            return View(advertisement);
+        }
+
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -361,6 +361,8 @@
     <Content Include="Views\Manage\EditPA.cshtml" />
     <Content Include="Views\Manage\DetailsRA.cshtml" />
     <Content Include="Views\Home\CreateAdvertisement.cshtml" />
+    <Content Include="Views\Manage\AcceptPA.cshtml" />
+    <Content Include="Views\Manage\EditAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

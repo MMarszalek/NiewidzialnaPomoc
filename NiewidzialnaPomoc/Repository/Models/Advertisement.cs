@@ -49,6 +49,7 @@ namespace Repository.Models
         public bool IsFinished { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }
+        [Display(Name = "Pomocnicy")]
         public virtual ICollection<ApplicationUser> Helpers { get; set; }
         public virtual Difficulty Difficulty { get; set; }
         public virtual Performance Performance { get; set; }
