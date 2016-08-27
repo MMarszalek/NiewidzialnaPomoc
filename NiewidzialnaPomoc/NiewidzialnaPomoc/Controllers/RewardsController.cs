@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Repository.Models;
 using Microsoft.AspNet.Identity;
+using Repository.Models.Views;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -18,8 +19,19 @@ namespace NiewidzialnaPomoc.Controllers
         // GET: Rewards
         public ActionResult Index()
         {
+            //var rewards = db.Rewards.Where(r => r.RewardCodes.Any(rc => rc.IsUsed == false));
+            //return View(rewards.ToList());
+
             var rewards = db.Rewards.Where(r => r.RewardCodes.Any(rc => rc.IsUsed == false));
-            return View(rewards.ToList());
+            var user = db.ApplicationUsers.Find(User.Identity.GetUserId());
+
+            RewardsViewModel viewModel = new RewardsViewModel();
+            viewModel.Rewards = new List<Reward>();
+            viewModel.Rewards = rewards.ToList();
+            viewModel.ApplicationUser = user;
+
+            return View(viewModel);
+
         }
 
         public ActionResult RewardCode(int? id)

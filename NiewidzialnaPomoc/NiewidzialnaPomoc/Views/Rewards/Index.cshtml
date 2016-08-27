@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Repository.Models.Reward>
+﻿@*@model IEnumerable<Repository.Models.Reward>*@
+@model Repository.Models.Views.RewardsViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -11,18 +12,20 @@
     <p>@TempData["alert"]</p>
 }
 
+<p>Masz @Model.ApplicationUser.Points punktów</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Price)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Rewards) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)

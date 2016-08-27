@@ -50,28 +50,114 @@ namespace NiewidzialnaPomoc.Controllers
 
         public ActionResult CreateAdvertisement()
         {
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name");
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            return View();
+            //ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name");
+            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
+            //return View();
+
+            CreateAdverstisementViewModel viewModel = new CreateAdverstisementViewModel();
+            viewModel.Locations = new List<Location>();
+            viewModel.Locations = db.Locations.ToList();
+            viewModel.Difficulties = new List<Difficulty>();
+            viewModel.Difficulties = db.Difficulties.ToList();
+
+            viewModel.AvaibleCategories = new List<CategoryViewModel>();
+            var categories = db.Categories;
+            foreach (Category c in categories)
+            {
+                var cvm = new CategoryViewModel();
+                cvm.Id = c.Id;
+                cvm.Name = c.Name;
+                viewModel.AvaibleCategories.Add(cvm);
+            }
+
+            viewModel.SelectedCategories = new List<CategoryViewModel>();
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateAdvertisement([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        public ActionResult CreateAdvertisement(CreateAdverstisementViewModel viewModel)
         {
+            viewModel.Locations = db.Locations.ToList();
+            viewModel.Difficulties = db.Difficulties.ToList();
+
+            var selectedCategories = new List<Category>();
+            var postedCategoryIds = new string[0];
+
+            if (viewModel.PostedCategories == null)
+            {
+                viewModel.PostedCategories = new PostedCategories();
+
+            }
+
+            if (viewModel.PostedCategories.CategoriesIds != null)
+            {
+                postedCategoryIds = viewModel.PostedCategories.CategoriesIds;
+            }
+
+            if (postedCategoryIds.Any())
+            {
+                selectedCategories = db.Categories.Where(x => postedCategoryIds.Any(s => x.Id.ToString().Equals(s))).ToList();
+            }
+
+            viewModel.AvaibleCategories = new List<CategoryViewModel>();
+            var categories = db.Categories;
+            foreach (Category c in categories)
+            {
+                var cvm = new CategoryViewModel();
+                cvm.Id = c.Id;
+                cvm.Name = c.Name;
+                viewModel.AvaibleCategories.Add(cvm);
+            }
+
+            viewModel.SelectedCategories = new List<CategoryViewModel>();
+            foreach (Category c in selectedCategories)
+            {
+                var cvm = new CategoryViewModel();
+                cvm.Id = c.Id;
+                cvm.Name = c.Name;
+                viewModel.SelectedCategories.Add(cvm);
+            }
+
             if (ModelState.IsValid)
             {
-                advertisement.AddDate = DateTime.Now;
-                advertisement.PerformanceId = 1;
-                advertisement.AuthorId = User.Identity.GetUserId();
-                advertisement.IsFinished = false;
-                db.Advertisements.Add(advertisement);
+                viewModel.Advertisement.AddDate = DateTime.Now;
+                viewModel.Advertisement.PerformanceId = 1;
+                viewModel.Advertisement.AuthorId = User.Identity.GetUserId();
+                viewModel.Advertisement.IsFinished = false;
+
+                foreach(var c in viewModel.SelectedCategories)
+                {
+                    var cat = db.Categories.Find(c.Id);
+                    viewModel.Advertisement.Categories.Add(cat);
+                }
+
+                db.Advertisements.Add(viewModel.Advertisement);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-            return View(advertisement);
+
+            return View(viewModel);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult CreateAdvertisement([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        advertisement.AddDate = DateTime.Now;
+        //        advertisement.PerformanceId = 1;
+        //        advertisement.AuthorId = User.Identity.GetUserId();
+        //        advertisement.IsFinished = false;
+        //        db.Advertisements.Add(advertisement);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
+        //    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
+        //    return View(advertisement);
+        //}
     }
 }
