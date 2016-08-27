@@ -1,5 +1,4 @@
-﻿@*@model Repository.Models.Advertisement*@
-@model Repository.Models.Views.AcceptAdvertisementViewModel
+﻿@model Repository.Models.Views.AcceptAdvertisementViewModel
 
 @{
     ViewBag.Title = "Accept";
@@ -25,7 +24,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Advertisement.Helpers, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" >
                 @Html.EditorFor(model => model.Emails[0], new { htmlAttributes = new { @class = "form-control" } })
                 @Html.EditorFor(model => model.Emails[1], new { htmlAttributes = new { @class = "form-control" } })
                 @Html.EditorFor(model => model.Emails[2], new { htmlAttributes = new { @class = "form-control" } })

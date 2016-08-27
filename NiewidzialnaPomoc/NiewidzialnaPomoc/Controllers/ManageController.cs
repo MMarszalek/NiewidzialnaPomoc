@@ -450,11 +450,14 @@ namespace NiewidzialnaPomoc.Controllers
             viewModel.Performances = db.Performances.ToList();
             foreach (var e in viewModel.Emails)
             {
+                if (e == "")
+                    continue;
+
                 try
                 {
                     //TODO zmien UserName na Email
                     var user = db.ApplicationUsers.Where(u => u.UserName.Equals(e)).First();
-                    if(user.Id.Equals(User.Identity.GetUserId()))
+                    if (user.Id.Equals(User.Identity.GetUserId()))
                     {
                         TempData["alert"] = "Nie można przydzielić sobie punktów za wykonanie zadania.";
                         return View(viewModel);
@@ -470,6 +473,13 @@ namespace NiewidzialnaPomoc.Controllers
                 count++;
 
             }
+
+            if(users.Count == 0)
+            {
+                TempData["alert"] = "Nikt nie zostało wybrany. Prosimy wybrać co najmniej jednego pomocnika.";
+                return View(viewModel);
+            }
+
             var performance = db.Performances.Find(viewModel.Advertisement.PerformanceId);
             double sumPoints = adv.Difficulty.Points + performance.Points;
             double usersCount = users.Count();
