@@ -1,4 +1,5 @@
-﻿@model Repository.Models.Advertisement
+﻿@*@model Repository.Models.Advertisement*@
+@model Repository.Models.Views.AcceptAdvertisementViewModel
 
 @{
     ViewBag.Title = "Accept";
@@ -6,29 +7,35 @@
 
 <h2>Accept</h2>
 
-@using (Html.BeginForm())
+@if (TempData["alert"] != null)
+{
+    <p>@TempData["alert"]</p>
+}
+
+@using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Advertisement.Id)
 
         <h4>Cieszymy się, że udało Ci się znaleźć pomoc! Możesz się teraz odwdzięczyć osobom, które wyciągnęły do Ciebie rękę.</h4>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Helpers, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Advertisement.Helpers, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* TODO *@  
+                @Html.EditorFor(model => model.Emails[0], new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Emails[1], new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Emails[2], new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PerformanceId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Advertisement.PerformanceId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("PerformanceId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PerformanceId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Advertisement.PerformanceId, new SelectList(Model.Performances, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 

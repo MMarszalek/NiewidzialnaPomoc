@@ -145,6 +145,7 @@
     <Compile Include="Models\Performance.cs" />
     <Compile Include="Models\Reward.cs" />
     <Compile Include="Models\RewardCode.cs" />
+    <Compile Include="Models\Views\AcceptAdvertisementViewModel.cs" />
     <Compile Include="Models\Views\AccountViewModels.cs" />
     <Compile Include="Models\Views\AdvertisementsListViewModel.cs" />
     <Compile Include="Models\Views\AdvertisementsSearchLogic.cs" />

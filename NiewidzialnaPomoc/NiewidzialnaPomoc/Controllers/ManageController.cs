@@ -10,6 +10,7 @@ using Repository.Models;
 using Repository.Models.Views;
 using PagedList;
 using System.Net;
+using System.Collections.Generic;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -106,7 +107,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageSizePA = 1;
             int pageNumberPA = (pagePA ?? 1);
 
-            //viewModel.PersonalAdvertisements = perAds.ToList();
             viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
 
             //Rewarded Advertisements
@@ -151,7 +151,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageNumberRA = (pageRA ?? 1);
 
             viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
-            //viewModel.RewardedAdvertisements = rewAds.ToList();
 
             //Rewards
             var rew = db.RewardCodes.Where(rc => rc.RewardOwnerId.ToString().Equals(userId));
@@ -181,7 +180,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageNumberRC = (pageRC ?? 1);
 
             viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
-            //viewModel.Rewards = rew.ToList();
 
             return View(viewModel);
         }
@@ -246,7 +244,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageSizePA = 1;
             int pageNumberPA = (pagePA ?? 1);
 
-            //viewModel.PersonalAdvertisements = perAds.ToList();
             viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
 
             //Rewarded Advertisements
@@ -291,7 +288,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageNumberRA = (pageRA ?? 1);
 
             viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
-            //viewModel.RewardedAdvertisements = rewAds.ToList();
 
             //Rewards
             var rew = db.RewardCodes.Where(rc => rc.RewardOwnerId.ToString().Equals(userId));
@@ -321,7 +317,6 @@ namespace NiewidzialnaPomoc.Controllers
             int pageNumberRC = (pageRC ?? 1);
 
             viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
-            //viewModel.Rewards = rew.ToList();
 
             return View(viewModel);
         }
@@ -433,24 +428,68 @@ namespace NiewidzialnaPomoc.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PerformanceId = new SelectList(db.Performances, "Id", "Name", advertisement.PerformanceId);
-            return View(advertisement);
+
+            AcceptAdvertisementViewModel viewModel = new AcceptAdvertisementViewModel();
+            viewModel.Advertisement = advertisement;
+            viewModel.Performances = new List<Performance>();
+            viewModel.Performances = db.Performances.ToList();
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AcceptPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
+        public ActionResult AcceptPA(AcceptAdvertisementViewModel viewModel)
         {
-            var adv = db.Advertisements.Find(advertisement.Id);
+            var adv = db.Advertisements.Find(viewModel.Advertisement.Id);
+
+            List<ApplicationUser> users = new List<ApplicationUser>();
+
+            int count = 1;
+            viewModel.Performances = new List<Performance>();
+            viewModel.Performances = db.Performances.ToList();
+            foreach (var e in viewModel.Emails)
+            {
+                try
+                {
+                    //TODO zmien UserName na Email
+                    var user = db.ApplicationUsers.Where(u => u.UserName.Equals(e)).First();
+                    if(user.Id.Equals(User.Identity.GetUserId()))
+                    {
+                        TempData["alert"] = "Nie można przydzielić sobie punktów za wykonanie zadania.";
+                        return View(viewModel);
+                    }
+                    users.Add(user);
+                }
+                catch
+                {
+                    TempData["alert"] = "Email numer " + count + " jest niepoprawny.";
+                    return View(viewModel);
+                }
+
+                count++;
+
+            }
+            var performance = db.Performances.Find(viewModel.Advertisement.PerformanceId);
+            double sumPoints = adv.Difficulty.Points + performance.Points;
+            double usersCount = users.Count();
+            int pointsPerUser = (int)Math.Floor(sumPoints / usersCount);
+
             if (ModelState.IsValid)
             {
-                adv.PerformanceId = advertisement.PerformanceId;
+                adv.PerformanceId = viewModel.Advertisement.PerformanceId;
                 adv.IsFinished = true;
+
+                foreach (var u in users)
+                {
+                    adv.Helpers.Add(u);
+                    u.Points += pointsPerUser;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PerformanceId = new SelectList(db.Performances, "Id", "Name", advertisement.PerformanceId);
-            return View(advertisement);
+            return View(viewModel);
         }
 
         public ActionResult DetailsRA(int? id)

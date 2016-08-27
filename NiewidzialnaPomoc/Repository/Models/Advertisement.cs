@@ -36,10 +36,6 @@ namespace Repository.Models
         [Display(Name = "Wykonanie")]
         public int PerformanceId { get; set; }
 
-        //[NotMapped]
-        //[Display(Name = "Punkty")]
-        //public int Points { get { return Performance.Points + Difficulty.Points; } }
-
         [Display(Name = "Autor")]
         public string AuthorId { get; set; }
 
