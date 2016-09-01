@@ -3,6 +3,7 @@ using Repository.Models;
 using Repository.Models.Views;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -77,7 +78,7 @@ namespace NiewidzialnaPomoc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateAdvertisement(CreateAdverstisementViewModel viewModel)
+        public ActionResult CreateAdvertisement(CreateAdverstisementViewModel viewModel, IEnumerable<HttpPostedFileBase> uploads)
         {
             viewModel.Locations = db.Locations.ToList();
             viewModel.Difficulties = db.Difficulties.ToList();
@@ -122,6 +123,25 @@ namespace NiewidzialnaPomoc.Controllers
 
             if (ModelState.IsValid)
             {
+                //viewModel.Advertisement.AdvertisementPhotoes = new List<AdvertisementPhoto>();
+
+                foreach (var upload in uploads)
+                {
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        var photo = new AdvertisementPhoto
+                        {
+                            FileName = System.IO.Path.GetFileName(upload.FileName),
+                            ContentType = upload.ContentType
+                        };
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            photo.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        viewModel.Advertisement.AdvertisementPhotos.Add(photo);
+                    }
+                }
+
                 viewModel.Advertisement.AddDate = DateTime.Now;
                 viewModel.Advertisement.PerformanceId = 1;
                 viewModel.Advertisement.AuthorId = User.Identity.GetUserId();
@@ -134,7 +154,9 @@ namespace NiewidzialnaPomoc.Controllers
                 }
 
                 db.Advertisements.Add(viewModel.Advertisement);
+
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

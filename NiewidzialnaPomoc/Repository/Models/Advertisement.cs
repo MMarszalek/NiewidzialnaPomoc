@@ -13,6 +13,7 @@ namespace Repository.Models
         {
             this.Categories = new HashSet<Category>();
             this.Helpers = new HashSet<ApplicationUser>();
+            this.AdvertisementPhotos = new HashSet<AdvertisementPhoto>();
         }
 
         public int Id { get; set; }
@@ -48,6 +49,8 @@ namespace Repository.Models
 
         [Display(Name = "Pomocnicy")]
         public virtual ICollection<ApplicationUser> Helpers { get; set; }
+
+        public virtual ICollection<AdvertisementPhoto> AdvertisementPhotos { get; set; }
 
         public virtual Difficulty Difficulty { get; set; }
 

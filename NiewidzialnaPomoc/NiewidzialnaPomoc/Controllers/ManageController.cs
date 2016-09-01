@@ -198,6 +198,11 @@ namespace NiewidzialnaPomoc.Controllers
                 user.FirstName = viewModel.ApplicationUser.FirstName;
                 user.LastName = viewModel.ApplicationUser.LastName;
 
+                if (user.Avatar != null)
+                {
+                    db.Avatars.Remove(user.Avatar);
+                }
+
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var avatar = new Avatar

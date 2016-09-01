@@ -28,5 +28,6 @@ namespace Repository.Models
         public DbSet<Reward> Rewards { get; set; }
         public DbSet<RewardCode> RewardCodes { get; set; }
         public DbSet<Avatar> Avatars { get; set; }
+        public DbSet<AdvertisementPhoto> AdvertisementPhotos { get; set; }
     }
 }
