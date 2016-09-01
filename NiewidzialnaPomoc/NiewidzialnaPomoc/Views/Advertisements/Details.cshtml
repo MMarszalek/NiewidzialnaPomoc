@@ -15,8 +15,17 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.UserName)
+            @if (Model.Author.Avatar != null)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <img src="~/Avatar?id=@Model.Author.Avatar.Id" alt="avatar" />
+                        @Html.DisplayFor(model => model.Author.UserName)
+                    </div>
+                </div>
+            }
         </dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.Location.Name)

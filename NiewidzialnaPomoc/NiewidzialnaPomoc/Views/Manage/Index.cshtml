@@ -21,7 +21,7 @@
             <p>@TempData["alert"]</p>
         }
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -29,6 +29,23 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.ApplicationUser.Id)
+
+                @if (Model.ApplicationUser.Avatar != null)
+                {
+                    <div class="form-group">
+                        <span class="control-label col-md-2"><strong>Zdjęcie profilowe</strong></span>
+                        <div class="col-md-10">
+                            <img src="~/Avatar?id=@Model.ApplicationUser.Avatar.Id" alt="avatar" />
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("Avatar", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="file" id="Avatar" name="upload" />
+                    </div>
+                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.ApplicationUser.Email, htmlAttributes: new { @class = "control-label col-md-2" })

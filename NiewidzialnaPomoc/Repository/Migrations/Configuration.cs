@@ -60,7 +60,7 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "admin"))
             {
 
-                var user = new ApplicationUser { UserName = "admin" };
+                var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com" };
                 var result = manager.Create(user, "12345678"); //password: 12345678
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "Admin");
@@ -69,7 +69,7 @@ namespace Repository.Migrations
             if (!context.Users.Any(u => u.UserName == "arkadiusz@gmail.com"))
             {
 
-                var user = new ApplicationUser { UserName = "arkadiusz@gmail.com", FirstName = "Arkadiusz", LastName = "Nowak", Points = 3000 };
+                var user = new ApplicationUser { UserName = "arkadiusz@gmail.com", Email = "arkadiusz@gmail.com", FirstName = "Arkadiusz", LastName = "Nowak", Points = 3000 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -77,7 +77,7 @@ namespace Repository.Migrations
 
             if (!context.Users.Any(u => u.UserName == "sebastian@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "sebastian@gmail.com", FirstName = "Sebastian", LastName = "Kowalski", Points = 2000 };
+                var user = new ApplicationUser { UserName = "sebastian@gmail.com", Email = "sebastian@gmail.com", FirstName = "Sebastian", LastName = "Kowalski", Points = 2000 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -85,7 +85,7 @@ namespace Repository.Migrations
 
             if (!context.Users.Any(u => u.UserName == "kamil@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "kamil@gmail.com", FirstName = "Kamil", LastName = "Winiarczyk", Points = 2500 };
+                var user = new ApplicationUser { UserName = "kamil@gmail.com", Email = "kamil@gmail.com", FirstName = "Kamil", LastName = "Winiarczyk", Points = 2500 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -93,7 +93,7 @@ namespace Repository.Migrations
 
             if (!context.Users.Any(u => u.UserName == "michal@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "michal@gmail.com", FirstName = "Micha³", LastName = "G³owacki", Points = 1000 };
+                var user = new ApplicationUser { UserName = "michal@gmail.com", Email = "michal@gmail.com", FirstName = "Micha³", LastName = "G³owacki", Points = 1000 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -101,7 +101,7 @@ namespace Repository.Migrations
 
             if (!context.Users.Any(u => u.UserName == "robert@gmail.com"))
             {
-                var user = new ApplicationUser { UserName = "robert@gmail.com", FirstName = "Robert", LastName = "Mazurek", Points = 500 };
+                var user = new ApplicationUser { UserName = "robert@gmail.com", Email = "robert@gmail.com", FirstName = "Robert", LastName = "Mazurek", Points = 500 };
                 var result = manager.Create(user, "12345678");
                 if (result.Succeeded)
                     manager.AddToRole(user.Id, "User");
@@ -176,9 +176,9 @@ namespace Repository.Migrations
                 new Reward { Name = "Karta podarunkowa C&A 50 z³", Price = 500 },
                 new Reward { Name = "Karta podarunkowa C&A 100 z³", Price = 1000 },
                 new Reward { Name = "Karta podarunkowa C&A 150 z³", Price = 1500 },
-                new Reward { Name = "Karta podarunkowa Sodexo 50 z³", Price = 600 },
-                new Reward { Name = "Karta podarunkowa Sodexo 100 z³", Price = 1200 },
-                new Reward { Name = "Karta podarunkowa Sodexo 150 z³", Price = 1800 }
+                new Reward { Name = "Karta podarunkowa H&M 50 z³", Price = 600 },
+                new Reward { Name = "Karta podarunkowa H&M 100 z³", Price = 1200 },
+                new Reward { Name = "Karta podarunkowa H&M 150 z³", Price = 1800 }
             };
 
             rewards.ForEach(s => context.Rewards.AddOrUpdate(p => p.Name, s));

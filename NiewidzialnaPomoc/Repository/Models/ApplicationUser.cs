@@ -23,6 +23,9 @@ namespace Repository.Models
         [Display(Name = "Użytkownik")]
         override public string UserName { get; set; }
 
+        [EmailAddress]
+        override public string Email { get; set; }
+
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
@@ -45,6 +48,8 @@ namespace Repository.Models
         public virtual ICollection<Advertisement> RewardedAdvertisements { get; set; }
 
         public virtual ICollection<RewardCode> RewardCodes { get; set; }
+
+        public virtual Avatar Avatar { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

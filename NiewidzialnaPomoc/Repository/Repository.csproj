@@ -131,14 +131,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201607302216597_initial_migration.cs" />
-    <Compile Include="Migrations\201607302216597_initial_migration.Designer.cs">
-      <DependentUpon>201607302216597_initial_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201609011543185_initial_migration.cs" />
+    <Compile Include="Migrations\201609011543185_initial_migration.Designer.cs">
+      <DependentUpon>201609011543185_initial_migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609011641223_files.cs" />
+    <Compile Include="Migrations\201609011641223_files.Designer.cs">
+      <DependentUpon>201609011641223_files.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Location.cs" />
@@ -157,8 +162,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607302216597_initial_migration.resx">
-      <DependentUpon>201607302216597_initial_migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609011543185_initial_migration.resx">
+      <DependentUpon>201609011543185_initial_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609011641223_files.resx">
+      <DependentUpon>201609011641223_files.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

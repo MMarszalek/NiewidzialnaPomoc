@@ -69,6 +69,24 @@ namespace Repository.Migrations
                 .Index(t => t.UserId);
             
             CreateTable(
+                "dbo.Files",
+                c => new
+                    {
+                        FileId = c.Int(nullable: false, identity: true),
+                        FileName = c.String(),
+                        ContentType = c.String(),
+                        Content = c.Binary(),
+                        FileType = c.Int(nullable: false),
+                        ApplicationUserId = c.String(maxLength: 128),
+                        AdvertisementId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.FileId)
+                .ForeignKey("dbo.Advertisements", t => t.AdvertisementId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
+                .Index(t => t.ApplicationUserId)
+                .Index(t => t.AdvertisementId);
+            
+            CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -87,7 +105,7 @@ namespace Repository.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Code = c.String(),
                         IsUsed = c.Boolean(nullable: false),
-                        ReceivedDate = c.DateTime(nullable: false),
+                        ReceivedDate = c.DateTime(),
                         RewardId = c.Int(nullable: false),
                         RewardOwnerId = c.String(maxLength: 128),
                     })
@@ -212,6 +230,8 @@ namespace Repository.Migrations
             DropForeignKey("dbo.RewardCodes", "RewardId", "dbo.Rewards");
             DropForeignKey("dbo.RewardCodes", "RewardOwnerId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Advertisements", "AuthorId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Files", "ApplicationUserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Files", "AdvertisementId", "dbo.Advertisements");
             DropIndex("dbo.CategoryAdvertisements", new[] { "Advertisement_Id" });
             DropIndex("dbo.CategoryAdvertisements", new[] { "Category_Id" });
             DropIndex("dbo.ApplicationUserAdvertisements", new[] { "Advertisement_Id" });
@@ -222,6 +242,8 @@ namespace Repository.Migrations
             DropIndex("dbo.RewardCodes", new[] { "RewardOwnerId" });
             DropIndex("dbo.RewardCodes", new[] { "RewardId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.Files", new[] { "AdvertisementId" });
+            DropIndex("dbo.Files", new[] { "ApplicationUserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Advertisements", new[] { "LocationId" });
@@ -239,6 +261,7 @@ namespace Repository.Migrations
             DropTable("dbo.Rewards");
             DropTable("dbo.RewardCodes");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.Files");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Advertisements");

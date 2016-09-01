@@ -185,7 +185,7 @@ namespace NiewidzialnaPomoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ManageViewModel viewModel, string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC)
+        public ActionResult Index(ManageViewModel viewModel, string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC, HttpPostedFileBase upload)
         {
             var userId = User.Identity.GetUserId();
 
@@ -197,6 +197,22 @@ namespace NiewidzialnaPomoc.Controllers
                 user.PhoneNumber = viewModel.ApplicationUser.PhoneNumber;
                 user.FirstName = viewModel.ApplicationUser.FirstName;
                 user.LastName = viewModel.ApplicationUser.LastName;
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var avatar = new Avatar
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        ContentType = upload.ContentType
+                    };
+
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    user.Avatar = avatar;
+                }
+
                 db.SaveChanges();
             }
             viewModel.ApplicationUser = user;
@@ -455,8 +471,7 @@ namespace NiewidzialnaPomoc.Controllers
 
                 try
                 {
-                    //TODO zmien UserName na Email
-                    var user = db.ApplicationUsers.Where(u => u.UserName.Equals(e)).First();
+                    var user = db.ApplicationUsers.Where(u => u.Email.Equals(e)).First();
                     if (user.Id.Equals(User.Identity.GetUserId()))
                     {
                         TempData["alert"] = "Nie można przydzielić sobie punktów za wykonanie zadania.";
