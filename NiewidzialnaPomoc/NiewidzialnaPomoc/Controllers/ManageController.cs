@@ -397,7 +397,7 @@ namespace NiewidzialnaPomoc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
+        public ActionResult EditPA([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement, IEnumerable<HttpPostedFileBase> uploads) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
         {
             var adv = db.Advertisements.Find(advertisement.Id);
             if (ModelState.IsValid)
@@ -406,6 +406,38 @@ namespace NiewidzialnaPomoc.Controllers
                 adv.Content = advertisement.Content;
                 adv.DifficultyId = advertisement.DifficultyId;
                 adv.LocationId = advertisement.LocationId;
+
+                bool canDelAdvPhotos = false;
+                foreach (var upload in uploads)
+                {
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        canDelAdvPhotos = true;
+                    }
+                }
+
+                if(canDelAdvPhotos)
+                {
+                    db.AdvertisementPhotos.RemoveRange(adv.AdvertisementPhotos);
+                }
+
+                foreach (var upload in uploads)
+                {
+                    if (upload != null && upload.ContentLength > 0)
+                    {
+                        var photo = new AdvertisementPhoto
+                        {
+                            FileName = System.IO.Path.GetFileName(upload.FileName),
+                            ContentType = upload.ContentType
+                        };
+                        using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                        {
+                            photo.Content = reader.ReadBytes(upload.ContentLength);
+                        }
+                        adv.AdvertisementPhotos.Add(photo);
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

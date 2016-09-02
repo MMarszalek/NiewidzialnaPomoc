@@ -123,8 +123,6 @@ namespace NiewidzialnaPomoc.Controllers
 
             if (ModelState.IsValid)
             {
-                //viewModel.Advertisement.AdvertisementPhotoes = new List<AdvertisementPhoto>();
-
                 foreach (var upload in uploads)
                 {
                     if (upload != null && upload.ContentLength > 0)

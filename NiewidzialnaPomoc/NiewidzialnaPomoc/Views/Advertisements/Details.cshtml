@@ -36,6 +36,20 @@
         </dd>
 
         <dt>
+            Zdjęcia
+        </dt>
+
+        <dd>
+            @if (Model.AdvertisementPhotos.Any())
+            {
+                foreach (var p in Model.AdvertisementPhotos)
+                {
+                    <img src="~/AdvertisementPhoto?id=@p.Id" alt="photo" />
+                }
+            }
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
 

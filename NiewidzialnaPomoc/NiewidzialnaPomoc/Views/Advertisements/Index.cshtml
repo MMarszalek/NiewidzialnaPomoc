@@ -66,13 +66,6 @@
                 @Html.DisplayFor(modelItem => item.Location.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
-                @if (item.AdvertisementPhotos.Any())
-                {
-                    <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.First().Id" alt="photo" />
-                }
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AddDate)
             </td>
             <td>

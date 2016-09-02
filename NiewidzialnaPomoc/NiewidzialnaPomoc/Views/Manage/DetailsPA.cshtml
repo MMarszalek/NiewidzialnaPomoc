@@ -15,7 +15,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.UserName)
+            @if (Model.Author.Avatar != null)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <img src="~/Avatar?id=@Model.Author.Avatar.Id" alt="avatar" />
+                        @Html.DisplayFor(model => model.Author.UserName)
+                    </div>
+                </div>
+            }
         </dd>
 
         <dt>
@@ -24,6 +32,20 @@
 
         <dd>
             @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+        <dt>
+            Zdjęcia
+        </dt>
+
+        <dd>
+            @if (Model.AdvertisementPhotos.Any())
+            {
+                foreach (var p in Model.AdvertisementPhotos)
+                {
+                    <img src="~/AdvertisementPhoto?id=@p.Id" alt="photo" />
+                }
+            }
         </dd>
 
         <dt>
