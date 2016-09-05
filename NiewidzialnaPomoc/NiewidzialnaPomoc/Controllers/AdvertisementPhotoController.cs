@@ -23,7 +23,7 @@ namespace NiewidzialnaPomoc.Controllers
                 Image i;
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    ms.Write(photoToRetrieve.Content, 0, photoToRetrieve.Content.Length);
+                    ms.Write(photoToRetrieve.FileContent, 0, photoToRetrieve.FileContent.Length);
                     i = Image.FromStream(ms);
                 }
 
@@ -49,7 +49,7 @@ namespace NiewidzialnaPomoc.Controllers
                 return File(imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight, () => false, IntPtr.Zero)), photoToRetrieve.ContentType);
             } else
             {
-                return File(photoToRetrieve.Content, photoToRetrieve.ContentType);
+                return File(photoToRetrieve.FileContent, photoToRetrieve.ContentType);
             }
         }
 

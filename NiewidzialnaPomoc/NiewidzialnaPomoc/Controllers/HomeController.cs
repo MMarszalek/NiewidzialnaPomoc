@@ -134,7 +134,7 @@ namespace NiewidzialnaPomoc.Controllers
                         };
                         using (var reader = new System.IO.BinaryReader(upload.InputStream))
                         {
-                            photo.Content = reader.ReadBytes(upload.ContentLength);
+                            photo.FileContent = reader.ReadBytes(upload.ContentLength);
                         }
                         viewModel.Advertisement.AdvertisementPhotos.Add(photo);
                     }

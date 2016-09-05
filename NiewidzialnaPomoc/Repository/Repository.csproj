@@ -142,6 +142,10 @@
     <Compile Include="Migrations\201609051033023_add_reward_photos.Designer.cs">
       <DependentUpon>201609051033023_add_reward_photos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609051933498_add_reward_photos_2.cs" />
+    <Compile Include="Migrations\201609051933498_add_reward_photos_2.Designer.cs">
+      <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\AdvertisementPhoto.cs" />
@@ -172,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609051033023_add_reward_photos.resx">
       <DependentUpon>201609051033023_add_reward_photos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609051933498_add_reward_photos_2.resx">
+      <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
