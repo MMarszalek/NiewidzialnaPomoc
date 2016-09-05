@@ -28,7 +28,15 @@
 @foreach (var item in Model.Rewards) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @if (item.RewardPhoto != null)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <img src="~/RewardPhoto?id=@item.RewardPhoto.Id" alt="photo" />
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </div>
+                </div>
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)

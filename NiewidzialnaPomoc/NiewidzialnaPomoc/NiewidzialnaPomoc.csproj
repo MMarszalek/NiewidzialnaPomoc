@@ -224,6 +224,7 @@
     <Compile Include="Controllers\AvatarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RewardPhotoController.cs" />
     <Compile Include="Controllers\RewardsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -370,6 +371,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdvertisementPhoto\" />
     <Folder Include="Views\Avatar\" />
+    <Folder Include="Views\RewardPhoto\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

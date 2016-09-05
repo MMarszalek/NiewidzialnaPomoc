@@ -7,8 +7,11 @@ namespace Repository.Migrations
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.IO;
     using System.Linq;
-
+    using System.Reflection;
+    using System.Web;
+    using System.Web.Hosting;
     internal sealed class Configuration : DbMigrationsConfiguration<Repository.Models.ApplicationDbContext>
     {
         public Configuration()
@@ -31,6 +34,7 @@ namespace Repository.Migrations
             SeedRewards(context);
             SeedRewardCodes(context);
             SeedAdvertisements(context);
+            SeedRewardPhotos(context);
         }
 
         private void SeedRoles(ApplicationDbContext context)
@@ -228,6 +232,40 @@ namespace Repository.Migrations
 
             codes.ForEach(s => context.RewardCodes.AddOrUpdate(p => p.Code, s));
             context.SaveChanges();
+        }
+
+        private void SeedRewardPhotos(ApplicationDbContext context)
+        {
+            var path = MapPath("~/Content/RewardPhotos/");
+            var rewardPhotos = new List<RewardPhoto>
+            {
+                new RewardPhoto { Id = 1, FileName = "nagroda1.jpg", Content = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 2, FileName = "nagroda1.jpg", Content = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 3, FileName = "nagroda1.jpg", Content = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
+
+                new RewardPhoto { Id = 4, FileName = "nagroda2.jpg", Content = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 5, FileName = "nagroda2.jpg", Content = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 6, FileName = "nagroda2.jpg", Content = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
+
+                new RewardPhoto { Id = 7, FileName = "nagroda3.jpg", Content = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 8, FileName = "nagroda3.jpg", Content = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 9, FileName = "nagroda3.jpg", Content = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"}
+            };
+
+            rewardPhotos.ForEach(s => context.RewardPhotos.AddOrUpdate(rp => rp.Id, s));
+            context.SaveChanges();
+        }
+
+        private string MapPath(string seedFile)
+        {
+            if (HttpContext.Current != null)
+                return HostingEnvironment.MapPath(seedFile);
+
+            var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            var directoryName = Path.GetDirectoryName(localPath);
+            var path = Path.Combine(directoryName, ".." + seedFile.TrimStart('~'));
+
+            return path;
         }
 
         private void SeedAdvertisements(ApplicationDbContext context)

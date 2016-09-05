@@ -22,5 +22,7 @@ namespace Repository.Models
         public int Price { get; set; }
 
         public virtual ICollection<RewardCode> RewardCodes { get; set; }
+
+        public virtual RewardPhoto RewardPhoto { get; set; }
     }
 }
