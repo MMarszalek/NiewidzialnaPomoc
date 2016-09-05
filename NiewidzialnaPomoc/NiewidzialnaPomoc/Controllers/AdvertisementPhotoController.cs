@@ -1,6 +1,8 @@
 ﻿using Repository.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,10 +14,50 @@ namespace NiewidzialnaPomoc.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: AdvertisementPhoto
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, bool thumbnail)
         {
             var photoToRetrieve = db.AdvertisementPhotos.Find(id);
-            return File(photoToRetrieve.Content, photoToRetrieve.ContentType);
+
+            if(thumbnail == true)
+            {
+                Image i;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ms.Write(photoToRetrieve.Content, 0, photoToRetrieve.Content.Length);
+                    i = Image.FromStream(ms);
+                }
+
+                var imageWidth = i.Width;
+                var imageHeight = i.Height;
+
+                if (i.Width > 480 || i.Height > 320)
+                {
+                    double scale;
+                    if (i.Width >= i.Height * 1.5)
+                    {
+                        scale = i.Width / 480;
+                    }
+                    else
+                    {
+                        scale = i.Height / 320;
+                    }
+
+                    imageWidth = System.Convert.ToInt32(Math.Floor(i.Width / scale));
+                    imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
+                }
+
+                return File(imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight, () => false, IntPtr.Zero)), photoToRetrieve.ContentType);
+            } else
+            {
+                return File(photoToRetrieve.Content, photoToRetrieve.ContentType);
+            }
+        }
+
+        public byte[] imageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
         }
     }
 }

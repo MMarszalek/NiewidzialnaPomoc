@@ -43,7 +43,7 @@
             {
                 foreach (var p in Model.AdvertisementPhotos)
                 {
-                    <img src="~/AdvertisementPhoto?id=@p.Id" alt="photo" />
+                    <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo" onclick="javascript:window.open('@(Url.Action("Index", "AdvertisementPhoto", new { id = p.Id, thumbnail = false}))')"/>
                 }
             }
         </dd>
@@ -85,3 +85,9 @@
     @Html.ActionLink("Edit", "EditPA", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<script type="text/javascript">
+  function openImage(imageUrl) {
+    window.open(theURL);
+  }
+</script>

@@ -150,6 +150,12 @@ namespace NiewidzialnaPomoc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
         {
+            //if(upload != null && upload.ContentLength > 2097152)
+            //{
+            //    TempData["alert"] = "Zdjęcie jest zbyt duże.";
+            //    return RedirectToAction("Register");
+            //}
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
