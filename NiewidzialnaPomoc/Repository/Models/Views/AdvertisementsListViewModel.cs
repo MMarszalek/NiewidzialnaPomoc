@@ -7,32 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Repository.Models.Views
 {
-    //public class CategoryViewModel
-    //{
-    //    public int Id { get; set; }
-    //    [Display(Name = "Kategorie")]
-    //    public string Name { get; set; }
-    //    public bool isSelected { get; set; }
-    //}
-
-    //public class PostedCategories
-    //{
-    //    public string[] CategoriesIds { get; set; }
-    //}
-
-    //public class DifficultyViewModel
-    //{
-    //    public int Id { get; set; }
-    //    [Display(Name = "Trudność")]
-    //    public string Name { get; set; }
-    //    public bool isSelected { get; set; }
-    //}
-
-    //public class PostedDifficulties
-    //{
-    //    public string[] DifficultiesIds { get; set; }
-    //}
-
     public class AdvertisementSearchModel
     {
         public string TitleContent { get; set; }

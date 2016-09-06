@@ -16,17 +16,11 @@
         <li><a href="#Rewards">Moje nagrody</a></li>
     </ul>
     <div id="Profile">
-        @if (TempData["alert"] != null)
-        {
-            <p>@TempData["alert"]</p>
-        }
-
         @using (Html.BeginForm("Index","Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.ApplicationUser.Id)
 
@@ -90,6 +84,8 @@
         <div>
             @Html.ActionLink("Zmień hasło", "ChangePassword")
         </div>
+
+        @Html.Raw(TempData["alert"])
     </div>
     <div id="PersonalAdvertisements">
         <table class="table">
@@ -140,9 +136,6 @@
     <div id="RewardedAdvertisements">
         <table class="table">
             <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Author.UserName)
-                </th>*@
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA })
                 </th>
@@ -160,9 +153,6 @@
             @foreach (var item in Model.RewardedAdvertisements)
             {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Author.UserName)
-                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.Location.Name)
                     </td>

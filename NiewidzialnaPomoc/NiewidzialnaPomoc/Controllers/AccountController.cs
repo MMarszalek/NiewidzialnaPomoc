@@ -202,7 +202,7 @@ namespace NiewidzialnaPomoc.Controllers
                         imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
                     }
 
-                    avatar.Content = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
+                    avatar.FileContent = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
                         () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }

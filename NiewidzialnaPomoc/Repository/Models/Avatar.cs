@@ -11,9 +11,13 @@ namespace Repository.Models
     {
         [Key, ForeignKey("ApplicationUser")]
         public string Id { get; set; }
+
         public string FileName { get; set; }
+
         public string ContentType { get; set; }
-        public byte[] Content { get; set; }
+
+        [MaxLength(2097152, ErrorMessage = "Zdjęcie ma za duży rozmiar.")]
+        public byte[] FileContent { get; set; }
         
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

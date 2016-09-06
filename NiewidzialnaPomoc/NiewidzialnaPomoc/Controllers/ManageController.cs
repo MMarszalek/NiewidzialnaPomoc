@@ -194,6 +194,7 @@ namespace NiewidzialnaPomoc.Controllers
 
             //Account
             var user = db.ApplicationUsers.Where(u => u.Id.ToString().Equals(userId)).First();
+
             if (ModelState.IsValid)
             {
                 user.Email = viewModel.ApplicationUser.Email;
@@ -247,16 +248,16 @@ namespace NiewidzialnaPomoc.Controllers
                         imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
                     }
 
-                    avatar.Content = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
+                    avatar.FileContent = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
                         () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }
 
                 db.SaveChanges();
+
+                TempData["alert"] = "<script>alert('Dane użytkownika zostały zmienione.');</script>";
             }
             viewModel.ApplicationUser = user;
-
-            TempData["alert"] = "Dane użytkownika zostały zmienione";
 
             //Personal Advertisements
             var perAds = db.Advertisements.Where(a => a.AuthorId.ToString().Equals(userId) && a.IsFinished == false);
@@ -612,14 +613,14 @@ namespace NiewidzialnaPomoc.Controllers
                     var user = db.ApplicationUsers.Where(u => u.Email.Equals(e)).First();
                     if (user.Id.Equals(User.Identity.GetUserId()))
                     {
-                        TempData["alert"] = "Nie można przydzielić sobie punktów za wykonanie zadania.";
+                        TempData["alert"] = "<script>alert('Nie można przydzielić sobie punktów za wykonanie zadania.');</script>";
                         return View(viewModel);
                     }
                     users.Add(user);
                 }
                 catch
                 {
-                    TempData["alert"] = "Email numer " + count + " jest niepoprawny.";
+                    TempData["alert"] = "<script>alert('Email numer " + count + " jest niepoprawny.');</script>";
                     return View(viewModel);
                 }
 
@@ -629,7 +630,7 @@ namespace NiewidzialnaPomoc.Controllers
 
             if(users.Count == 0)
             {
-                TempData["alert"] = "Nikt nie zostało wybrany. Prosimy wybrać co najmniej jednego pomocnika.";
+                TempData["alert"] = "<script>alert('Nikt nie zostało wybrany. Prosimy wybrać co najmniej jednego pomocnika.');</script>";
                 return View(viewModel);
             }
 

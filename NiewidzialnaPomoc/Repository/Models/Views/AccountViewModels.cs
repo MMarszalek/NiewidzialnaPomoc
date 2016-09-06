@@ -65,11 +65,11 @@ namespace Repository.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Imię:")]
+        [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Nazwisko:")]
+        [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
         [Required]

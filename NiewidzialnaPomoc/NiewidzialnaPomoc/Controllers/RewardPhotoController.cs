@@ -15,7 +15,7 @@ namespace NiewidzialnaPomoc.Controllers
         public ActionResult Index(int id)
         {
             var rewardPhotoToRetrieve = db.RewardPhotos.Find(id);
-            return File(rewardPhotoToRetrieve.Content, rewardPhotoToRetrieve.ContentType);
+            return File(rewardPhotoToRetrieve.FileContent, rewardPhotoToRetrieve.ContentType);
         }
     }
 }

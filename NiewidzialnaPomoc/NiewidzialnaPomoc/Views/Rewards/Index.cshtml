@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<Repository.Models.Reward>*@
-@model Repository.Models.Views.RewardsViewModel
+﻿@model Repository.Models.Views.RewardsViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,12 +6,10 @@
 
 <h2>Nagrody</h2>
 
-@if (TempData["alert"] != null)
+@if (User.Identity.IsAuthenticated)
 {
-    <p>@TempData["alert"]</p>
+    <p>Masz @Model.ApplicationUser.Points punktów</p>
 }
-
-<p>Masz @Model.ApplicationUser.Points punktów</p>
 
 <table class="table">
     <tr>
@@ -48,3 +45,5 @@
 }
 
 </table>
+
+@Html.Raw(TempData["alert"])

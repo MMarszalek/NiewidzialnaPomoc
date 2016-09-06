@@ -23,13 +23,20 @@ namespace Repository.Models
         [Display(Name = "Użytkownik")]
         override public string UserName { get; set; }
 
+        [Display(Name = "Numer telefonu")]
+        [Phone]
+        public override string PhoneNumber { get; set; }
+
+        [Required]
         [EmailAddress]
         override public string Email { get; set; }
 
         [Display(Name = "Imię")]
+        [Required]
         public string FirstName { get; set; }
 
         [Display(Name = "Nazwisko")]
+        [Required]
         public string LastName { get; set; }
 
         [NotMapped]
@@ -37,6 +44,7 @@ namespace Repository.Models
         public string FullName { get { return FirstName + " " + LastName; } }
 
         [Display(Name = "Liczba zdobytych punktów")]
+        [Range(0, int.MaxValue)]
         public int Points { get; set; }
 
         //ogloszenia, ktorych uzytkownik jest autorem

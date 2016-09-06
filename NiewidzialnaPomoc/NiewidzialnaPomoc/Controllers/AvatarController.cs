@@ -44,7 +44,7 @@ namespace NiewidzialnaPomoc.Controllers
             //    imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
             //}
 
-            return File(avatarToRetrieve.Content, avatarToRetrieve.ContentType);
+            return File(avatarToRetrieve.FileContent, avatarToRetrieve.ContentType);
             //return File(imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight, () => false, IntPtr.Zero)), avatarToRetrieve.ContentType);
         }
 

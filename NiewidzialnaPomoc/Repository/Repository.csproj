@@ -146,6 +146,14 @@
     <Compile Include="Migrations\201609051933498_add_reward_photos_2.Designer.cs">
       <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609061334220_data_annotations.cs" />
+    <Compile Include="Migrations\201609061334220_data_annotations.Designer.cs">
+      <DependentUpon>201609061334220_data_annotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609061440020_data_annotations1.cs" />
+    <Compile Include="Migrations\201609061440020_data_annotations1.Designer.cs">
+      <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\AdvertisementPhoto.cs" />
@@ -179,6 +187,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609051933498_add_reward_photos_2.resx">
       <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609061334220_data_annotations.resx">
+      <DependentUpon>201609061334220_data_annotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609061440020_data_annotations1.resx">
+      <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

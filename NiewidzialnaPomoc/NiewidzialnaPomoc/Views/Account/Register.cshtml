@@ -4,10 +4,6 @@
 }
 
 <h2>@ViewBag.Title.</h2>
-@*@if (TempData["alert"] != null)
-{
-    <p>@TempData["alert"]</p>
-}*@
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
