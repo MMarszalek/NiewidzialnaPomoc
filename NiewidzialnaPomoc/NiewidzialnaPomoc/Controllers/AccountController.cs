@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Repository.Models;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -143,19 +145,12 @@ namespace NiewidzialnaPomoc.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
         {
-            //if(upload != null && upload.ContentLength > 2097152)
-            //{
-            //    TempData["alert"] = "Zdjęcie jest zbyt duże.";
-            //    return RedirectToAction("Register");
-            //}
-
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -174,10 +169,41 @@ namespace NiewidzialnaPomoc.Controllers
                         ContentType = upload.ContentType
                     };
 
+                    byte[] avatarContent;
+                    int avatarContentLength = upload.ContentLength;
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
-                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        avatarContent = reader.ReadBytes(upload.ContentLength);
                     }
+
+                    Image i;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        ms.Write(avatarContent, 0, avatarContentLength);
+                        i = Image.FromStream(ms);
+                    }
+
+                    var imageWidth = i.Width;
+                    var imageHeight = i.Height;
+
+                    if (i.Width > 160 || i.Height > 160)
+                    {
+                        double scale;
+                        if (i.Width >= i.Height)
+                        {
+                            scale = i.Width / 160;
+                        }
+                        else
+                        {
+                            scale = i.Height / 160;
+                        }
+
+                        imageWidth = System.Convert.ToInt32(Math.Floor(i.Width / scale));
+                        imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
+                    }
+
+                    avatar.Content = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
+                        () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }
 
@@ -201,6 +227,66 @@ namespace NiewidzialnaPomoc.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        public byte[] imageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return ms.ToArray();
+        }
+
+        //
+        //// POST: /Account/Register
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase upload)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser
+        //        {
+        //            FirstName = model.FirstName,
+        //            LastName = model.LastName,
+        //            UserName = model.Email,
+        //            Email = model.Email
+        //        };
+
+        //        if (upload != null && upload.ContentLength > 0)
+        //        {
+        //            var avatar = new Avatar
+        //            {
+        //                FileName = System.IO.Path.GetFileName(upload.FileName),
+        //                ContentType = upload.ContentType
+        //            };
+
+        //            using (var reader = new System.IO.BinaryReader(upload.InputStream))
+        //            {
+        //                avatar.Content = reader.ReadBytes(upload.ContentLength);
+        //            }
+        //            user.Avatar = avatar;
+        //        }
+
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        UserManager.AddToRole(user.Id, "User");
+        //        if (result.Succeeded)
+        //        {
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+        //            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+        //            // Send an email with this link
+        //            // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+        //            // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+        //            // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        AddErrors(result);
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
 
         //
         // GET: /Account/ConfirmEmail

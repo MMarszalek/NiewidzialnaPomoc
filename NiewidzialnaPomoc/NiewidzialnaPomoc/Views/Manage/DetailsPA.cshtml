@@ -43,7 +43,9 @@
             {
                 foreach (var p in Model.AdvertisementPhotos)
                 {
-                    <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo" onclick="javascript:window.open('@(Url.Action("Index", "AdvertisementPhoto", new { id = p.Id, thumbnail = false}))')"/>
+                    <a href="">
+                        <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo" onclick="javascript:window.open('@(Url.Action("Index", "AdvertisementPhoto", new { id = p.Id, thumbnail = false}))')" />
+                    </a>
                 }
             }
         </dd>

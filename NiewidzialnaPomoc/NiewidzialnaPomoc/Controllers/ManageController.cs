@@ -12,6 +12,8 @@ using PagedList;
 using System.Net;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Drawing;
+using System.IO;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -105,7 +107,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizePA = 1;
+            int pageSizePA = 3;
             int pageNumberPA = (pagePA ?? 1);
 
             viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
@@ -148,7 +150,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizeRA = 1;
+            int pageSizeRA = 3;
             int pageNumberRA = (pageRA ?? 1);
 
             viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
@@ -177,7 +179,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizeRC = 1;
+            int pageSizeRC = 3;
             int pageNumberRC = (pageRC ?? 1);
 
             viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
@@ -212,10 +214,41 @@ namespace NiewidzialnaPomoc.Controllers
                         ContentType = upload.ContentType
                     };
 
+                    byte[] avatarContent;
+                    int avatarContentLength = upload.ContentLength;
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
-                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                        avatarContent = reader.ReadBytes(upload.ContentLength);
                     }
+
+                    Image i;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        ms.Write(avatarContent, 0, avatarContentLength);
+                        i = Image.FromStream(ms);
+                    }
+
+                    var imageWidth = i.Width;
+                    var imageHeight = i.Height;
+
+                    if (i.Width > 160 || i.Height > 160)
+                    {
+                        double scale;
+                        if (i.Width >= i.Height)
+                        {
+                            scale = i.Width / 160;
+                        }
+                        else
+                        {
+                            scale = i.Height / 160;
+                        }
+
+                        imageWidth = System.Convert.ToInt32(Math.Floor(i.Width / scale));
+                        imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
+                    }
+
+                    avatar.Content = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
+                        () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }
 
@@ -263,7 +296,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizePA = 1;
+            int pageSizePA = 3;
             int pageNumberPA = (pagePA ?? 1);
 
             viewModel.PersonalAdvertisements = perAds.ToPagedList(pageNumberPA, pageSizePA);
@@ -306,7 +339,7 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizeRA = 1;
+            int pageSizeRA = 3;
             int pageNumberRA = (pageRA ?? 1);
 
             viewModel.RewardedAdvertisements = rewAds.ToPagedList(pageNumberRA, pageSizeRA);
@@ -335,12 +368,19 @@ namespace NiewidzialnaPomoc.Controllers
                     break;
             }
 
-            int pageSizeRC = 1;
+            int pageSizeRC = 3;
             int pageNumberRC = (pageRC ?? 1);
 
             viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
 
             return View(viewModel);
+        }
+
+        public byte[] imageToByteArray(Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            return ms.ToArray();
         }
 
         //public async Task<ActionResult> Index(ManageMessageId? message)
