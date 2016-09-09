@@ -59,11 +59,28 @@ namespace NiewidzialnaPomoc.Controllers
             }
         }
 
-        public ActionResult Index(string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC)
+        public ActionResult Index(string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA,
+            string sortOrderRC, int? pageRC, bool? isRewardSelected, int? selectedReward, int? selectedAdvertisementToDelete)
         {
             var viewModel = new ManageViewModel();
 
             var userId = User.Identity.GetUserId();
+
+            if (isRewardSelected != null && isRewardSelected == true)
+            {
+                var reward = db.RewardCodes.Find(selectedReward);
+                string rewardCode = reward.Code;
+                TempData["code"] = "<script>alert('Kod: " + rewardCode + ".');</script>";
+            }
+
+            if(selectedAdvertisementToDelete != null)
+            {
+                Advertisement advertisement = db.Advertisements.Find(selectedAdvertisementToDelete);
+                db.Advertisements.Remove(advertisement);
+                db.SaveChanges();
+
+                TempData["alert"] = "<script>alert('Ogłoszenie zostało usunięte.');</script>";
+            }
 
             //Account
             var user = db.ApplicationUsers.Where(u => u.Id.ToString().Equals(userId)).First();
@@ -182,7 +199,7 @@ namespace NiewidzialnaPomoc.Controllers
             int pageSizeRC = 3;
             int pageNumberRC = (pageRC ?? 1);
 
-            viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
+            viewModel.RewardCodes = rew.ToPagedList(pageNumberRC, pageSizeRC);
 
             return View(viewModel);
         }
@@ -372,7 +389,7 @@ namespace NiewidzialnaPomoc.Controllers
             int pageSizeRC = 3;
             int pageNumberRC = (pageRC ?? 1);
 
-            viewModel.Rewards = rew.ToPagedList(pageNumberRC, pageSizeRC);
+            viewModel.RewardCodes = rew.ToPagedList(pageNumberRC, pageSizeRC);
 
             return View(viewModel);
         }

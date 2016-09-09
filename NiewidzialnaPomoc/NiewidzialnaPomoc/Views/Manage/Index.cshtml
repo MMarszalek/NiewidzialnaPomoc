@@ -13,8 +13,10 @@
         <li><a href="#Profile">Mój profil</a></li>
         <li><a href="#PersonalAdvertisements">Moje ogłoszenia</a></li>
         <li><a href="#RewardedAdvertisements">Moja pomoc</a></li>
-        <li><a href="#Rewards">Moje nagrody</a></li>
+        <li><a href="#RewardCodes">Moje nagrody</a></li>
     </ul>
+    @Html.Raw(TempData["code"])
+    @Html.Raw(TempData["alert"])
     <div id="Profile">
         @using (Html.BeginForm("Index","Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -84,11 +86,9 @@
         <div>
             @Html.ActionLink("Zmień hasło", "ChangePassword")
         </div>
-
-        @Html.Raw(TempData["alert"])
     </div>
     <div id="PersonalAdvertisements">
-        <table class="table">
+        <table class="table clickableRows">
             <tr>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.LocationSortParmPA })
@@ -107,22 +107,23 @@
             @foreach (var item in Model.PersonalAdvertisements)
             {
                 <tr>
-                    <td>
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
                         @Html.DisplayFor(modelItem => item.Location.Name)
                     </td>
-                    <td>
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
-                    <td>
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
                         @Html.DisplayFor(modelItem => item.AddDate)
                     </td>
-                    <td>
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
                         @Html.DisplayFor(modelItem => item.Difficulty.Name)
                     </td>
-                    <td>
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
                         @Html.ActionLink("Edit", "EditPA", new { id = item.Id }) |
                         @Html.ActionLink("Details", "DetailsPA", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "DeletePA", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Index", new { selectedAdvertisementToDelete = item.Id }, 
+                       new { onclick = "return confirm('Czy na pewno chcesz usunąć to ogłoszenie?')" }) |
                         @Html.ActionLink("Accept", "AcceptPA", new { id = item.Id })
                     </td>
                 </tr>
@@ -176,23 +177,23 @@
         Page @(Model.RewardedAdvertisements.PageCount < Model.RewardedAdvertisements.PageNumber ? 0 : Model.RewardedAdvertisements.PageNumber) of @Model.RewardedAdvertisements.PageCount
         @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))
     </div>
-    <div id="Rewards">
-        <table class="table">
+    <div id="RewardCodes">
+        <table class="table clickableRows">
             <tr>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Code)
+                    @Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().Code)
                 </th>
             </tr>
 
-            @foreach (var item in Model.Rewards)
+            @foreach (var item in Model.RewardCodes)
             {
-                <tr>
+                <tr onclick="location.href = '@(Url.Action("Index", "Manage", new { isRewardSelected = true, selectedReward = item.Id }))'">
                     <td>
                         @Html.DisplayFor(modelItem => item.ReceivedDate)
                     </td>
@@ -207,8 +208,8 @@
 
         </table>
         <br />
-        Page @(Model.Rewards.PageCount < Model.Rewards.PageNumber ? 0 : Model.Rewards.PageNumber) of @Model.Rewards.PageCount
-        @Html.PagedListPager(Model.Rewards, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))
+        Page @(Model.RewardCodes.PageCount < Model.RewardCodes.PageNumber ? 0 : Model.RewardCodes.PageNumber) of @Model.RewardCodes.PageCount
+        @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))
     </div>
 </div>
 

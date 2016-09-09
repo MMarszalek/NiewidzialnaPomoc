@@ -11,7 +11,7 @@ namespace Repository.Models.Views
         //public IList<Advertisement> PersonalAdvertisements { get; set; }
         public IPagedList<Advertisement> PersonalAdvertisements { get; set; }
         public IPagedList<Advertisement> RewardedAdvertisements { get; set; }
-        public IPagedList<RewardCode> Rewards { get; set; }
+        public IPagedList<RewardCode> RewardCodes { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }
