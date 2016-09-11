@@ -25,15 +25,15 @@ namespace Repository.Migrations
             // Do debugowania metody seed
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
-            SeedRoles(context);
-            SeedUsers(context);
-            SeedCategories(context);
-            SeedDifficulties(context);
-            SeedPerformances(context);
-            SeedLocations(context);
-            SeedRewards(context);
-            SeedRewardCodes(context);
-            SeedAdvertisements(context);
+            //SeedRoles(context);
+            //SeedUsers(context);
+            //SeedCategories(context);
+            //SeedDifficulties(context);
+            //SeedPerformances(context);
+            //SeedLocations(context);
+            //SeedRewards(context);
+            //SeedRewardCodes(context);
+            //SeedAdvertisements(context);
             SeedRewardPhotos(context);
         }
 
@@ -239,17 +239,17 @@ namespace Repository.Migrations
             var path = MapPath("~/Content/RewardPhotos/");
             var rewardPhotos = new List<RewardPhoto>
             {
-                new RewardPhoto { Id = 1, FileName = "nagroda1.jpg", FileContent = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 2, FileName = "nagroda1.jpg", FileContent = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 3, FileName = "nagroda1.jpg", FileContent = File.ReadAllBytes(path + "nagroda1.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 1, FileName = "reward1.jpg", FileContent = File.ReadAllBytes(path + "reward1.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 2, FileName = "reward1.jpg", FileContent = File.ReadAllBytes(path + "reward1.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 3, FileName = "reward1.jpg", FileContent = File.ReadAllBytes(path + "reward1.jpg"), ContentType = "image/jpeg"},
 
-                new RewardPhoto { Id = 4, FileName = "nagroda2.jpg", FileContent = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 5, FileName = "nagroda2.jpg", FileContent = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 6, FileName = "nagroda2.jpg", FileContent = File.ReadAllBytes(path + "nagroda2.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 4, FileName = "reward2.jpg", FileContent = File.ReadAllBytes(path + "reward2.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 5, FileName = "reward2.jpg", FileContent = File.ReadAllBytes(path + "reward2.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 6, FileName = "reward2.jpg", FileContent = File.ReadAllBytes(path + "reward2.jpg"), ContentType = "image/jpeg"},
 
-                new RewardPhoto { Id = 7, FileName = "nagroda3.jpg", FileContent = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 8, FileName = "nagroda3.jpg", FileContent = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"},
-                new RewardPhoto { Id = 9, FileName = "nagroda3.jpg", FileContent = File.ReadAllBytes(path + "nagroda3.jpg"), ContentType = "image/jpeg"}
+                new RewardPhoto { Id = 7, FileName = "reward3.jpg", FileContent = File.ReadAllBytes(path + "reward3.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 8, FileName = "reward3.jpg", FileContent = File.ReadAllBytes(path + "reward3.jpg"), ContentType = "image/jpeg"},
+                new RewardPhoto { Id = 9, FileName = "reward3.jpg", FileContent = File.ReadAllBytes(path + "reward3.jpg"), ContentType = "image/jpeg"}
             };
 
             rewardPhotos.ForEach(s => context.RewardPhotos.AddOrUpdate(rp => rp.Id, s));

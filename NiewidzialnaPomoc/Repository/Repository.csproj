@@ -118,10 +118,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\DefaultPhotos\defaultAdvertisement.jpg" />
+    <Content Include="Content\DefaultPhotos\defaultAvatar.jpg" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Content\RewardPhotos\nagroda1.jpg" />
-    <Content Include="Content\RewardPhotos\nagroda2.jpg" />
-    <Content Include="Content\RewardPhotos\nagroda3.jpg" />
+    <Content Include="Content\RewardPhotos\reward1.jpg" />
+    <Content Include="Content\RewardPhotos\reward2.jpg" />
+    <Content Include="Content\RewardPhotos\reward3.jpg" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
