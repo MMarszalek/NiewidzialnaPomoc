@@ -10,40 +10,27 @@
 {
     <p><strong>Masz @Model.ApplicationUser.Points punktów</strong></p>
 }
-<hr/>
+<hr />
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rewards.FirstOrDefault().Price)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model.Rewards) {
-    <tr>
-        <td>
-            @if (item.RewardPhoto != null)
-            {
+    @foreach (var item in Model.Rewards)
+    {
+        <tr class="clickable-row" onclick="if(confirm('Czy na pewno chcesz otrzymać tę nagrodę?')) location.href = '@(Url.Action("RewardCode", "Rewards", new { id = item.Id }))'">
+            <td>
                 <div class="form-group">
-                    <div class="col-md-10">
-                        <img src="~/RewardPhoto?id=@item.RewardPhoto.Id" alt="photo" />
-                        @Html.DisplayFor(modelItem => item.Name)
+                    <div class="col-md-10" id="reward-container">
+                        <img src="~/RewardPhoto?id=@item.RewardPhoto.Id" alt="photo"/>
+                        <div>
+                            <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                            <h6>Wymagane punkty: <strong>@Html.DisplayFor(modelItem => item.Price)</strong></h6>
+                        </div>
                     </div>
                 </div>
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.ActionLink("Wybieram", "RewardCode", new { id=item.Id }, new { onclick = "return confirm('Czy na pewno chcesz otrzymać tę nagrodę?')" })
-        </td>
-    </tr>
-}
-
+            </td>
+            @*<td>
+                @Html.ActionLink("Wybieram", "RewardCode", new { id = item.Id }, new { onclick = "return confirm('Czy na pewno chcesz otrzymać tę nagrodę?')" })
+            </td>*@
+        </tr>
+    }
 </table>
 
 @Html.Raw(TempData["alert"])

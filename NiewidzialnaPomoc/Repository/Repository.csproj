@@ -119,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\RewardPhotos\nagroda1.jpg" />
+    <Content Include="Content\RewardPhotos\nagroda2.jpg" />
+    <Content Include="Content\RewardPhotos\nagroda3.jpg" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -128,9 +131,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\RewardPhotos\nagroda1.jpg" />
-    <Content Include="Content\RewardPhotos\nagroda2.jpg" />
-    <Content Include="Content\RewardPhotos\nagroda3.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -61,14 +61,14 @@ namespace Repository.Migrations
         {
             var store = new UserStore<ApplicationUser>(context);
             var manager = new UserManager<ApplicationUser>(store);
-            if (!context.Users.Any(u => u.UserName == "admin"))
-            {
+            //if (!context.Users.Any(u => u.UserName == "admin"))
+            //{
 
-                var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com" };
-                var result = manager.Create(user, "12345678"); //password: 12345678
-                if (result.Succeeded)
-                    manager.AddToRole(user.Id, "Admin");
-            }
+            //    var user = new ApplicationUser { UserName = "admin", Email = "admin@gmail.com" };
+            //    var result = manager.Create(user, "12345678"); //password: 12345678
+            //    if (result.Succeeded)
+            //        manager.AddToRole(user.Id, "Admin");
+            //}
 
             if (!context.Users.Any(u => u.UserName == "arkadiusz@gmail.com"))
             {
