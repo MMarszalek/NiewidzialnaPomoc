@@ -1,16 +1,16 @@
 ﻿@model Repository.Models.Views.RewardsViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Nagrody";
 }
 
 <h2>Nagrody</h2>
 
 @if (User.Identity.IsAuthenticated)
 {
-    <p>Masz @Model.ApplicationUser.Points punktów</p>
+    <p><strong>Masz @Model.ApplicationUser.Points punktów</strong></p>
 }
-
+<hr/>
 <table class="table">
     <tr>
         <th>

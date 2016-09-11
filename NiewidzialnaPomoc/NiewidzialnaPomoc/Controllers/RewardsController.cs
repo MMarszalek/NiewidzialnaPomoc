@@ -22,6 +22,8 @@ namespace NiewidzialnaPomoc.Controllers
             //var rewards = db.Rewards.Where(r => r.RewardCodes.Any(rc => rc.IsUsed == false));
             //return View(rewards.ToList());
 
+            Session["rewardCodeId"] = null;
+
             var rewards = db.Rewards.Where(r => r.RewardCodes.Any(rc => rc.IsUsed == false));
             var user = db.ApplicationUsers.Find(User.Identity.GetUserId());
 
@@ -46,22 +48,33 @@ namespace NiewidzialnaPomoc.Controllers
                 return RedirectToAction("Index");
             }
 
-            if(user.Points < reward.Price)
+            if(user.Points < reward.Price && Session["rewardCodeId"] == null)
             {
                 TempData["alert"] = "<script>alert('Nie masz wystarczającej ilości punktów.');</script>";
                 return RedirectToAction("Index");
             }
 
-            RewardCode rewardCode = reward.RewardCodes.First(r => r.IsUsed == false);
+            RewardCode rewardCode;
 
-            var rc = db.RewardCodes.Find(rewardCode.Id);
-            rc.IsUsed = true;
-            rc.RewardOwnerId = user.Id;
-            rc.ReceivedDate = DateTime.Now;
+            if (Session["rewardCodeId"] == null)
+            {
+                rewardCode = reward.RewardCodes.First(r => r.IsUsed == false);
 
-            user.Points -= rc.Reward.Price;
+                Session["rewardCodeId"] = rewardCode.Id;
 
-            db.SaveChanges();
+                var rc = db.RewardCodes.Find(rewardCode.Id);
+                rc.IsUsed = true;
+                rc.RewardOwnerId = user.Id;
+                rc.ReceivedDate = DateTime.Now;
+
+                user.Points -= rc.Reward.Price;
+
+                db.SaveChanges();
+            }
+            else
+            {
+                rewardCode = db.RewardCodes.Find(Session["rewardCodeId"]);
+            }
 
             return View(rewardCode);
         }

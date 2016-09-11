@@ -27,6 +27,7 @@ namespace Repository.Models
         [Display(Name = "Treść")]
         [Required]
         [MaxLength(500)]
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
         [Display(Name = "Data dodania")]
