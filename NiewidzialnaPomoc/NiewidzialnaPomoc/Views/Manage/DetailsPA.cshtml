@@ -1,95 +1,61 @@
 ﻿@model Repository.Models.Advertisement
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title;
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Advertisement</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.UserName)
-        </dt>
-
-        <dd>
-            @if (Model.Author.Avatar != null)
-            {
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <img src="~/Avatar?id=@Model.Author.Avatar.Id" alt="avatar" />
-                        @Html.DisplayFor(model => model.Author.UserName)
-                    </div>
-                </div>
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
-
-        <dt>
-            Zdjęcia
-        </dt>
-
-        <dd>
+    <div class="col-md-8" style="padding:0px;">
+        <div>
+            <strong>@Html.DisplayFor(model => model.Location.Name)</strong> |
+            Data dodania: @Html.DisplayFor(model => model.AddDate) |
+            Trudność: @Html.DisplayFor(model => model.Difficulty.Name)
+        </div>
+        <br />
+        <div>
+            @Html.DisplayFor(model => model.Content)
+        </div>
+        <br />
+        <div>
             @if (Model.AdvertisementPhotos.Any())
             {
                 foreach (var p in Model.AdvertisementPhotos)
                 {
                     <a href="">
-                        <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo" onclick="javascript:window.open('@(Url.Action("Index", "AdvertisementPhoto", new { id = p.Id, thumbnail = false}))')" />
+                        <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo"
+                             onclick="javascript:window.open('@(Url.Action("Index", "AdvertisementPhoto", new { id = p.Id, thumbnail = false}))')" />
                     </a>
                 }
             }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AddDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AddDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Difficulty.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Difficulty.Name)
-        </dd>
-    </dl>
+        </div>
+        <br />
+        <div>
+            @Html.ActionLink("Powrót", "Index") | 
+            @Html.ActionLink("Edytuj", "EditPA", new { id = Model.Id })
+        </div>
+    </div>
+    <div class="col-md-4">
+        @if (Model.Author.Avatar != null)
+        {
+            <div>
+                <img src="~/Avatar?id=@Model.Author.Avatar.Id" alt="avatar" />
+            </div>
+        }
+        else
+        {
+            <div>
+                <img src="~/Avatar?id=e7c68192-3be3-4345-936b-eb627da1370e" alt="avatar" />
+            </div>
+        }
+        <div>
+            <h4>@Html.DisplayFor(model => model.Author.FullName)</h4>
+            <h6>Email: @Html.DisplayFor(model => model.Author.Email)</h6>
+            @if (Model.Author.PhoneNumber != null)
+            {
+                <h6>Telefon: @Html.DisplayFor(model => model.Author.PhoneNumber)</h6>
+            }
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "EditPA", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-<script type="text/javascript">
-  function openImage(imageUrl) {
-    window.open(theURL);
-  }
-</script>

@@ -18,6 +18,7 @@
     @Html.Raw(TempData["code"])
     @Html.Raw(TempData["alert"])
     <div id="Profile">
+        <br />
         @using (Html.BeginForm("Index","Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
@@ -37,7 +38,7 @@
                 }
 
                 <div class="form-group">
-                    @Html.Label("Avatar", new { @class = "control-label col-md-2" })
+                    @Html.Label("Nowe zdjęcie profilowe", new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         <input type="file" name="upload" />
                     </div>
@@ -77,7 +78,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="submit" value="Zapisz" class="btn btn-default" />
                     </div>
                 </div>
             </div>
@@ -88,7 +89,53 @@
         </div>
     </div>
     <div id="PersonalAdvertisements">
+        <br />
+        <div id="sorting-container">
+            <p>
+                Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.LocationSortParmPA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.TitleSortParmPA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.AddDateSortParmPA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.DifficultySortParmPA })
+            </p>
+        </div>
+        <br />
         <table class="table">
+            @foreach (var item in Model.PersonalAdvertisements)
+            {
+                <tr class="clickable-row">
+                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
+                        <div class="col-md-3">
+                            @if (item.AdvertisementPhotos.Any())
+                            {
+                                <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
+                            }
+                            else
+                            {
+                                <img src="~/AdvertisementPhoto?id=1&thumbnail=true" alt="photo" />
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>
+                            <h6>Data dodania: @Html.DisplayFor(modelItem => item.AddDate)</h6>
+                            <h6>Trudność: @Html.DisplayFor(modelItem => item.Difficulty.Name)</h6>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "EditPA", new { id = item.Id }) |
+                        @Html.ActionLink("Usuń", "Index", new { selectedAdvertisementToDelete = item.Id },
+                       new { onclick = "return confirm('Czy na pewno chcesz usunąć to ogłoszenie?')" }) |
+                        @Html.ActionLink("Zatwierdź", "AcceptPA", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        Strona @(Model.PersonalAdvertisements.PageCount < Model.PersonalAdvertisements.PageNumber ? 0 : Model.PersonalAdvertisements.PageNumber) z @Model.PersonalAdvertisements.PageCount
+        @Html.PagedListPager(Model.PersonalAdvertisements, pagePA => Url.Action("Index", new { pagePA, sortOrderPA = ViewBag.CurrentSortPA }))
+
+        @*<table class="table">
             <tr>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.LocationSortParmPA })
@@ -132,10 +179,49 @@
         </table>
         <br />
         Page @(Model.PersonalAdvertisements.PageCount < Model.PersonalAdvertisements.PageNumber ? 0 : Model.PersonalAdvertisements.PageNumber) of @Model.PersonalAdvertisements.PageCount
-        @Html.PagedListPager(Model.PersonalAdvertisements, pagePA => Url.Action("Index", new { pagePA, sortOrderPA = ViewBag.CurrentSortPA }))
+        @Html.PagedListPager(Model.PersonalAdvertisements, pagePA => Url.Action("Index", new { pagePA, sortOrderPA = ViewBag.CurrentSortPA }))*@
     </div>
     <div id="RewardedAdvertisements">
+        <br />
+        <div id="sorting-container">
+            <p>
+                Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.TitleSortParmRA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.AddDateSortParmRA }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.DifficultySortParmRA })
+            </p>
+        </div>
+        <br />
         <table class="table">
+            @foreach (var item in Model.RewardedAdvertisements)
+            {
+                <tr class="clickable-row">
+                    <td onclick="location.href = '@(Url.Action("DetailsRA", "Manage", new { id = item.Id }))'">
+                        <div class="col-md-3">
+                            @if (item.AdvertisementPhotos.Any())
+                            {
+                                <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
+                            }
+                            else
+                            {
+                                <img src="~/AdvertisementPhoto?id=1&thumbnail=true" alt="photo" />
+                            }
+                        </div>
+                        <div class="col-md-9">
+                            <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>
+                            <h6>Data dodania: @Html.DisplayFor(modelItem => item.AddDate)</h6>
+                            <h6>Trudność: @Html.DisplayFor(modelItem => item.Difficulty.Name)</h6>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        Strona @(Model.RewardedAdvertisements.PageCount < Model.RewardedAdvertisements.PageNumber ? 0 : Model.RewardedAdvertisements.PageNumber) z @Model.RewardedAdvertisements.PageCount
+        @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))
+
+        @*<table class="table">
             <tr>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA })
@@ -175,10 +261,38 @@
         </table>
         <br />
         Page @(Model.RewardedAdvertisements.PageCount < Model.RewardedAdvertisements.PageNumber ? 0 : Model.RewardedAdvertisements.PageNumber) of @Model.RewardedAdvertisements.PageCount
-        @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))
+        @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))*@
     </div>
     <div id="RewardCodes">
+        <br />
+        <div id="sorting-container">
+            <p>
+                Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC }) |
+                @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
+            </p>
+        </div>
+        <br />
         <table class="table">
+            @foreach (var item in Model.RewardCodes)
+            {
+                <tr class="clickable-row">
+                    <td onclick="location.href = '@(Url.Action("Index", "Manage", new { isRewardSelected = true, selectedReward = item.Id }))'">
+                        <div class="col-md-6">
+                            <img src="~/RewardPhoto?id=@item.Reward.RewardPhoto.Id" alt="photo" />
+                        </div>
+                        <div class="col-md-6">
+                            <h4>@Html.DisplayFor(modelItem => item.Reward.Name)</h4>
+                            <h6>Data otrzymania: @Html.DisplayFor(modelItem => item.ReceivedDate)</h6>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        Strona @(Model.RewardCodes.PageCount < Model.RewardCodes.PageNumber ? 0 : Model.RewardCodes.PageNumber) z @Model.RewardCodes.PageCount
+        @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))
+
+        @*<table class="table">
             <tr>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
@@ -203,7 +317,7 @@
         </table>
         <br />
         Page @(Model.RewardCodes.PageCount < Model.RewardCodes.PageNumber ? 0 : Model.RewardCodes.PageNumber) of @Model.RewardCodes.PageCount
-        @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))
+        @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))*@
     </div>
 </div>
 

@@ -3,24 +3,20 @@
 @model  Repository.Models.Views.AdvertisementsListViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista ogłoszeń";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    <p>
+    <div id="search-container">
         @Html.TextBoxFor(model => model.SearchModel.TitleContent, htmlAttributes: new { @class = "form-control" })
-        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control" })
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </p>
+        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </div>
     <div>
-        <h3>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h3>
+        <h4>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h4>
         @Html.CheckBoxListFor(model => model.SearchModel.PostedCategories.CategoriesIds,
         model => model.AvaibleCategories,
         category => category.Id,
@@ -28,7 +24,7 @@
         model => model.SelectedCategories)
     </div>
     <div>
-        <h3>@Html.DisplayNameFor(model => model.AvaibleDifficulties.FirstOrDefault().Name)</h3>
+        <h4>@Html.DisplayNameFor(model => model.AvaibleDifficulties.FirstOrDefault().Name)</h4>
         @Html.CheckBoxListFor(model => model.SearchModel.PostedDifficulties.DifficultiesIds,
         model => model.AvaibleDifficulties,
         difficulty => difficulty.Id,
@@ -36,12 +32,83 @@
         model => model.SelectedDifficulties)
     </div>
 }
+<div id="sorting-container">
+    <p>Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })</p>
+</div>
+<br />
+<table class="table">
+    @foreach (var item in Model.Advertisements)
+    {
+        <tr class="clickable-row" onclick="location.href = '@(Url.Action("Details", "Advertisements", new { id = item.Id }))'">
+            <td>
+                <div class="col-md-3">
+                    @if (item.AdvertisementPhotos.Any())
+                    {
+                        <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
+                    }
+                    else
+                    {
+                        <img src="~/AdvertisementPhoto?id=1&thumbnail=true" alt="photo"/>
+                    }
+                </div>
+                <div class="col-md-9">
+                    <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>
+                    <h6>Data dodania: @Html.DisplayFor(modelItem => item.AddDate)</h6>
+                    <h6>Trudność: @Html.DisplayFor(modelItem => item.Difficulty.Name)</h6>
+                </div>
+            </td>
+        </tr>
+    }
 
+</table>
+<br />
+Strona @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) z @Model.Advertisements.PageCount
+
+@Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort }))
+
+
+@*@using PagedList;
+@using PagedList.Mvc;
+@model  Repository.Models.Views.AdvertisementsListViewModel
+
+@{
+    ViewBag.Title = "Lista ogłoszeń";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <div id="search-container">
+        @Html.TextBoxFor(model => model.SearchModel.TitleContent, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </div>
+    <div>
+        <h4>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h4>
+        @Html.CheckBoxListFor(model => model.SearchModel.PostedCategories.CategoriesIds,
+        model => model.AvaibleCategories,
+        category => category.Id,
+        category => category.Name,
+        model => model.SelectedCategories)
+    </div>
+    <div>
+        <h4>@Html.DisplayNameFor(model => model.AvaibleDifficulties.FirstOrDefault().Name)</h4>
+        @Html.CheckBoxListFor(model => model.SearchModel.PostedDifficulties.DifficultiesIds,
+        model => model.AvaibleDifficulties,
+        difficulty => difficulty.Id,
+        difficulty => difficulty.Name,
+        model => model.SelectedDifficulties)
+    </div>
+}
+<br />
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Author.UserName)
-        </th>
         <th>
             @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm })
         </th>
@@ -58,12 +125,12 @@
 
     @foreach (var item in Model.Advertisements)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.UserName)
-            </td>
+        <tr class="clickable-row" onclick="location.href = '@(Url.Action("Details", "Advertisements", new { id = item.Id }))'">
             <td>
                 @Html.DisplayFor(modelItem => item.Location.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AddDate)
@@ -71,17 +138,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Difficulty.Name)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
         </tr>
     }
 
 </table>
 <br />
-Page @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) of @Model.Advertisements.PageCount
+Strona @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) z @Model.Advertisements.PageCount
 
 @Html.PagedListPager(Model.Advertisements, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort }))
+    new { page, sortOrder = ViewBag.CurrentSort }))*@

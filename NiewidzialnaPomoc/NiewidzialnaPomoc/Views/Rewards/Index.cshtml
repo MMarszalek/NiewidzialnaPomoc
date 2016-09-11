@@ -16,19 +16,14 @@
     {
         <tr class="clickable-row" onclick="if(confirm('Czy na pewno chcesz otrzymać tę nagrodę?')) location.href = '@(Url.Action("RewardCode", "Rewards", new { id = item.Id }))'">
             <td>
-                <div class="form-group">
-                    <div class="col-md-10" id="reward-container">
-                        <img src="~/RewardPhoto?id=@item.RewardPhoto.Id" alt="photo"/>
-                        <div>
-                            <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
-                            <h6>Wymagane punkty: <strong>@Html.DisplayFor(modelItem => item.Price)</strong></h6>
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                    <img src="~/RewardPhoto?id=@item.RewardPhoto.Id" alt="photo" />
+                </div>
+                <div class="col-md-6">
+                    <h4>@Html.DisplayFor(modelItem => item.Name)</h4>
+                    <h6>Wymagane punkty: <strong>@Html.DisplayFor(modelItem => item.Price)</strong></h6>
                 </div>
             </td>
-            @*<td>
-                @Html.ActionLink("Wybieram", "RewardCode", new { id = item.Id }, new { onclick = "return confirm('Czy na pewno chcesz otrzymać tę nagrodę?')" })
-            </td>*@
         </tr>
     }
 </table>

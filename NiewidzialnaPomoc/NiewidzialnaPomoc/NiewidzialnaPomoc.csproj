@@ -351,21 +351,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Advertisements\Create.cshtml" />
-    <Content Include="Views\Advertisements\Delete.cshtml" />
     <Content Include="Views\Advertisements\Details.cshtml" />
-    <Content Include="Views\Advertisements\Edit.cshtml" />
     <Content Include="Views\Advertisements\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Enum.cshtml" />
     <Content Include="Views\Rewards\Index.cshtml" />
     <Content Include="Views\Rewards\RewardCode.cshtml" />
     <Content Include="Views\Manage\DetailsPA.cshtml" />
-    <Content Include="Views\Manage\DeletePA.cshtml" />
     <Content Include="Views\Manage\EditPA.cshtml" />
     <Content Include="Views\Manage\DetailsRA.cshtml" />
     <Content Include="Views\Home\CreateAdvertisement.cshtml" />
     <Content Include="Views\Manage\AcceptPA.cshtml" />
-    <Content Include="Views\Manage\EditAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

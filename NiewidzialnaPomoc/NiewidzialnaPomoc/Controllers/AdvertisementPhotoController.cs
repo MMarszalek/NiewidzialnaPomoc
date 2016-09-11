@@ -30,16 +30,20 @@ namespace NiewidzialnaPomoc.Controllers
                 var imageWidth = i.Width;
                 var imageHeight = i.Height;
 
-                if (i.Width > 480 || i.Height > 320)
+                double maxWidth = 240;
+                double maxHeight = 160;
+
+                if (i.Width > maxWidth || i.Height > maxHeight)
                 {
                     double scale;
-                    if (i.Width >= i.Height * 1.5)
+                    double divider = maxWidth / maxHeight;
+                    if (i.Width >= i.Height * divider)
                     {
-                        scale = i.Width / 480;
+                        scale = i.Width / maxWidth;
                     }
                     else
                     {
-                        scale = i.Height / 320;
+                        scale = i.Height / maxHeight;
                     }
 
                     imageWidth = System.Convert.ToInt32(Math.Floor(i.Width / scale));
