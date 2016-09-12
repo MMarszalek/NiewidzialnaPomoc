@@ -136,29 +136,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201609012220299_initial_migration.cs" />
-    <Compile Include="Migrations\201609012220299_initial_migration.Designer.cs">
-      <DependentUpon>201609012220299_initial_migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609051033023_add_reward_photos.cs" />
-    <Compile Include="Migrations\201609051033023_add_reward_photos.Designer.cs">
-      <DependentUpon>201609051033023_add_reward_photos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609051933498_add_reward_photos_2.cs" />
-    <Compile Include="Migrations\201609051933498_add_reward_photos_2.Designer.cs">
-      <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609061334220_data_annotations.cs" />
-    <Compile Include="Migrations\201609061334220_data_annotations.Designer.cs">
-      <DependentUpon>201609061334220_data_annotations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609061440020_data_annotations1.cs" />
-    <Compile Include="Migrations\201609061440020_data_annotations1.Designer.cs">
-      <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609121230170_default_photos.cs" />
-    <Compile Include="Migrations\201609121230170_default_photos.Designer.cs">
-      <DependentUpon>201609121230170_default_photos.cs</DependentUpon>
+    <Compile Include="Migrations\201609121413161_initial_migration.cs" />
+    <Compile Include="Migrations\201609121413161_initial_migration.Designer.cs">
+      <DependentUpon>201609121413161_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
@@ -187,26 +167,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609012220299_initial_migration.resx">
-      <DependentUpon>201609012220299_initial_migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609051033023_add_reward_photos.resx">
-      <DependentUpon>201609051033023_add_reward_photos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609051933498_add_reward_photos_2.resx">
-      <DependentUpon>201609051933498_add_reward_photos_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609061334220_data_annotations.resx">
-      <DependentUpon>201609061334220_data_annotations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609061440020_data_annotations1.resx">
-      <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609121230170_default_photos.resx">
-      <DependentUpon>201609121230170_default_photos.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609121413161_initial_migration.resx">
+      <DependentUpon>201609121413161_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

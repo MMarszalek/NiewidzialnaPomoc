@@ -14,7 +14,7 @@ namespace Repository.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FileName = c.String(),
                         ContentType = c.String(),
-                        Content = c.Binary(),
+                        FileContent = c.Binary(),
                         AdvertisementId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
@@ -26,8 +26,8 @@ namespace Repository.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(maxLength: 72),
-                        Content = c.String(maxLength: 500),
+                        Title = c.String(nullable: false, maxLength: 72),
+                        Content = c.String(nullable: false, maxLength: 500),
                         AddDate = c.DateTime(nullable: false),
                         DifficultyId = c.Int(nullable: false),
                         PerformanceId = c.Int(nullable: false),
@@ -50,7 +50,7 @@ namespace Repository.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        Email = c.String(maxLength: 256),
+                        Email = c.String(nullable: false, maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
                         SecurityStamp = c.String(),
@@ -76,7 +76,7 @@ namespace Repository.Migrations
                         Id = c.String(nullable: false, maxLength: 128),
                         FileName = c.String(),
                         ContentType = c.String(),
-                        Content = c.Binary(),
+                        FileContent = c.Binary(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.Id)
@@ -135,6 +135,19 @@ namespace Repository.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.RewardPhotoes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        FileName = c.String(),
+                        ContentType = c.String(),
+                        FileContent = c.Binary(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Rewards", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -182,6 +195,17 @@ namespace Repository.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Points = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.DefaultPhotoes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        FileName = c.String(),
+                        ContentType = c.String(),
+                        FileContent = c.Binary(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -236,6 +260,7 @@ namespace Repository.Migrations
             DropForeignKey("dbo.CategoryAdvertisements", "Category_Id", "dbo.Categories");
             DropForeignKey("dbo.ApplicationUserAdvertisements", "Advertisement_Id", "dbo.Advertisements");
             DropForeignKey("dbo.ApplicationUserAdvertisements", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.RewardPhotoes", "Id", "dbo.Rewards");
             DropForeignKey("dbo.RewardCodes", "RewardId", "dbo.Rewards");
             DropForeignKey("dbo.RewardCodes", "RewardOwnerId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Advertisements", "AuthorId", "dbo.AspNetUsers");
@@ -248,6 +273,7 @@ namespace Repository.Migrations
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.RewardPhotoes", new[] { "Id" });
             DropIndex("dbo.RewardCodes", new[] { "RewardOwnerId" });
             DropIndex("dbo.RewardCodes", new[] { "RewardId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -262,11 +288,13 @@ namespace Repository.Migrations
             DropTable("dbo.CategoryAdvertisements");
             DropTable("dbo.ApplicationUserAdvertisements");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.DefaultPhotoes");
             DropTable("dbo.Performances");
             DropTable("dbo.Locations");
             DropTable("dbo.Difficulties");
             DropTable("dbo.Categories");
             DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.RewardPhotoes");
             DropTable("dbo.Rewards");
             DropTable("dbo.RewardCodes");
             DropTable("dbo.AspNetUserLogins");
