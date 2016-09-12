@@ -30,5 +30,6 @@ namespace Repository.Models
         public DbSet<Avatar> Avatars { get; set; }
         public DbSet<AdvertisementPhoto> AdvertisementPhotos { get; set; }
         public DbSet<RewardPhoto> RewardPhotos { get; set; }
+        public DbSet<DefaultPhoto> DefaultPhotos { get; set; }
     }
 }

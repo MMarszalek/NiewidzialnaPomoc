@@ -29,6 +29,10 @@
                     </a>
                 }
             }
+            else
+            {
+                <img src="~/DefaultPhoto?id=2" alt="photo" />
+            }
         </div>
         <br />
         <div>
@@ -41,6 +45,12 @@
         {
             <div>
                 <img src="~/Avatar?id=@Model.Author.Avatar.Id" alt="avatar" />
+            </div>
+        }
+        else
+        {
+            <div>
+                <img src="~/DefaultPhoto?id=1" alt="photo" />
             </div>
         }
         <div>

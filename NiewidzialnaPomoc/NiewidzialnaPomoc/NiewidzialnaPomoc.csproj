@@ -222,6 +222,7 @@
     <Compile Include="Controllers\AdvertisementPhotoController.cs" />
     <Compile Include="Controllers\AdvertisementsController.cs" />
     <Compile Include="Controllers\AvatarController.cs" />
+    <Compile Include="Controllers\DefaultPhotoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RewardPhotoController.cs" />
@@ -366,6 +367,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\AdvertisementPhoto\" />
     <Folder Include="Views\Avatar\" />
+    <Folder Include="Views\DefaultPhoto\" />
     <Folder Include="Views\RewardPhoto\" />
   </ItemGroup>
   <ItemGroup>

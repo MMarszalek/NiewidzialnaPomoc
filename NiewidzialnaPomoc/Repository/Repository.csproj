@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201609061440020_data_annotations1.Designer.cs">
       <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609121230170_default_photos.cs" />
+    <Compile Include="Migrations\201609121230170_default_photos.Designer.cs">
+      <DependentUpon>201609121230170_default_photos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\AdvertisementPhoto.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Avatar.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\DefaultPhoto.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Performance.cs" />
@@ -195,6 +200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609061440020_data_annotations1.resx">
       <DependentUpon>201609061440020_data_annotations1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609121230170_default_photos.resx">
+      <DependentUpon>201609121230170_default_photos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

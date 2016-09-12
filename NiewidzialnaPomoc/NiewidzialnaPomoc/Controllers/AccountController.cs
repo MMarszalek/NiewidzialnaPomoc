@@ -12,6 +12,8 @@ using Repository.Models;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Web.Hosting;
+using System.Reflection;
 
 namespace NiewidzialnaPomoc.Controllers
 {
@@ -206,6 +208,18 @@ namespace NiewidzialnaPomoc.Controllers
                         () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }
+                //else
+                //{
+                //    var path = MapPath("~/Content/DefaultPhotos/");
+                //    var avatar = new Avatar
+                //    {
+                //        FileName = "defaultAvatar.jpg",
+                //        ContentType = "image/jpeg",
+                //        FileContent = System.IO.File.ReadAllBytes(path + "defaultAvatar.jpg")
+                //    };
+
+                //    user.Avatar = avatar;
+                //}
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 UserManager.AddToRole(user.Id, "User");
@@ -227,6 +241,18 @@ namespace NiewidzialnaPomoc.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        //private string MapPath(string seedFile)
+        //{
+        //    if (System.Web.HttpContext.Current != null)
+        //        return HostingEnvironment.MapPath(seedFile);
+
+        //    var localPath = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+        //    var directoryName = Path.GetDirectoryName(localPath);
+        //    var path = Path.Combine(directoryName, ".." + seedFile.TrimStart('~'));
+
+        //    return path;
+        //}
 
         public byte[] imageToByteArray(Image imageIn)
         {

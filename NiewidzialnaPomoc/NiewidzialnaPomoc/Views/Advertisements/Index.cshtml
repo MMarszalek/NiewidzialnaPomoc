@@ -50,6 +50,12 @@
                         <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
                     </div>
                 }
+                else
+                {
+                    <div class="col-md-3">
+                        <img src="~/DefaultPhoto?id=2" alt="photo" />
+                    </div>
+                }
                 <div class="col-md-9">
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>

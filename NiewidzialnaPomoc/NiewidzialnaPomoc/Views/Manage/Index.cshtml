@@ -27,15 +27,19 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.ApplicationUser.Id)
 
-                @if (Model.ApplicationUser.Avatar != null)
-                {
-                    <div class="form-group">
-                        <span class="control-label col-md-2"><strong>Zdjęcie profilowe</strong></span>
-                        <div class="col-md-10">
+                <div class="form-group">
+                    @Html.Label("Zdjęcie profilowe", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (Model.ApplicationUser.Avatar != null)
+                        {
                             <img src="~/Avatar?id=@Model.ApplicationUser.Avatar.Id" alt="avatar" />
-                        </div>
+                        }
+                        else
+                        {
+                            <img src="~/DefaultPhoto?id=1" alt="photo" />
+                        }
                     </div>
-                }
+                </div>
 
                 <div class="form-group">
                     @Html.Label("Nowe zdjęcie profilowe", new { @class = "control-label col-md-2" })
@@ -104,13 +108,17 @@
             {
                 <tr class="clickable-row">
                     <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                        @if (item.AdvertisementPhotos.Any())
-                        {
-                            <div class="col-md-3">
+                        <div class="col-md-4">
+                            @if (item.AdvertisementPhotos.Any())
+                            {
                                 <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
-                            </div>
-                        }
-                        <div class="col-md-9">
+                            }
+                            else
+                            {
+                                <img src="~/DefaultPhoto?id=2" alt="photo" />
+                            }
+                        </div>
+                        <div class="col-md-8">
                             <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                             <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>
                             <h6>Data dodania: @Html.DisplayFor(modelItem => item.AddDate)</h6>
@@ -193,12 +201,16 @@
             {
                 <tr class="clickable-row">
                     <td onclick="location.href = '@(Url.Action("DetailsRA", "Manage", new { id = item.Id }))'">
-                        @if (item.AdvertisementPhotos.Any())
-                        {
-                            <div class="col-md-3">
+                        <div class="col-md-3">
+                            @if (item.AdvertisementPhotos.Any())
+                            {
                                 <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
-                            </div>
-                        }
+                            }
+                            else
+                            {
+                                <img src="~/DefaultPhoto?id=2" alt="photo" />
+                            }
+                        </div>
                         <div class="col-md-9">
                             <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                             <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>

@@ -25,16 +25,17 @@ namespace Repository.Migrations
             // Do debugowania metody seed
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
-            //SeedRoles(context);
-            //SeedUsers(context);
-            //SeedCategories(context);
-            //SeedDifficulties(context);
-            //SeedPerformances(context);
-            //SeedLocations(context);
-            //SeedRewards(context);
-            //SeedRewardCodes(context);
-            //SeedAdvertisements(context);
+            SeedRoles(context);
+            SeedUsers(context);
+            SeedCategories(context);
+            SeedDifficulties(context);
+            SeedPerformances(context);
+            SeedLocations(context);
+            SeedRewards(context);
+            SeedRewardCodes(context);
+            SeedAdvertisements(context);
             SeedRewardPhotos(context);
+            SeedDefaultPhotos(context);
         }
 
         private void SeedRoles(ApplicationDbContext context)
@@ -253,6 +254,21 @@ namespace Repository.Migrations
             };
 
             rewardPhotos.ForEach(s => context.RewardPhotos.AddOrUpdate(rp => rp.Id, s));
+            context.SaveChanges();
+        }
+
+        private void SeedDefaultPhotos(ApplicationDbContext context)
+        {
+            var path = MapPath("~/Content/DefaultPhotos/");
+
+            var defaultPhotos = new List<DefaultPhoto>
+            {
+                new DefaultPhoto { FileName = "defaultAvatar.jpg", FileContent = File.ReadAllBytes(path + "defaultAvatar.jpg"), ContentType = "image/jpeg" },
+                new DefaultPhoto { FileName = "defaultAdvertisement.jpg", FileContent = File.ReadAllBytes(path + "defaultAdvertisement.jpg"), ContentType = "image/jpeg" }
+            };
+
+            defaultPhotos.ForEach(s => context.DefaultPhotos.AddOrUpdate(dp => dp.FileName, s));
+
             context.SaveChanges();
         }
 
