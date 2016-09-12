@@ -1,4 +1,106 @@
-﻿@model Repository.Models.Advertisement
+﻿@model Repository.Models.Views.EditPAViewModel
+@{
+    ViewBag.Title = Model.Advertisement.Title;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm("EditPA", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Advertisement.Id)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Advertisement.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Advertisement.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Advertisement.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Advertisement.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Advertisement.Content, new { htmlAttributes = new { @class = "form-control", @style = "height:150px;" } })
+                @Html.ValidationMessageFor(model => model.Advertisement.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Advertisement.LocationId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Advertisement.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+                @Html.ValidationMessageFor(model => model.Advertisement.LocationId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Advertisement.DifficultyId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Advertisement.DifficultyId, new SelectList(Model.Difficulties, "Id", "Name"), "", htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+                @Html.ValidationMessageFor(model => model.Advertisement.DifficultyId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AvaibleCategories.FirstOrDefault().Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxListFor(model => model.PostedCategories.CategoriesIds,
+                model => model.AvaibleCategories,
+                category => category.Id,
+                category => category.Name,
+                model => model.SelectedCategories)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Stare zdjęcia", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.Advertisement.AdvertisementPhotos.Any())
+                {
+                    foreach (var p in Model.Advertisement.AdvertisementPhotos)
+                    {
+                        <img src="~/AdvertisementPhoto?id=@p.Id&thumbnail=true" alt="photo" />
+                    }
+                }
+                else
+                {
+                    <img src="~/DefaultPhoto?id=2" alt="photo" />
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Zdjęcia", new { @class = "control-label col-md-2" })
+            @Html.ValidationMessageFor(model => model.Advertisement.AdvertisementPhotos.FirstOrDefault().FileContent, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                <input type="file" name="uploads" />
+                <input type="file" name="uploads" />
+                <input type="file" name="uploads" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zmień" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*@model Repository.Models.Advertisement
 
 @{
     ViewBag.Title = Model.Title;
@@ -91,4 +193,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

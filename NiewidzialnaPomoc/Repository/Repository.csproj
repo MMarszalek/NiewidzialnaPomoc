@@ -181,6 +181,7 @@
     <Compile Include="Models\Views\CategoryViewModel.cs" />
     <Compile Include="Models\Views\CreateAdverstisementViewModel.cs" />
     <Compile Include="Models\Views\DifficultyViewModel.cs" />
+    <Compile Include="Models\Views\EditPAViewModel.cs" />
     <Compile Include="Models\Views\ManageViewModel.cs" />
     <Compile Include="Models\Views\RewardsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
