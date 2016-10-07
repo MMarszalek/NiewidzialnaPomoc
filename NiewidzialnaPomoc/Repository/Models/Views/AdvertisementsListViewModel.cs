@@ -26,6 +26,6 @@ namespace Repository.Models.Views
         public IList<DifficultyViewModel> AvaibleDifficulties { get; set; }
         public IList<DifficultyViewModel> SelectedDifficulties { get; set; }
 
-        public AdvertisementSearchModel SearchModel { get; set; }
+        public AdvertisementSearchModel AdvertisementSearchModel { get; set; }
     }
 }

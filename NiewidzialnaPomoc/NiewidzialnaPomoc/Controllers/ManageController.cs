@@ -62,7 +62,7 @@ namespace NiewidzialnaPomoc.Controllers
         public ActionResult Index(string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA,
             string sortOrderRC, int? pageRC, bool? isRewardSelected, int? selectedReward, int? selectedAdvertisementToDelete)
         {
-            var viewModel = new ManageViewModel();
+            var viewModel = new ManageIndexViewModel();
 
             var userId = User.Identity.GetUserId();
 
@@ -205,7 +205,7 @@ namespace NiewidzialnaPomoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ManageViewModel viewModel, string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC, HttpPostedFileBase upload)
+        public ActionResult Index(ManageIndexViewModel viewModel, string sortOrderPA, int? pagePA, string sortOrderRA, int? pageRA, string sortOrderRC, int? pageRC, HttpPostedFileBase upload)
         {
             var userId = User.Identity.GetUserId();
 
@@ -401,29 +401,6 @@ namespace NiewidzialnaPomoc.Controllers
             return ms.ToArray();
         }
 
-        //public async Task<ActionResult> Index(ManageMessageId? message)
-        //{
-        //    ViewBag.StatusMessage =
-        //        message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-        //        : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-        //        : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-        //        : message == ManageMessageId.Error ? "An error has occurred."
-        //        : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-        //        : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-        //        : "";
-
-        //    var userId = User.Identity.GetUserId();
-        //    var model = new IndexViewModel
-        //    {
-        //        HasPassword = HasPassword(),
-        //        PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-        //        TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-        //        Logins = await UserManager.GetLoginsAsync(userId),
-        //        BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-        //    };
-        //    return View(model);
-        //}
-
         public ActionResult DetailsPA(int? id)
         {
             if (id == null)
@@ -440,19 +417,6 @@ namespace NiewidzialnaPomoc.Controllers
 
         public ActionResult EditPA(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Advertisement advertisement = db.Advertisements.Find(id);
-            //if (advertisement == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-            //return View(advertisement);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -603,66 +567,6 @@ namespace NiewidzialnaPomoc.Controllers
 
             return View(viewModel);
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditPA(Advertisement advertisement, IEnumerable<HttpPostedFileBase> uploads) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
-        //{
-        //    var adv = db.Advertisements.Find(advertisement.Id);
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            adv.Title = advertisement.Title;
-        //            adv.Content = advertisement.Content;
-        //            adv.DifficultyId = advertisement.DifficultyId;
-        //            adv.LocationId = advertisement.LocationId;
-
-        //            bool canDelAdvPhotos = false;
-        //            foreach (var upload in uploads)
-        //            {
-        //                if (upload != null && upload.ContentLength > 0)
-        //                {
-        //                    canDelAdvPhotos = true;
-        //                }
-        //            }
-
-        //            if (canDelAdvPhotos)
-        //            {
-        //                db.AdvertisementPhotos.RemoveRange(adv.AdvertisementPhotos);
-        //            }
-
-        //            foreach (var upload in uploads)
-        //            {
-        //                if (upload != null && upload.ContentLength > 0)
-        //                {
-        //                    var photo = new AdvertisementPhoto
-        //                    {
-        //                        FileName = System.IO.Path.GetFileName(upload.FileName),
-        //                        ContentType = upload.ContentType
-        //                    };
-        //                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-        //                    {
-        //                        photo.FileContent = reader.ReadBytes(upload.ContentLength);
-        //                    }
-        //                    adv.AdvertisementPhotos.Add(photo);
-        //                }
-        //            }
-
-        //            db.SaveChanges();
-        //            return RedirectToAction("Index");
-        //        }
-
-        //    }
-        //    catch (DbEntityValidationException e)
-        //    {
-        //        var error = e.EntityValidationErrors.First().ValidationErrors.First();
-        //        this.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-        //    }
-        //    ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-        //    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-        //    return View(advertisement);
-        //}
 
         public ActionResult DeletePA(int? id)
         {

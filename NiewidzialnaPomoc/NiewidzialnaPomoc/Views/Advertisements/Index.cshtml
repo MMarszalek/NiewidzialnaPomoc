@@ -11,21 +11,28 @@
 @using (Html.BeginForm(FormMethod.Get))
 {
     <div id="search-container">
-        @Html.TextBoxFor(model => model.SearchModel.TitleContent, htmlAttributes: new { @class = "form-control" })
-        @Html.DropDownListFor(model => model.SearchModel.LocationId, new SelectList(Model.Locations, "Id", "Name"), "", htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
+        @Html.TextBoxFor(model => model.AdvertisementSearchModel.TitleContent,
+       htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.AdvertisementSearchModel.LocationId,
+       new SelectList(Model.Locations, "Id", "Name"), "",
+       htmlAttributes: new { @class = "form-control", @style = "width:150px;" })
         <button type="submit" class="btn btn-primary">Szukaj</button>
     </div>
     <div>
-        <h4>@Html.DisplayNameFor(model => model.AvaibleCategories.FirstOrDefault().Name)</h4>
-        @Html.CheckBoxListFor(model => model.SearchModel.PostedCategories.CategoriesIds,
+        <h4>@Html.DisplayNameFor(model => 
+        model.AvaibleCategories.FirstOrDefault().Name)</h4>
+        @Html.CheckBoxListFor(model => 
+        model.AdvertisementSearchModel.PostedCategories.CategoriesIds,
         model => model.AvaibleCategories,
         category => category.Id,
         category => category.Name,
         model => model.SelectedCategories)
     </div>
     <div>
-        <h4>@Html.DisplayNameFor(model => model.AvaibleDifficulties.FirstOrDefault().Name)</h4>
-        @Html.CheckBoxListFor(model => model.SearchModel.PostedDifficulties.DifficultiesIds,
+        <h4>@Html.DisplayNameFor(model => 
+        model.AvaibleDifficulties.FirstOrDefault().Name)</h4>
+        @Html.CheckBoxListFor(model => 
+        model.AdvertisementSearchModel.PostedDifficulties.DifficultiesIds,
         model => model.AvaibleDifficulties,
         difficulty => difficulty.Id,
         difficulty => difficulty.Name,
@@ -33,8 +40,8 @@
     </div>
 }
 <div id="sorting-container">
-    <p>Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm }) |
-    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm }) |
+    <p>Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm }) |
     @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm }) |
     @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })</p>
 </div>
@@ -44,18 +51,16 @@
     {
         <tr class="clickable-row" onclick="location.href = '@(Url.Action("Details", "Advertisements", new { id = item.Id }))'">
             <td>
-                @if (item.AdvertisementPhotos.Any())
-                {
-                    <div class="col-md-3">
+                <div class="col-md-3">
+                    @if (item.AdvertisementPhotos.Any())
+                    {
                         <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
-                    </div>
-                }
-                else
-                {
-                    <div class="col-md-3">
+                    }
+                    else
+                    {
                         <img src="~/DefaultPhoto?id=2" alt="photo" />
-                    </div>
-                }
+                    }   
+                </div>
                 <div class="col-md-9">
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <h5>@Html.DisplayFor(modelItem => item.Location.Name)</h5>

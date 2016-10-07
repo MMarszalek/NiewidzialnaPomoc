@@ -26,7 +26,7 @@ namespace NiewidzialnaPomoc.Controllers
         [HttpPost]
         public ActionResult Index(AdvertisementsListViewModel viewModel)
         {
-            Session["SearchViewModel"] = viewModel.SearchModel;
+            Session["SearchViewModel"] = viewModel.AdvertisementSearchModel;
             return RedirectToAction("Index", "Advertisements");
         }
 
@@ -47,10 +47,6 @@ namespace NiewidzialnaPomoc.Controllers
 
         public ActionResult CreateAdvertisement()
         {
-            //ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name");
-            //ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            //return View();
-
             CreateAdverstisementViewModel viewModel = new CreateAdverstisementViewModel();
             viewModel.Locations = new List<Location>();
             viewModel.Locations = db.Locations.ToList();
@@ -150,7 +146,6 @@ namespace NiewidzialnaPomoc.Controllers
                     }
 
                     db.Advertisements.Add(viewModel.Advertisement);
-
                     db.SaveChanges();
 
                     return RedirectToAction("Index");

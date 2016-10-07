@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Repository.Models.Views
 {
-    public class ManageViewModel
+    public class ManageIndexViewModel
     {
         //public IList<Advertisement> PersonalAdvertisements { get; set; }
         public IPagedList<Advertisement> PersonalAdvertisements { get; set; }

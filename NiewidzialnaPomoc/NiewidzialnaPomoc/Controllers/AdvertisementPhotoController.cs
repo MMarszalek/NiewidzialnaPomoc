@@ -18,7 +18,7 @@ namespace NiewidzialnaPomoc.Controllers
         {
             var photoToRetrieve = db.AdvertisementPhotos.Find(id);
 
-            if(thumbnail == true)
+            if (thumbnail == true)
             {
                 Image i;
                 using (MemoryStream ms = new MemoryStream())
@@ -51,7 +51,8 @@ namespace NiewidzialnaPomoc.Controllers
                 }
 
                 return File(imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight, () => false, IntPtr.Zero)), photoToRetrieve.ContentType);
-            } else
+            }
+            else
             {
                 return File(photoToRetrieve.FileContent, photoToRetrieve.ContentType);
             }

@@ -21,37 +21,41 @@ namespace NiewidzialnaPomoc.Controllers
 
         public ActionResult Index(AdvertisementsListViewModel viewModel, string sortOrder, int? page)
         {
-            if (viewModel.SearchModel == null)
+            if (viewModel.AdvertisementSearchModel == null)
             {
-                viewModel.SearchModel = new AdvertisementSearchModel();
+                viewModel.AdvertisementSearchModel = new AdvertisementSearchModel();
                 if(Session["SearchViewModel"] != null)
                 {
-                    viewModel.SearchModel = (AdvertisementSearchModel)Session["SearchViewModel"];
+                    viewModel.AdvertisementSearchModel = 
+                        (AdvertisementSearchModel)Session["SearchViewModel"];
                 }
             }
             else
             {
-                Session["SearchViewModel"] = viewModel.SearchModel;
+                Session["SearchViewModel"] = viewModel.AdvertisementSearchModel;
             }
 
             //Categories
             var selectedCategories = new List<Category>();
             var postedCategoryIds = new string[0];
 
-            if (viewModel.SearchModel.PostedCategories == null)
+            if (viewModel.AdvertisementSearchModel.PostedCategories == null)
             {
-                viewModel.SearchModel.PostedCategories = new PostedCategories();
+                viewModel.AdvertisementSearchModel.PostedCategories = 
+                    new PostedCategories();
 
             }
 
-            if (viewModel.SearchModel.PostedCategories.CategoriesIds != null)
+            if (viewModel.AdvertisementSearchModel.PostedCategories.CategoriesIds != null)
             {
-                postedCategoryIds = viewModel.SearchModel.PostedCategories.CategoriesIds;
+                postedCategoryIds = 
+                    viewModel.AdvertisementSearchModel.PostedCategories.CategoriesIds;
             }
 
             if (postedCategoryIds.Any())
             {
-                selectedCategories = db.Categories.Where(x => postedCategoryIds.Any(s => x.Id.ToString().Equals(s))).ToList();
+                selectedCategories = db.Categories.Where(x => 
+                postedCategoryIds.Any(s => x.Id.ToString().Equals(s))).ToList();
             }
 
             viewModel.AvaibleCategories = new List<CategoryViewModel>();
@@ -77,15 +81,15 @@ namespace NiewidzialnaPomoc.Controllers
 
             var selectedDifficulties = new List<Difficulty>();
             var postedDifficultyIds = new string[0];
-            if (viewModel.SearchModel.PostedDifficulties == null)
+            if (viewModel.AdvertisementSearchModel.PostedDifficulties == null)
             {
-                viewModel.SearchModel.PostedDifficulties = new PostedDifficulties();
+                viewModel.AdvertisementSearchModel.PostedDifficulties = new PostedDifficulties();
 
             }
 
-            if (viewModel.SearchModel.PostedDifficulties.DifficultiesIds != null)
+            if (viewModel.AdvertisementSearchModel.PostedDifficulties.DifficultiesIds != null)
             {
-                postedDifficultyIds = viewModel.SearchModel.PostedDifficulties.DifficultiesIds;
+                postedDifficultyIds = viewModel.AdvertisementSearchModel.PostedDifficulties.DifficultiesIds;
             }
 
             if (postedDifficultyIds.Any())
@@ -118,7 +122,7 @@ namespace NiewidzialnaPomoc.Controllers
 
             //Advertisements
             var searchLogic = new AdvertisementsSearchLogic();
-            var advertisements = searchLogic.GetAdvertisements(viewModel.SearchModel);
+            var advertisements = searchLogic.GetAdvertisements(viewModel.AdvertisementSearchModel);
 
             //Sorting
             ViewBag.CurrentSort = sortOrder;
@@ -175,110 +179,6 @@ namespace NiewidzialnaPomoc.Controllers
                 return HttpNotFound();
             }
             return View(advertisement);
-        }
-
-        // GET: Advertisements/Create
-        public ActionResult Create()
-        {
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name");
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name");
-            return View();
-        }
-
-        // POST: Advertisements/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement)
-        {
-            if (ModelState.IsValid)
-            {
-                advertisement.AddDate = DateTime.Now;
-                advertisement.PerformanceId = 1;
-                advertisement.AuthorId = User.Identity.GetUserId();
-                advertisement.IsFinished = false;
-                db.Advertisements.Add(advertisement);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-            return View(advertisement);
-        }
-
-        // GET: Advertisements/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Advertisement advertisement = db.Advertisements.Find(id);
-            if (advertisement == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-            return View(advertisement);
-        }
-
-        // POST: Advertisements/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Content,AddDate,DifficultyId,PerformanceId,AuthorId,LocationId,IsFinished")] Advertisement advertisement) //"Id,Title,Content,AddDate,AuthorId,LocationId,IsFinished"
-        {
-            var adv = db.Advertisements.Find(advertisement.Id);
-            if (ModelState.IsValid)
-            {
-                adv.Title = advertisement.Title;
-                adv.Content = advertisement.Content;
-                adv.DifficultyId = advertisement.DifficultyId;
-                adv.LocationId = advertisement.LocationId;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.DifficultyId = new SelectList(db.Difficulties, "Id", "Name", advertisement.DifficultyId);
-            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", advertisement.LocationId);
-            return View(advertisement);
-        }
-
-        // GET: Advertisements/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Advertisement advertisement = db.Advertisements.Find(id);
-            if (advertisement == null)
-            {
-                return HttpNotFound();
-            }
-            return View(advertisement);
-        }
-
-        // POST: Advertisements/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Advertisement advertisement = db.Advertisements.Find(id);
-            db.Advertisements.Remove(advertisement);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

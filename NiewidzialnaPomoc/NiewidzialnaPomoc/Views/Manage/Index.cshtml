@@ -1,6 +1,6 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@model Repository.Models.Views.ManageViewModel
+@model Repository.Models.Views.ManageIndexViewModel
 
 @{
     ViewBag.Title = "Profil użytkownika";
@@ -138,52 +138,6 @@
         <br />
         Strona @(Model.PersonalAdvertisements.PageCount < Model.PersonalAdvertisements.PageNumber ? 0 : Model.PersonalAdvertisements.PageNumber) z @Model.PersonalAdvertisements.PageCount
         @Html.PagedListPager(Model.PersonalAdvertisements, pagePA => Url.Action("Index", new { pagePA, sortOrderPA = ViewBag.CurrentSortPA }))
-
-        @*<table class="table">
-            <tr>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.LocationSortParmPA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.TitleSortParmPA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.AddDateSortParmPA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.PersonalAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderPA = ViewBag.DifficultySortParmPA })
-                </th>
-            </tr>
-
-            @foreach (var item in Model.PersonalAdvertisements)
-            {
-                <tr class="clickable-row">
-                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                        @Html.DisplayFor(modelItem => item.Location.Name)
-                    </td>
-                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                        @Html.DisplayFor(modelItem => item.AddDate)
-                    </td>
-                    <td onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                        @Html.DisplayFor(modelItem => item.Difficulty.Name)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditPA", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "DetailsPA", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Index", new { selectedAdvertisementToDelete = item.Id }, 
-                       new { onclick = "return confirm('Czy na pewno chcesz usunąć to ogłoszenie?')" }) |
-                        @Html.ActionLink("Accept", "AcceptPA", new { id = item.Id })
-                    </td>
-                </tr>
-            }
-
-        </table>
-        <br />
-        Page @(Model.PersonalAdvertisements.PageCount < Model.PersonalAdvertisements.PageNumber ? 0 : Model.PersonalAdvertisements.PageNumber) of @Model.PersonalAdvertisements.PageCount
-        @Html.PagedListPager(Model.PersonalAdvertisements, pagePA => Url.Action("Index", new { pagePA, sortOrderPA = ViewBag.CurrentSortPA }))*@
     </div>
     <div id="RewardedAdvertisements">
         <br />
@@ -224,48 +178,6 @@
         <br />
         Strona @(Model.RewardedAdvertisements.PageCount < Model.RewardedAdvertisements.PageNumber ? 0 : Model.RewardedAdvertisements.PageNumber) z @Model.RewardedAdvertisements.PageCount
         @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))
-
-        @*<table class="table">
-            <tr>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.LocationSortParmRA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.TitleSortParmRA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.AddDateSortParmRA })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardedAdvertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrderRA = ViewBag.DifficultySortParmRA })
-                </th>
-            </tr>
-
-            @foreach (var item in Model.RewardedAdvertisements)
-            {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action("DetailsPA", "Manage", new { id = item.Id }))'">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Difficulty.Name)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "DetailsRA", new { id = item.Id })
-                    </td>
-                </tr>
-            }
-
-        </table>
-        <br />
-        Page @(Model.RewardedAdvertisements.PageCount < Model.RewardedAdvertisements.PageNumber ? 0 : Model.RewardedAdvertisements.PageNumber) of @Model.RewardedAdvertisements.PageCount
-        @Html.PagedListPager(Model.RewardedAdvertisements, pageRA => Url.Action("Index", new { pageRA, sortOrderRA = ViewBag.CurrentSortRA }))*@
     </div>
     <div id="RewardCodes">
         <br />
@@ -295,39 +207,11 @@
         <br />
         Strona @(Model.RewardCodes.PageCount < Model.RewardCodes.PageNumber ? 0 : Model.RewardCodes.PageNumber) z @Model.RewardCodes.PageCount
         @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))
-
-        @*<table class="table">
-            <tr>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().ReceivedDate).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.ReceivedDateSortParmRC })
-                </th>
-                <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.RewardCodes.FirstOrDefault().Reward.Name).ToHtmlString(), "Index", new { sortOrderRC = ViewBag.RewardNameSortParmRC })
-                </th>
-            </tr>
-
-            @foreach (var item in Model.RewardCodes)
-            {
-                <tr class="clickable-row" onclick="location.href = '@(Url.Action("Index", "Manage", new { isRewardSelected = true, selectedReward = item.Id }))'">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReceivedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Reward.Name)
-                    </td>
-                </tr>
-            }
-
-        </table>
-        <br />
-        Page @(Model.RewardCodes.PageCount < Model.RewardCodes.PageNumber ? 0 : Model.RewardCodes.PageNumber) of @Model.RewardCodes.PageCount
-        @Html.PagedListPager(Model.RewardCodes, pageRC => Url.Action("Index", new { pageRC, sortOrderRC = ViewBag.CurrentSortRC }))*@
     </div>
 </div>
 
 <script>
     $(function () {
-        //$("#tabs").tabs();
         var index = 'qpsstats-active-tab';
         var dataStore = window.sessionStorage;
         var oldIndex = 0;
