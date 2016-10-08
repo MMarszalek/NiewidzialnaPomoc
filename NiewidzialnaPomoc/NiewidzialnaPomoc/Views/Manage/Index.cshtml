@@ -127,8 +127,10 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edytuj", "EditPA", new { id = item.Id }) |
-                        @Html.ActionLink("Usuń", "Index", new { selectedAdvertisementToDelete = item.Id },
-                       new { onclick = "return confirm('Czy na pewno chcesz usunąć to ogłoszenie?')" }) |
+                        @Html.ActionLink("Usuń", "Index",
+                            new { selectedAdvertisementToDelete = item.Id },
+                            new { onclick = 
+                                "return confirm('Czy na pewno chcesz usunąć to ogłoszenie?')" }) |
                         @Html.ActionLink("Zatwierdź", "AcceptPA", new { id = item.Id })
                     </td>
                 </tr>

@@ -210,15 +210,14 @@ namespace NiewidzialnaPomoc.Controllers
             var userId = User.Identity.GetUserId();
 
             //Account
-            var user = db.ApplicationUsers.Where(u => u.Id.ToString().Equals(userId)).First();
-
+            var user = db.ApplicationUsers.Where(u => 
+            u.Id.ToString().Equals(userId)).First();
             if (ModelState.IsValid)
             {
                 user.Email = viewModel.ApplicationUser.Email;
                 user.PhoneNumber = viewModel.ApplicationUser.PhoneNumber;
                 user.FirstName = viewModel.ApplicationUser.FirstName;
                 user.LastName = viewModel.ApplicationUser.LastName;
-
                 if (user.Avatar != null && upload != null)
                 {
                     db.Avatars.Remove(user.Avatar);
@@ -231,7 +230,6 @@ namespace NiewidzialnaPomoc.Controllers
                         FileName = System.IO.Path.GetFileName(upload.FileName),
                         ContentType = upload.ContentType
                     };
-
                     byte[] avatarContent;
                     int avatarContentLength = upload.ContentLength;
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
@@ -248,7 +246,6 @@ namespace NiewidzialnaPomoc.Controllers
 
                     var imageWidth = i.Width;
                     var imageHeight = i.Height;
-
                     if (i.Width > 160 || i.Height > 160)
                     {
                         double scale;
@@ -264,15 +261,13 @@ namespace NiewidzialnaPomoc.Controllers
                         imageWidth = System.Convert.ToInt32(Math.Floor(i.Width / scale));
                         imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
                     }
-
-                    avatar.FileContent = imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight,
-                        () => false, IntPtr.Zero));
+                    avatar.FileContent = imageToByteArray(i.GetThumbnailImage
+                        (imageWidth, imageHeight, () => false, IntPtr.Zero));
                     user.Avatar = avatar;
                 }
-
                 db.SaveChanges();
-
-                TempData["alert"] = "<script>alert('Dane użytkownika zostały zmienione.');</script>";
+                TempData["alert"] = 
+                    "<script>alert('Dane użytkownika zostały zmienione.');</script>";
             }
             viewModel.ApplicationUser = user;
 

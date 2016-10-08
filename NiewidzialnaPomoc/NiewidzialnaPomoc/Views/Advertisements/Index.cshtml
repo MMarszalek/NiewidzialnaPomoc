@@ -40,10 +40,19 @@
     </div>
 }
 <div id="sorting-container">
-    <p>Sortowanie: @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Title).ToHtmlString(), "Index", new { sortOrder = ViewBag.TitleSortParm }) |
-    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.LocationSortParm }) |
-    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), "Index", new { sortOrder = ViewBag.AddDateSortParm }) |
-    @Html.ActionLink(Html.DisplayNameFor(model => model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), "Index", new { sortOrder = ViewBag.DifficultySortParm })</p>
+    <p>Sortowanie: 
+    @Html.ActionLink(Html.DisplayNameFor(model =>
+        model.Advertisements.FirstOrDefault().Title).ToHtmlString(),
+        "Index", new { sortOrder = ViewBag.TitleSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => 
+        model.Advertisements.FirstOrDefault().Location.Name).ToHtmlString(), 
+        "Index", new { sortOrder = ViewBag.LocationSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => 
+        model.Advertisements.FirstOrDefault().AddDate).ToHtmlString(), 
+        "Index", new { sortOrder = ViewBag.AddDateSortParm }) |
+    @Html.ActionLink(Html.DisplayNameFor(model => 
+        model.Advertisements.FirstOrDefault().Difficulty.Name).ToHtmlString(), 
+        "Index", new { sortOrder = ViewBag.DifficultySortParm })</p>
 </div>
 <br />
 <table class="table">
@@ -54,7 +63,9 @@
                 <div class="col-md-3">
                     @if (item.AdvertisementPhotos.Any())
                     {
-                        <img src="~/AdvertisementPhoto?id=@item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true" alt="photo" />
+                        <img src="~/AdvertisementPhoto?id=
+                             @item.AdvertisementPhotos.FirstOrDefault().Id&thumbnail=true"
+                             alt="photo" />
                     }
                     else
                     {
@@ -73,5 +84,7 @@
 
 </table>
 <br />
-Strona @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ? 0 : Model.Advertisements.PageNumber) z @Model.Advertisements.PageCount
-@Html.PagedListPager(Model.Advertisements, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))
+Strona @(Model.Advertisements.PageCount < Model.Advertisements.PageNumber ?
+        0 : Model.Advertisements.PageNumber) z @Model.Advertisements.PageCount
+@Html.PagedListPager(Model.Advertisements, 
+    page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

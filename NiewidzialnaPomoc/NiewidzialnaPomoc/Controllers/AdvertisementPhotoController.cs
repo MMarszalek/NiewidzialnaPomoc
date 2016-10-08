@@ -23,7 +23,8 @@ namespace NiewidzialnaPomoc.Controllers
                 Image i;
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    ms.Write(photoToRetrieve.FileContent, 0, photoToRetrieve.FileContent.Length);
+                    ms.Write(photoToRetrieve.FileContent, 0, 
+                        photoToRetrieve.FileContent.Length);
                     i = Image.FromStream(ms);
                 }
 
@@ -50,7 +51,8 @@ namespace NiewidzialnaPomoc.Controllers
                     imageHeight = System.Convert.ToInt32(Math.Floor(i.Height / scale));
                 }
 
-                return File(imageToByteArray(i.GetThumbnailImage(imageWidth, imageHeight, () => false, IntPtr.Zero)), photoToRetrieve.ContentType);
+                return File(imageToByteArray(i.GetThumbnailImage(imageWidth, 
+                    imageHeight, () => false, IntPtr.Zero)), photoToRetrieve.ContentType);
             }
             else
             {
