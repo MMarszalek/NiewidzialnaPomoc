@@ -148,9 +148,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201609121413161_initial_migration.cs" />
-    <Compile Include="Migrations\201609121413161_initial_migration.Designer.cs">
-      <DependentUpon>201609121413161_initial_migration.cs</DependentUpon>
+    <Compile Include="Migrations\201610092033402_initial_migration.cs" />
+    <Compile Include="Migrations\201610092033402_initial_migration.Designer.cs">
+      <DependentUpon>201610092033402_initial_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Advertisement.cs" />
@@ -180,8 +180,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609121413161_initial_migration.resx">
-      <DependentUpon>201609121413161_initial_migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610092033402_initial_migration.resx">
+      <DependentUpon>201610092033402_initial_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -175,15 +175,15 @@ namespace Repository.Migrations
         {
             var rewards = new List<Reward>
             {
-                new Reward { Name = "Karta prezentowa Empik 50 z³", Price = 500 },
-                new Reward { Name = "Karta prezentowa Empik 100 z³", Price = 1000 },
-                new Reward { Name = "Karta prezentowa Empik 150 z³", Price = 1500 },
-                new Reward { Name = "Karta podarunkowa C&A 50 z³", Price = 500 },
-                new Reward { Name = "Karta podarunkowa C&A 100 z³", Price = 1000 },
-                new Reward { Name = "Karta podarunkowa C&A 150 z³", Price = 1500 },
-                new Reward { Name = "Karta podarunkowa H&M 50 z³", Price = 600 },
-                new Reward { Name = "Karta podarunkowa H&M 100 z³", Price = 1200 },
-                new Reward { Name = "Karta podarunkowa H&M 150 z³", Price = 1800 }
+                new Reward { Name = "Karta prezentowa Ampik 50 z³", Price = 500 },
+                new Reward { Name = "Karta prezentowa Ampik 100 z³", Price = 1000 },
+                new Reward { Name = "Karta prezentowa Ampik 150 z³", Price = 1500 },
+                new Reward { Name = "Karta podarunkowa C&M 50 z³", Price = 500 },
+                new Reward { Name = "Karta podarunkowa C&M 100 z³", Price = 1000 },
+                new Reward { Name = "Karta podarunkowa C&M 150 z³", Price = 1500 },
+                new Reward { Name = "Karta podarunkowa H&A 50 z³", Price = 600 },
+                new Reward { Name = "Karta podarunkowa H&A 100 z³", Price = 1200 },
+                new Reward { Name = "Karta podarunkowa H&A 150 z³", Price = 1800 }
             };
 
             rewards.ForEach(s => context.Rewards.AddOrUpdate(p => p.Name, s));
